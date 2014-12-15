@@ -70,7 +70,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AnimationSystem.cpp" />
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="CollisionSystem.cpp" />
+    <ClCompile Include="GuiMenu.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
@@ -81,10 +83,12 @@
   <ItemGroup>
     <ClInclude Include="AnimationComponent.hpp" />
     <ClInclude Include="AnimationSystem.h" />
+    <ClInclude Include="Button.h" />
     <ClInclude Include="CollisionComponent.hpp" />
     <ClInclude Include="CollisionSystem.h" />
     <ClInclude Include="Components.h" />
     <ClInclude Include="EmitterComponent.hpp" />
+    <ClInclude Include="GuiMenu.h" />
     <ClInclude Include="ISystem.h" />
     <ClInclude Include="MovementComponent.hpp" />
     <ClInclude Include="ParticleComponent.hpp" />
