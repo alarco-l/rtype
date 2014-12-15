@@ -85,6 +85,7 @@
     <ClInclude Include="CollisionSystem.h" />
     <ClInclude Include="Components.h" />
     <ClInclude Include="EmitterComponent.hpp" />
+    <ClInclude Include="ISystem.h" />
     <ClInclude Include="MovementComponent.hpp" />
     <ClInclude Include="ParticleComponent.hpp" />
     <ClInclude Include="ParticleSystem.h" />

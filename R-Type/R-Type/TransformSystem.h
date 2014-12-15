@@ -1,8 +1,8 @@
 #pragma once
 
-#include "World.h"
+#include "ISystem.h"
 
-class							TransformSystem
+class							TransformSystem : public ISystem
 {
 public:
 	TransformSystem();

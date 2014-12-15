@@ -8,6 +8,8 @@ RenderSystem::~RenderSystem()
 {
 }
 
+void							RenderSystem::update(World &world, const sf::Time &elapsed) const {}
+
 void							RenderSystem::update(sf::RenderWindow &window, World &world) const
 {
 	for (unsigned int i = 0; i != world.entityCount; ++i)

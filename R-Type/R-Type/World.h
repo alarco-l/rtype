@@ -10,7 +10,6 @@ public:
 	World();
 	~World();
 
-	/* Methodes temporaires pour creer des entites (en attendant une factory ?) */
 	void								createStaticEntity(const sf::Texture * const,
 														   const sf::Vector2f &position,
 														   const sf::Vector2f &scale = sf::Vector2f(1.0f, 1.0f));

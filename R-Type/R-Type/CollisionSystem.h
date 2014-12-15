@@ -1,8 +1,8 @@
 #pragma once
 
-#include "World.h"
+#include "ISystem.h"
 
-class							CollisionSystem
+class							CollisionSystem : public ISystem
 {
 public:
 	CollisionSystem();
