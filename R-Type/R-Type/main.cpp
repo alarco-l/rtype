@@ -7,7 +7,7 @@
 
 int								main()
 {
-	sf::RenderWindow			window(sf::VideoMode(1600, 900), "R-Type");
+	sf::RenderWindow			window(sf::VideoMode(1920, 1080), "R-Type");
 	sf::Event					event;
 	ResourceManager				resourceManager;
 	RenderSystem				renderSystem;
@@ -29,6 +29,7 @@ int								main()
 	resourceManager.loadTexture("textures/explosion3.png");
 	resourceManager.loadTexture("textures/explosion4.png");
 	resourceManager.loadTexture("textures/explosion5.png");
+	resourceManager.loadTexture("textures/bgMenu.png");
 
 	textures.push_back(resourceManager.getTexture("textures/explosion0.png"));
 	textures.push_back(resourceManager.getTexture("textures/explosion1.png"));
@@ -37,15 +38,17 @@ int								main()
 	textures.push_back(resourceManager.getTexture("textures/explosion4.png"));
 	textures.push_back(resourceManager.getTexture("textures/explosion5.png"));
 
+
 	world.createEntity(resourceManager.getTexture("textures/hero.png"), sf::Vector2f(0.0f, 0.0f));
 	world.createParticleEffect(20, true, resourceManager.getTexture("textures/fireball.png"), sf::Vector2f(800.0f, 450.0f));
 	world.createAnimatedEntity(textures, sf::seconds(0.10f), sf::Vector2f(0.0f, 450.0f));
 
+	world.createStaticEntity(resourceManager.getTexture("textures/bgMenu.png"), sf::Vector2f(0.0f, 0.0f));
 	while (window.isOpen())
 	{
 		while (window.pollEvent(event))
 		{
-			if (event.type == sf::Event::Closed)
+			if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 				window.close();
 		}
 
