@@ -69,15 +69,31 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AnimationSystem.cpp" />
+    <ClCompile Include="CollisionSystem.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ParticleSystem.cpp" />
+    <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="TransformSystem.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AnimationComponent.hpp" />
+    <ClInclude Include="AnimationSystem.h" />
+    <ClInclude Include="CollisionComponent.hpp" />
+    <ClInclude Include="CollisionSystem.h" />
+    <ClInclude Include="Components.h" />
+    <ClInclude Include="EmitterComponent.hpp" />
     <ClInclude Include="MovementComponent.hpp" />
-    <ClInclude Include="PositionComponent.hpp" />
+    <ClInclude Include="ParticleComponent.hpp" />
+    <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="RenderComponent.hpp" />
+    <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="TransformComponent.hpp" />
+    <ClInclude Include="Systems.h" />
+    <ClInclude Include="TransformSystem.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

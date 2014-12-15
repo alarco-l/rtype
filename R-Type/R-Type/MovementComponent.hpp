@@ -1,10 +1,15 @@
 #pragma once
 
+#include <SFML/System/Vector2.hpp>
+
 struct									MovementComponent
 {
-	MovementComponent(const float _velocity = 0.0f) : velocity(_velocity)
+	MovementComponent(const float vel,
+					  const sf::Vector2f &dir) :
+		velocity(vel), direction(dir)
 	{
 	}
 
 	float								velocity;
+	sf::Vector2f						direction;
 };

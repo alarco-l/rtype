@@ -6,6 +6,11 @@ ResourceManager::ResourceManager()
 
 ResourceManager::~ResourceManager()
 {
+	std::map<const std::string, const sf::Texture * const>::iterator it;
+
+	for (it = _textures.begin(); it != _textures.end(); ++it)
+		delete(it->second);
+	_textures.clear();
 }
 
 bool																	ResourceManager::loadTexture(const std::string &path)
