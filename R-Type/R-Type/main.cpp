@@ -18,7 +18,6 @@ int								main()
 	World						world;
 	sf::Clock					clock;
 	sf::Time					elapsed;
-	unsigned	int				GuiPos = 0;
 	std::vector<const sf::Texture * const> textures;
 
 	std::srand(static_cast<unsigned int>(std::time(NULL)));
@@ -32,6 +31,8 @@ int								main()
 	resourceManager.loadTexture("textures/explosion4.png");
 	resourceManager.loadTexture("textures/explosion5.png");
 	resourceManager.loadTexture("textures/bgMenu.png");
+	resourceManager.loadTexture("textures/bgPause.png");
+	resourceManager.loadTexture("textures/bg.png");
 
 	textures.push_back(resourceManager.getTexture("textures/explosion0.png"));
 	textures.push_back(resourceManager.getTexture("textures/explosion1.png"));
@@ -39,6 +40,8 @@ int								main()
 	textures.push_back(resourceManager.getTexture("textures/explosion3.png"));
 	textures.push_back(resourceManager.getTexture("textures/explosion4.png"));
 	textures.push_back(resourceManager.getTexture("textures/explosion5.png"));
+
+	world.createStaticEntity(resourceManager.getTexture("textures/bg.png"), sf::Vector2f(0.0f, 0.0f));
 
 	GuiMenu						guiMenu(world, resourceManager.getTexture("textures/bgMenu.png"));
 	GuiMenu::GuiMenuButton				bt;
@@ -59,7 +62,7 @@ int								main()
 							window.close();
 						else
 						{
-							world.renderComponents[0] = NULL;
+							world.renderComponents[1] = NULL;
 							world.createEntity(resourceManager.getTexture("textures/hero.png"), sf::Vector2f(0.0f, 0.0f));
 							world.createParticleEffect(20, true, resourceManager.getTexture("textures/fireball.png"), sf::Vector2f(800.0f, 450.0f));
 							world.createAnimatedEntity(textures, sf::seconds(0.10f), sf::Vector2f(0.0f, 450.0f));

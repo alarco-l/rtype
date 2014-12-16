@@ -73,6 +73,7 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="CollisionSystem.cpp" />
     <ClCompile Include="GuiMenu.cpp" />
+    <ClCompile Include="GuiPause.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
@@ -89,6 +90,7 @@
     <ClInclude Include="Components.h" />
     <ClInclude Include="EmitterComponent.hpp" />
     <ClInclude Include="GuiMenu.h" />
+    <ClInclude Include="GuiPause.h" />
     <ClInclude Include="ISystem.h" />
     <ClInclude Include="MovementComponent.hpp" />
     <ClInclude Include="ParticleComponent.hpp" />
