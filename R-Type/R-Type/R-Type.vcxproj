@@ -87,23 +87,17 @@
   <ItemGroup>
     <ClInclude Include="AnimationComponent.hpp" />
     <ClInclude Include="AnimationSystem.h" />
-<<<<<<< HEAD
     <ClInclude Include="BasicType.h" />
-=======
     <ClInclude Include="Button.h" />
->>>>>>> d40b078edc868e0dad411180fb30d669aa93f281
     <ClInclude Include="CollisionComponent.hpp" />
     <ClInclude Include="CollisionSystem.h" />
     <ClInclude Include="Components.h" />
     <ClInclude Include="EmitterComponent.hpp" />
-<<<<<<< HEAD
     <ClInclude Include="IRFC.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClInclude>
-=======
     <ClInclude Include="GuiMenu.h" />
     <ClInclude Include="GuiPause.h" />
->>>>>>> d40b078edc868e0dad411180fb30d669aa93f281
     <ClInclude Include="ISystem.h" />
     <ClInclude Include="MovementComponent.hpp" />
     <ClInclude Include="ParticleComponent.hpp" />
