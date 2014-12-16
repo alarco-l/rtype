@@ -18,6 +18,7 @@ int								main()
 	World						world;
 	sf::Clock					clock;
 	sf::Time					elapsed;
+	unsigned	int				GuiPos = 0;
 	std::vector<const sf::Texture * const> textures;
 
 	std::srand(static_cast<unsigned int>(std::time(NULL)));
@@ -40,8 +41,8 @@ int								main()
 	textures.push_back(resourceManager.getTexture("textures/explosion5.png"));
 
 	GuiMenu						guiMenu(world, resourceManager.getTexture("textures/bgMenu.png"));
-	GuiMenuButton				bt;
-	GuiClick					cl;
+	GuiMenu::GuiMenuButton				bt;
+	GuiMenu::GuiClick					cl;
 
 	while (window.isOpen())
 	{
@@ -53,15 +54,20 @@ int								main()
 				if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left) {
 					cl.posX = sf::Mouse::getPosition(window).x;
 					cl.posY = sf::Mouse::getPosition(window).y;
-					if ((bt = guiMenu.isPressed(cl)) != MAX)
+					if ((bt = guiMenu.isPressed(cl)) != GuiMenu::MAX)
 						if (guiMenu.doAction(bt) == false)
 							window.close();
+						else
+						{
+							world.renderComponents[0] = NULL;
+							world.createEntity(resourceManager.getTexture("textures/hero.png"), sf::Vector2f(0.0f, 0.0f));
+							world.createParticleEffect(20, true, resourceManager.getTexture("textures/fireball.png"), sf::Vector2f(800.0f, 450.0f));
+							world.createAnimatedEntity(textures, sf::seconds(0.10f), sf::Vector2f(0.0f, 450.0f));
+						}
 				}
 			}
 			else {
-				//world.createEntity(resourceManager.getTexture("textures/hero.png"), sf::Vector2f(0.0f, 0.0f));
-				//world.createParticleEffect(20, true, resourceManager.getTexture("textures/fireball.png"), sf::Vector2f(800.0f, 450.0f));
-				//world.createAnimatedEntity(textures, sf::seconds(0.10f), sf::Vector2f(0.0f, 450.0f));
+
 			}
 		}
 

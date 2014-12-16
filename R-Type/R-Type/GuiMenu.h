@@ -3,24 +3,25 @@
 # include "World.h"
 # include "Button.h"
 
-enum GuiMenuButton
-{
-	CONNECT,
-	EXIT,
-	MAX
-};
-
-struct GuiClick
-{
-	int posX;
-	int posY;
-};
-
 class GuiMenu
 {
 public:
 	GuiMenu(World &, const sf::Texture * const texture);
 	~GuiMenu();
+
+	enum GuiMenuButton
+	{
+		CONNECT,
+		EXIT,
+		MAX
+	};
+
+	struct GuiClick
+	{
+		int posX;
+		int posY;
+	};
+
 	bool				getIsActive() const;
 	bool				doAction(const GuiMenuButton &);
 	GuiMenuButton		isPressed(const GuiClick &) const;

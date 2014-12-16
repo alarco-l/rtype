@@ -17,7 +17,7 @@ bool	GuiMenu::getIsActive() const {
 	return (_isActive);
 }
 
-GuiMenuButton	GuiMenu::isPressed(const GuiClick &cl) const {
+GuiMenu::GuiMenuButton	GuiMenu::isPressed(const GuiClick &cl) const {
 	unsigned int rank = -1;
 	while (++rank < MAX) {
 		if (cl.posX >= _button[rank].getxStart() && cl.posX <= (_button[rank].getxStart() + _button[rank].getWidth()) &&
