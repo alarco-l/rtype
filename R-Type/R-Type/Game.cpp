@@ -84,6 +84,10 @@ void										Game::pushState(AState *state)
 
 void										Game::popState()
 {
-	//delete (_states.back());
+	delete (_states.back());
 	_states.pop_back();
+}
+
+sf::Vector2u				Game::getScreenSize() const {
+	return _window->getSize();
 }
