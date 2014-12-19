@@ -26,15 +26,13 @@ bool						GUIState::initialize(ResourceManager &resourceManager)
 	idQuit = _world.createEmptyEntity();
 
 
-	_world.addTextComponent(idTitle, ComponentFactory::createTextComponent("R-TYPE", resourceManager.getFont("textures/SPACEBAR.ttf"), 120, sf::Color(13, 205, 248, 255)));
-	_world.addTextComponent(idConnect, ComponentFactory::createTextComponent("Connect", resourceManager.getFont("textures/SPACEBAR.ttf"), 80));
-	_world.addTextComponent(idQuit, ComponentFactory::createTextComponent("Quit", resourceManager.getFont("textures/SPACEBAR.ttf"), 80));
+	_world.addTextComponent(idTitle, ComponentFactory::createTextComponent("R-TYPE", resourceManager.getFont("textures/SPACEBAR.ttf"), true,  120, sf::Color(13, 205, 248, 255)));
+	_world.addTextComponent(idConnect, ComponentFactory::createTextComponent("Connect", resourceManager.getFont("textures/SPACEBAR.ttf"), true, 80));
+	_world.addTextComponent(idQuit, ComponentFactory::createTextComponent("Quit", resourceManager.getFont("textures/SPACEBAR.ttf"), true, 80));
 	
-	
-	_world.addTransformComponent(idTitle, ComponentFactory::createTransformComponent(sf::Vector2f(screenSize.x/2 - 250, 0)));
-	_world.addTransformComponent(idConnect, ComponentFactory::createTransformComponent(sf::Vector2f(sf::Vector2f(screenSize.x / 2 - 200, screenSize.y / 3))));
-	_world.addTransformComponent(idQuit, ComponentFactory::createTransformComponent(sf::Vector2f(sf::Vector2f(screenSize.x / 2 - 100, screenSize.y/2))));
-	
+	_world.addTransformComponent(idTitle, ComponentFactory::createTransformComponent(sf::Vector2f(0.0f, 0.0f)));
+	_world.addTransformComponent(idConnect, ComponentFactory::createTransformComponent(sf::Vector2f(sf::Vector2f(0.0f, screenSize.y / 3.0f))));
+	_world.addTransformComponent(idQuit, ComponentFactory::createTransformComponent(sf::Vector2f(sf::Vector2f(0.0f, screenSize.y / 2.0f))));
 	
 	_world.createStaticEntity(resourceManager.getTexture("textures/bg.png"), sf::Vector2f());
 	return (true);

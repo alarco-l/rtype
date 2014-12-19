@@ -27,6 +27,7 @@ public:
 
 	static TextComponent		*createTextComponent(const std::string &string,
 													 const sf::Font * const font,
+													 bool centered = false,
 													 const unsigned int size = 30,
 													 const sf::Color &color = sf::Color::White);
 private:

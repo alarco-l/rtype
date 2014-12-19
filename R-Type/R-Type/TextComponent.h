@@ -8,6 +8,7 @@ struct						TextComponent
 {
 	std::string				string;
 	const sf::Font			*font;
+	bool					centered;
 	unsigned int			size;
 	sf::Color				color;
 };
