@@ -1,14 +1,6 @@
 #include "ParticleSystem.h"
 
-ParticleSystem::ParticleSystem()
-{
-}
-
-ParticleSystem::~ParticleSystem()
-{
-}
-
-void							ParticleSystem::update(World &world, const sf::Time &elapsed) const
+void							ParticleSystem::update(World &world, const sf::Time &elapsed)
 {
 	for (unsigned int i = 0; i != world.entityCount; ++i)
 	{
@@ -19,7 +11,7 @@ void							ParticleSystem::update(World &world, const sf::Time &elapsed) const
 		{
 			particle->lifetime -= elapsed;
 			if (particle->lifetime <= sf::Time::Zero)
-				this->resetParticle(world, i);
+				resetParticle(world, i);
 			//TODO : respawn = false -> delete emitter and particles
 
 			if (render)
@@ -37,7 +29,7 @@ void							ParticleSystem::update(World &world, const sf::Time &elapsed) const
 
 // Enlever les if de "au cas ou" ?
 
-void							ParticleSystem::resetParticle(World &world, const unsigned int id) const
+void							ParticleSystem::resetParticle(World &world, const unsigned int id)
 {
 	ParticleComponent			*particle = world.particleComponents[id];
 	TransformComponent			*xform = world.transformComponents[id];

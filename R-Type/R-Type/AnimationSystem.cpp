@@ -1,14 +1,6 @@
 #include "AnimationSystem.h"
 
-AnimationSystem::AnimationSystem()
-{
-}
-
-AnimationSystem::~AnimationSystem()
-{
-}
-
-void						AnimationSystem::update(World &world, const sf::Time &elapsed) const
+void						AnimationSystem::update(World &world, const sf::Time &elapsed)
 {
 	for (unsigned int i = 0; i != world.entityCount; ++i)
 	{

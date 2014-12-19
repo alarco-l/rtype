@@ -23,6 +23,16 @@ bool																	ResourceManager::loadTexture(const std::string &path)
 	return (true);
 }
 
+bool																	ResourceManager::loadFont(const std::string &path)
+{
+	sf::Font * const													font = new sf::Font();
+
+	if (!font->loadFromFile(path))
+		return (false);
+	_fonts.insert(std::pair<const std::string, const sf::Font * const>(path, font));
+	return (true);
+}
+
 void																	ResourceManager::unloadTexture(const std::string &id)
 {
 	std::map<const std::string, const sf::Texture * const>::iterator	it;
@@ -34,9 +44,27 @@ void																	ResourceManager::unloadTexture(const std::string &id)
 	}
 }
 
+void																	ResourceManager::unloadFont(const std::string &id)
+{
+	std::map<const std::string, const sf::Font * const>::iterator		it;
+
+	if ((it = _fonts.find(id)) != _fonts.end())
+	{
+		delete (it->second);
+		_fonts.erase(it);
+	}
+}
+
 const sf::Texture * const												ResourceManager::getTexture(const std::string &id) const
 {
 	if (_textures.find(id) == _textures.end())
 		return (NULL);
 	return (_textures.at(id));
+}
+
+const sf::Font * const													ResourceManager::getFont(const std::string &id) const
+{
+	if (_fonts.find(id) == _fonts.end())
+		return (NULL);
+	return (_fonts.at(id));
 }

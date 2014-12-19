@@ -1,9 +1,10 @@
 #pragma once
 
-#include "TransformComponent.hpp"
-#include "MovementComponent.hpp"
-#include "RenderComponent.hpp"
-#include "EmitterComponent.hpp"
-#include "ParticleComponent.hpp"
-#include "AnimationComponent.hpp"
-#include "CollisionComponent.hpp"
+#include "TransformComponent.h"
+#include "MovementComponent.h"
+#include "RenderComponent.h"
+#include "EmitterComponent.h"
+#include "ParticleComponent.h"
+#include "AnimationComponent.h"
+#include "TextComponent.h"
+//#include "CollisionComponent.h"

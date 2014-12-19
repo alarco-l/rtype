@@ -1,14 +1,17 @@
 #pragma once
 
-#include "ISystem.h"
+#include "World.h"
 
-class							CollisionSystem : public ISystem
+class										CollisionSystem
 {
 public:
-	CollisionSystem();
+	CollisionSystem(const sf::Vector2u &precision, const sf::Vector2u &displaySize);
 	~CollisionSystem();
-	void						update(World &world) const;
+	void									update(World &world) const;
 private:
 	CollisionSystem(const CollisionSystem &rhs);
 	CollisionSystem &operator=(const CollisionSystem &rhs);
+
+	sf::Vector2f							_cellSize;
+	std::vector<std::vector<unsigned int> >	_collisionGrid;
 };
