@@ -20,6 +20,7 @@ public:
 	void						pushState(AState *state);
 	void						popState();
 	sf::Vector2u				getScreenSize() const;
+	GameState					*createGameState();
 private:
 	Game(const Game &rhs);
 	Game &operator=(const Game &rhs);

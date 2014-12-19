@@ -18,9 +18,9 @@ void							TextSystem::update(sf::RenderWindow *window, World &world)
 			
 			if (txt->highlighted)
 			{
-				text.setStyle(sf::Text::Italic);
+				//text.setStyle(sf::Text::Italic);
 				text.scale(1.2f, 1.2f);
-				text.setColor(sf::Color(sf::Color::Yellow));
+				text.setColor(sf::Color(sf::Color(255, 255, 255, 255)));
 			}
 
 			if (txt->centered)

@@ -12,7 +12,6 @@ Game::~Game()
 
 bool										Game::initialize(const sf::Vector2u &size, const std::string &title)
 {
-	AState									*gameState;
 	AState									*guiState;
 
 	_window = new sf::RenderWindow(sf::VideoMode(size.x, size.y), title, sf::Style::None);
@@ -20,13 +19,9 @@ bool										Game::initialize(const sf::Vector2u &size, const std::string &titl
 	if (!_window->isOpen())
 		return (false);
 
-	gameState = new GameState(this);
 	guiState = new GUIState(this);
-	if (!gameState->initialize(_resourceManager))
-		return (false);
 	if (!guiState->initialize(_resourceManager))
 		return (false);
-	this->pushState(gameState);
 	this->pushState(guiState);
 	return (true);
 }
@@ -90,4 +85,11 @@ void										Game::popState()
 sf::Vector2u				Game::getScreenSize() const
 {
 	return (_window->getSize());
+}
+
+GameState		*Game::createGameState() {
+	GameState	*gameState = new GameState(this);
+	if (!gameState->initialize(_resourceManager))
+		return (NULL);
+	return (gameState);
 }
