@@ -19,7 +19,7 @@ bool						GUIState::initialize(ResourceManager &resourceManager)
 
 	if (!resourceManager.loadTexture("textures/bg.png"))
 		return (false);
-	if (!resourceManager.loadFont("textures/SPACEBAR.ttf"))
+	if (!resourceManager.loadFont("fonts/SPACEBAR.ttf"))
 		return (false);
 
 	background = _world.createEmptyEntity();
@@ -27,15 +27,15 @@ bool						GUIState::initialize(ResourceManager &resourceManager)
 	_world.addTransformComponent(background, ComponentFactory::createTransformComponent(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(1.0f, 1.0f), 0.0f, sf::Vector2f(screenSize)));
 
 	title = _world.createEmptyEntity();
-	_world.addTextComponent(title, ComponentFactory::createTextComponent("R-TYPE", resourceManager.getFont("textures/SPACEBAR.ttf"), true, false, 120, sf::Color(13, 205, 248, 255)));
+	_world.addTextComponent(title, ComponentFactory::createTextComponent("R-TYPE", resourceManager.getFont("fonts/SPACEBAR.ttf"), true, false, 120, sf::Color(13, 205, 248, 255)));
 	_world.addTransformComponent(title, ComponentFactory::createTransformComponent(sf::Vector2f(0.0f, 10.0f)));
 
 	_id[CONNECT] = _world.createEmptyEntity();
-	_world.addTextComponent(_id[CONNECT], ComponentFactory::createTextComponent("Connect", resourceManager.getFont("textures/SPACEBAR.ttf"), true, true, 80, sf::Color(255, 255, 255, 150)));
+	_world.addTextComponent(_id[CONNECT], ComponentFactory::createTextComponent("Connect", resourceManager.getFont("fonts/SPACEBAR.ttf"), true, true, 80, sf::Color(255, 255, 255, 150)));
 	_world.addTransformComponent(_id[CONNECT], ComponentFactory::createTransformComponent(sf::Vector2f(0.0f, screenSize.y / 3.0f)));
 
 	_id[EXIT] = _world.createEmptyEntity();
-	_world.addTextComponent(_id[EXIT], ComponentFactory::createTextComponent("Quit", resourceManager.getFont("textures/SPACEBAR.ttf"), true, false, 80, sf::Color(255, 255, 255, 150)));
+	_world.addTextComponent(_id[EXIT], ComponentFactory::createTextComponent("Quit", resourceManager.getFont("fonts/SPACEBAR.ttf"), true, false, 80, sf::Color(255, 255, 255, 150)));
 	_world.addTransformComponent(_id[EXIT], ComponentFactory::createTransformComponent(sf::Vector2f(0.0f, screenSize.y / 3.0f + 150.0f)));
 	
 	return (true);
