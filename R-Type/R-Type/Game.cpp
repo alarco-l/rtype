@@ -30,7 +30,6 @@ bool										Game::initialize(const sf::Vector2u &size, const std::string &titl
 	this->pushState(guiState);
 	return (true);
 }
-#include <iostream>
 
 void										Game::run()
 {
@@ -88,6 +87,7 @@ void										Game::popState()
 	_states.pop_back();
 }
 
-sf::Vector2u				Game::getScreenSize() const {
-	return _window->getSize();
+sf::Vector2u				Game::getScreenSize() const
+{
+	return (_window->getSize());
 }

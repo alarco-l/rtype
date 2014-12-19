@@ -26,9 +26,9 @@ bool						GUIState::initialize(ResourceManager &resourceManager)
 	idQuit = _world.createEmptyEntity();
 
 
-	_world.addTextComponent(idTitle, ComponentFactory::createTextComponent("R-TYPE", resourceManager.getFont("textures/SPACEBAR.ttf"), true,  120, sf::Color(13, 205, 248, 255)));
-	_world.addTextComponent(idConnect, ComponentFactory::createTextComponent("Connect", resourceManager.getFont("textures/SPACEBAR.ttf"), true, 80));
-	_world.addTextComponent(idQuit, ComponentFactory::createTextComponent("Quit", resourceManager.getFont("textures/SPACEBAR.ttf"), true, 80));
+	_world.addTextComponent(idTitle, ComponentFactory::createTextComponent("R-TYPE", resourceManager.getFont("textures/SPACEBAR.ttf"), true, false, 120, sf::Color(13, 205, 248, 255)));
+	_world.addTextComponent(idConnect, ComponentFactory::createTextComponent("Connect", resourceManager.getFont("textures/SPACEBAR.ttf"), true, true, 80));
+	_world.addTextComponent(idQuit, ComponentFactory::createTextComponent("Quit", resourceManager.getFont("textures/SPACEBAR.ttf"), true, false, 80));
 	
 	_world.addTransformComponent(idTitle, ComponentFactory::createTransformComponent(sf::Vector2f(0.0f, 0.0f)));
 	_world.addTransformComponent(idConnect, ComponentFactory::createTransformComponent(sf::Vector2f(sf::Vector2f(0.0f, screenSize.y / 3.0f))));
