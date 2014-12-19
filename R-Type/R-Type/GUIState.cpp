@@ -23,11 +23,10 @@ bool						GUIState::initialize(ResourceManager &resourceManager)
 	_id[GUIState::Button::CONNECT] = _world.createEmptyEntity();
 	_id[GUIState::Button::EXIT] = _world.createEmptyEntity();
 
-
 	_world.addTextComponent(_id[0], ComponentFactory::createTextComponent("R-TYPE", resourceManager.getFont("textures/SPACEBAR.ttf"), true, 120, sf::Color(13, 205, 248, 255)));
 	_world.addTextComponent(_id[GUIState::Button::CONNECT], ComponentFactory::createTextComponent("Connect", resourceManager.getFont("textures/SPACEBAR.ttf"), true, 80));
 	_world.addTextComponent(_id[GUIState::Button::EXIT], ComponentFactory::createTextComponent("Quit", resourceManager.getFont("textures/SPACEBAR.ttf"), true, 80));
-	
+
 	_world.addTransformComponent(_id[0], ComponentFactory::createTransformComponent(sf::Vector2f(0.0f, 10.0f)));
 	_world.addTransformComponent(_id[GUIState::Button::CONNECT], ComponentFactory::createTransformComponent(sf::Vector2f(sf::Vector2f(0.0f, screenSize.y / 3.0f))));
 	_world.addTransformComponent(_id[GUIState::Button::EXIT], ComponentFactory::createTransformComponent(sf::Vector2f(sf::Vector2f(0.0f, screenSize.y / 2.0f))));

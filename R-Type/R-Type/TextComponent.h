@@ -9,6 +9,7 @@ struct						TextComponent
 	std::string				string;
 	const sf::Font			*font;
 	bool					centered;
+	bool					highlighted;
 	unsigned int			size;
 	sf::Color				color;
 };

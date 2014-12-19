@@ -87,6 +87,7 @@ void										Game::popState()
 	_states.pop_back();
 }
 
-sf::Vector2u				Game::getScreenSize() const {
-	return _window->getSize();
+sf::Vector2u				Game::getScreenSize() const
+{
+	return (_window->getSize());
 }

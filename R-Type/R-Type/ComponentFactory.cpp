@@ -86,6 +86,7 @@ ParticleComponent				*ComponentFactory::createParticleComponent(const sf::Time &
 TextComponent					*ComponentFactory::createTextComponent(const std::string &string,
 																	   const sf::Font * const font,
 																	   bool centered,
+																	   bool highlighted,
 																	   const unsigned int size,
 																	   const sf::Color &color)
 {
@@ -93,6 +94,8 @@ TextComponent					*ComponentFactory::createTextComponent(const std::string &stri
 
 	txt->string = string;
 	txt->font = font;
+	txt->centered = centered;
+	txt->highlighted = highlighted;
 	txt->size = size;
 	txt->color = color;
 
