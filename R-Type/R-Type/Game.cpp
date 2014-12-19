@@ -15,7 +15,7 @@ bool										Game::initialize(const sf::Vector2u &size, const std::string &titl
 	AState									*gameState;
 	AState									*guiState;
 
-	_window = new sf::RenderWindow(sf::VideoMode(size.x, size.y), title);
+	_window = new sf::RenderWindow(sf::VideoMode(size.x, size.y), title, sf::Style::None);
 
 	if (!_window->isOpen())
 		return (false);
@@ -30,7 +30,6 @@ bool										Game::initialize(const sf::Vector2u &size, const std::string &titl
 	this->pushState(guiState);
 	return (true);
 }
-#include <iostream>
 
 void										Game::run()
 {
