@@ -1,16 +1,15 @@
 #pragma once
 
-#include "ISystem.h"
+#include "World.h"
 
-class								ParticleSystem : public ISystem
+class								ParticleSystem
 {
 public:
-	ParticleSystem();
-	~ParticleSystem();
-	void							update(World &world, const sf::Time &elapsed) const;
+	static void						update(World &world, const sf::Time &elapsed);
 private:
+	ParticleSystem();
 	ParticleSystem(const ParticleSystem &rhs);
 	ParticleSystem &operator=(const ParticleSystem &rhs);
 
-	void							resetParticle(World &world, const unsigned int id) const;
+	static void						resetParticle(World &world, const unsigned int id);
 };

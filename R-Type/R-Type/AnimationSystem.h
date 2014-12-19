@@ -1,14 +1,13 @@
 #pragma once
 
-#include "ISystem.h"
+#include "World.h"
 
-class						AnimationSystem : public ISystem
+class						AnimationSystem
 {
 public:
-	AnimationSystem();
-	~AnimationSystem();
-	void					update(World &world, const sf::Time &elapsed) const;
+	static void				update(World &world, const sf::Time &elapsed);
 private:
+	AnimationSystem();
 	AnimationSystem(const AnimationSystem &rhs);
 	AnimationSystem &operator=(const AnimationSystem &rhs);
 };

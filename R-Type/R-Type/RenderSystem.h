@@ -2,16 +2,14 @@
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
-#include "ISystem.h"
+#include "World.h"
 
-class								RenderSystem : public ISystem
+class								RenderSystem
 {
 public:
-	RenderSystem();
-	~RenderSystem();
-	void							update(sf::RenderWindow &window, World &world) const;
-	void							update(World &world, const sf::Time &elapsed) const;
+	static void						update(sf::RenderWindow *window, World &world);
 private:
+	RenderSystem();
 	RenderSystem(const RenderSystem &rhs);
 	RenderSystem &operator=(const RenderSystem &rhs);
 };

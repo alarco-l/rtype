@@ -1,17 +1,16 @@
 #pragma once
 
-#include "ISystem.h"
+#include "World.h"
 
-class							TransformSystem : public ISystem
+class							TransformSystem
 {
 public:
-	TransformSystem();
-	~TransformSystem();
-	void						update(World &world, const sf::Time &elapsed) const;
+	static void					update(World &world, const sf::Time &elapsed);
 private:
+	TransformSystem();
 	TransformSystem(const TransformSystem &rhs);
 	TransformSystem &operator=(const TransformSystem &rhs);
 
-	void						updatePosition(TransformComponent *xform, MovementComponent *mov, const sf::Time &elapsed) const;
-	void						computeTransform(TransformComponent *xform) const;
+	static void					updatePosition(TransformComponent *xform, MovementComponent *mov, const sf::Time &elapsed);
+	static void					computeTransform(TransformComponent *xform);
 };

@@ -1,16 +1,6 @@
 #include "RenderSystem.h"
 
-RenderSystem::RenderSystem()
-{
-}
-
-RenderSystem::~RenderSystem()
-{
-}
-
-void							RenderSystem::update(World &world, const sf::Time &elapsed) const {}
-
-void							RenderSystem::update(sf::RenderWindow &window, World &world) const
+void							RenderSystem::update(sf::RenderWindow *window, World &world)
 {
 	for (unsigned int i = 0; i != world.entityCount; ++i)
 	{
@@ -39,7 +29,7 @@ void							RenderSystem::update(sf::RenderWindow &window, World &world) const
 
 			states.texture = render->texture;
 			states.transform = xform->transform;
-			window.draw(render->vertices, states);
+			window->draw(render->vertices, states);
 		}
 	}
 }

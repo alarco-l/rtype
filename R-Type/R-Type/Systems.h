@@ -4,4 +4,5 @@
 #include "TransformSystem.h"
 #include "ParticleSystem.h"
 #include "AnimationSystem.h"
-#include "CollisionSystem.h"
+#include "TextSystem.h"
+//#include "CollisionSystem.h"

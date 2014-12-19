@@ -1,14 +1,6 @@
 #include "TransformSystem.h"
 
-TransformSystem::TransformSystem()
-{
-}
-
-TransformSystem::~TransformSystem()
-{
-}
-
-void						TransformSystem::update(World &world, const sf::Time &elapsed) const
+void						TransformSystem::update(World &world, const sf::Time &elapsed)
 {
 	for (unsigned int i = 0; i != world.entityCount; ++i)
 	{
@@ -18,15 +10,15 @@ void						TransformSystem::update(World &world, const sf::Time &elapsed) const
 		if (xform)
 		{
 			if (mov)
-				this->updatePosition(xform, mov, elapsed);
+				updatePosition(xform, mov, elapsed);
 			// TODO : rotation / scale
 			// compute transform a chaque fois ? ou just quand ça a change
-			this->computeTransform(xform);
+			computeTransform(xform);
 		}
 	}
 }
 
-void						TransformSystem::updatePosition(TransformComponent *xform, MovementComponent *mov, const sf::Time &elapsed) const
+void						TransformSystem::updatePosition(TransformComponent *xform, MovementComponent *mov, const sf::Time &elapsed)
 {
 	sf::Vector2f			direction;
 	float					length;
@@ -38,7 +30,7 @@ void						TransformSystem::updatePosition(TransformComponent *xform, MovementCom
 	xform->position += direction * mov->velocity * elapsed.asSeconds();
 }
 
-void						TransformSystem::computeTransform(TransformComponent *xform) const
+void						TransformSystem::computeTransform(TransformComponent *xform)
 {
 	float angle = -xform->rotation * 3.141592654f / 180.f;
 	float cosine = std::cosf(angle);
