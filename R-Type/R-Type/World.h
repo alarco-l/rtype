@@ -27,6 +27,8 @@ public:
 															 const sf::Texture * const texture,
 															 const sf::Vector2f &position = sf::Vector2f(0.0f, 0.0f));
 
+	const unsigned int					createEmptyEntity();
+
 	void								addRenderComponent(const unsigned int id, RenderComponent *render);
 	void								addTransformComponent(const unsigned int id, TransformComponent *xform);
 	void								addAnimationComponent(const unsigned int id, AnimationComponent *anim);

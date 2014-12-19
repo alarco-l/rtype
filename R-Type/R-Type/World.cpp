@@ -124,6 +124,19 @@ const unsigned int						World::createParticleEffect(const unsigned int maxPartic
 	return (emitterId);
 }
 
+const unsigned int						World::createEmptyEntity()
+{
+	renderComponents.push_back(NULL);
+	animationComponents.push_back(NULL);
+	transformComponents.push_back(NULL);
+	movementComponents.push_back(NULL);
+	emitterComponents.push_back(NULL);
+	particleComponents.push_back(NULL);
+	textComponents.push_back(NULL);
+
+	return (entityCount++);
+}
+
 void									World::addRenderComponent(const unsigned int id, RenderComponent *render)
 {
 	renderComponents[id] = render;

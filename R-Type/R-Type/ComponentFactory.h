@@ -24,6 +24,11 @@ public:
 														const sf::Vector2f &scaleInterval = sf::Vector2f(1.0f, 1.0f));
 
 	static ParticleComponent	*createParticleComponent(const sf::Time &lifetime);
+
+	static TextComponent		*createTextComponent(const std::string &string,
+													 const sf::Font * const font,
+													 const unsigned int size = 30,
+													 const sf::Color &color = sf::Color::White);
 private:
 	ComponentFactory();
 };

@@ -7,7 +7,7 @@
 struct						TextComponent
 {
 	std::string				string;
-	sf::Color				color;
+	const sf::Font			*font;
 	unsigned int			size;
-	sf::Font				*font;
+	sf::Color				color;
 };
