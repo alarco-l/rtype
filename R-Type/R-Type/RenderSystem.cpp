@@ -9,7 +9,6 @@ void							RenderSystem::update(sf::RenderWindow *window, World &world)
 
 		if (render && xform)
 		{
-			// peut-etre juste faire gaffe et pas de if
 			sf::Vector2f	textureSize(render->texture->getSize());
 
 			if (render->vertices[2].texCoords != textureSize)
@@ -23,6 +22,12 @@ void							RenderSystem::update(sf::RenderWindow *window, World &world)
 				render->vertices[1].position = render->vertices[1].texCoords;
 				render->vertices[2].position = render->vertices[2].texCoords;
 				render->vertices[3].position = render->vertices[3].texCoords;
+			}
+
+			if (xform->size.x != 0.0f && xform->size.y != 0.0f)
+			{
+				xform->scale.x = xform->size.x / textureSize.x;
+				xform->scale.y = xform->size.y / textureSize.y;
 			}
 
 			sf::RenderStates	states;

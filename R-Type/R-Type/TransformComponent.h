@@ -8,6 +8,7 @@ struct													TransformComponent
 	sf::Vector2f										position;
 	sf::Vector2f										scale;
 	float												rotation;
+	sf::Vector2f										size;
 	sf::Vector2f										origin;
 	sf::Transform										transform;
 };

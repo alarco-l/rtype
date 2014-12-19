@@ -21,7 +21,10 @@ RenderComponent					*ComponentFactory::createRenderComponent(const sf::Texture *
 	return (render);
 }
 
-TransformComponent				*ComponentFactory::createTransformComponent(const sf::Vector2f &pos, const sf::Vector2f &sca, const float rot)
+TransformComponent				*ComponentFactory::createTransformComponent(const sf::Vector2f &pos,
+																			const sf::Vector2f &sca,
+																			const float rot,
+																			const sf::Vector2f &size)
 {
 	TransformComponent			*xform = new TransformComponent();
 
@@ -29,6 +32,7 @@ TransformComponent				*ComponentFactory::createTransformComponent(const sf::Vect
 	xform->scale = sca;
 	xform->rotation = rot;
 	xform->origin = sf::Vector2f(0.0f, 0.0f);
+	xform->size = size;
 
 	return (xform);
 }

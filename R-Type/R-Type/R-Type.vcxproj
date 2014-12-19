@@ -79,7 +79,6 @@
     <ClInclude Include="ComponentFactory.h" />
     <ClInclude Include="Components.h" />
     <ClInclude Include="EmitterComponent.h" />
-    <ClInclude Include="Entity.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GUIState.h" />

@@ -13,11 +13,10 @@ public:
 private:
 	enum Button
 	{
-		BEGIN,
 		CONNECT,
 		EXIT,
 		MAX
 	};
 	unsigned int				_state;
-	unsigned int				_id[3];
+	unsigned int				_id[2];
 };
