@@ -180,3 +180,6 @@ UpgradeLog*.htm
 
 # Microsoft Fakes
 FakesAssemblies/
+/R-Type/Debug
+/R-Type/hpl/Debug
+Debug
