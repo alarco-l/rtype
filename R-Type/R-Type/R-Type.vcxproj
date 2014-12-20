@@ -38,7 +38,12 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(SolutionDir)hpl;$(SolutionDir)SFML-2.1\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(SolutionDir)hpl;$(SolutionDir)SFML-2.1\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -49,8 +54,16 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)\SFML-2.1\lib;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-system.lib;sfml-window.lib;sfml-audio.lib;sfml-graphics.lib;sfml-main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-system-d.lib;sfml-window-d.lib;sfml-audio-d.lib;sfml-graphics-d.lib;sfml-main-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy $(SolutionDir)SFML-2.1\lib\sfml-audio-d-2.dll $(OutDir)sfml-audio-d-2.dll
+copy $(SolutionDir)SFML-2.1\lib\sfml-graphics-d-2.dll $(OutDir)sfml-graphics-d-2.dll
+copy $(SolutionDir)SFML-2.1\lib\sfml-network-d-2.dll $(OutDir)sfml-network-d-2.dll
+copy $(SolutionDir)SFML-2.1\lib\sfml-system-d-2.dll $(OutDir)sfml-system-d-2.dll
+copy $(SolutionDir)SFML-2.1\lib\sfml-window-d-2.dll $(OutDir)sfml-window-d-2.dll
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -68,6 +81,14 @@
       <AdditionalLibraryDirectories>$(SolutionDir)\SFML-2.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-system.lib;sfml-window.lib;sfml-audio.lib;sfml-graphics.lib;sfml-main.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy $(SolutionDir)SFML-2.1\lib\sfml-audio-2.dll $(OutDir)sfml-audio-2.dll
+copy $(SolutionDir)SFML-2.1\lib\sfml-graphics-2.dll $(OutDir)sfml-graphics-2.dll
+copy $(SolutionDir)SFML-2.1\lib\sfml-network-2.dll $(OutDir)sfml-network-2.dll
+copy $(SolutionDir)SFML-2.1\lib\sfml-system-2.dll $(OutDir)sfml-system-2.dll
+copy $(SolutionDir)SFML-2.1\lib\sfml-window-2.dll $(OutDir)sfml-window-2.dll
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AnimationComponent.h" />
@@ -112,6 +133,7 @@
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="RFC.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="TextSystem.cpp" />
     <ClCompile Include="TransformSystem.cpp" />
