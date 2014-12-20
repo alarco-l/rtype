@@ -1,3 +1,5 @@
+#include <stack>
+
 #include "Game.h"
 #include "GameState.h"
 #include "GUIState.h"
@@ -22,14 +24,13 @@ bool										Game::initialize(const sf::Vector2u &size, const std::string &titl
 	return (true);
 }
 
-#include <iostream>
-
 void										Game::run()
 {
 	sf::Event								event;
 	sf::Time								elapsed;
 	std::vector<AState *>::reverse_iterator	rit;
 	AState									*state;
+	std::stack<AState *>					drawStack;
 
 	while (_window->isOpen())
 	{
@@ -37,27 +38,28 @@ void										Game::run()
 			return;
 
 		state = _states.back();
-
 		while (_window->pollEvent(event))
 		{
-			if (!state->handleEvents(event)) {
-				//std::cout << "///////////////////////////////////////////////////////////////////////////////" << std::endl;
+			if (!state->handleEvents(event))
 				break;
-			}
 		}
-		//std::cout << "DEBUG2" << std::endl;
 
 		elapsed = _clock.restart();
 		_window->clear();
 
-		// reverse order for draw
 		for (rit = _states.rbegin(); rit != _states.rend(); ++rit)
 		{
 			state = *rit;
 			state->update(elapsed);
-			state->draw(_window);
+			drawStack.push(state);
 			if (state->isBlocking())
 				break;
+		}
+
+		while (!drawStack.empty())
+		{
+			drawStack.top()->draw(_window);
+			drawStack.pop();
 		}
 
 		_window->display();
@@ -86,7 +88,7 @@ void										Game::popState()
 	_states.pop_back();
 }
 
-sf::Vector2u				Game::getScreenSize() const
+sf::Vector2u								Game::getScreenSize() const
 {
 	return (_window->getSize());
 }
