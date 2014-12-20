@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "GameState.h"
 #include "GUIState.h"
+#include "GUIPauseState.h"
 
 Game::Game() : _window(NULL)
 {
@@ -12,7 +13,7 @@ Game::~Game()
 
 bool										Game::initialize(const sf::Vector2u &size, const std::string &title)
 {
-	_window = new sf::RenderWindow(sf::VideoMode(size.x, size.y), title, sf::Style::None);
+	_window = new sf::RenderWindow(sf::VideoMode(size.x, size.y), title, sf::Style::Default);
 
 	if (!_window->isOpen())
 		return (false);
@@ -20,6 +21,8 @@ bool										Game::initialize(const sf::Vector2u &size, const std::string &titl
 	this->pushState(new GUIState(this));
 	return (true);
 }
+
+#include <iostream>
 
 void										Game::run()
 {
@@ -37,9 +40,12 @@ void										Game::run()
 
 		while (_window->pollEvent(event))
 		{
-			if (!state->handleEvents(event))
+			if (!state->handleEvents(event)) {
+				//std::cout << "///////////////////////////////////////////////////////////////////////////////" << std::endl;
 				break;
+			}
 		}
+		//std::cout << "DEBUG2" << std::endl;
 
 		elapsed = _clock.restart();
 		_window->clear();
@@ -77,8 +83,12 @@ void										Game::pushState(AState *state)
 
 void										Game::popState()
 {
+
 	delete (_states.back());
+	//_states.erase(_states.end());
 	_states.pop_back();
+	std::cout << _states.size() << std::endl;
+
 }
 
 sf::Vector2u				Game::getScreenSize() const

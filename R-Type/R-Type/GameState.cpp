@@ -1,4 +1,5 @@
 #include "GameState.h"
+#include "GUIPauseState.h"
 
 GameState::GameState(Game *game) : AState(game)
 {
@@ -40,8 +41,8 @@ bool						GameState::handleEvents(const sf::Event &event)
 {
 	if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
 	{
-		_game->popState();
-		return (false);
+		_game->pushState(new GUIPauseState(_game));
+		return (true);
 	}
 
 	return (true);
