@@ -1,6 +1,7 @@
 #include "ComponentFactory.h"
 
-RenderComponent					*ComponentFactory::createRenderComponent(const sf::Texture * const tex)
+RenderComponent					*ComponentFactory::createRenderComponent(const sf::Texture * const tex,
+																		 const sf::Color &color)
 {
 	RenderComponent				*render = new RenderComponent();
 	sf::Vector2f				textureSize(tex->getSize());
@@ -17,6 +18,11 @@ RenderComponent					*ComponentFactory::createRenderComponent(const sf::Texture *
 	render->vertices[1].position = render->vertices[1].texCoords;
 	render->vertices[2].position = render->vertices[2].texCoords;
 	render->vertices[3].position = render->vertices[3].texCoords;
+
+	render->vertices[0].color = color;
+	render->vertices[1].color = color;
+	render->vertices[2].color = color;
+	render->vertices[3].color = color;
 
 	return (render);
 }

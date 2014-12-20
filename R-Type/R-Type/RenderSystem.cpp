@@ -24,6 +24,11 @@ void							RenderSystem::update(sf::RenderWindow *window, World &world)
 				render->vertices[3].position = render->vertices[3].texCoords;
 			}
 
+			render->vertices[0].color = render->color;
+			render->vertices[1].color = render->color;
+			render->vertices[2].color = render->color;
+			render->vertices[3].color = render->color;
+		
 			if (xform->size.x != 0.0f && xform->size.y != 0.0f)
 			{
 				xform->scale.x = xform->size.x / textureSize.x;
