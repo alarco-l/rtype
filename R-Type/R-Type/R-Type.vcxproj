@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{A31E82B8-0ED9-4B72-8700-F48F82A8AD26}</ProjectGuid>
+    <ProjectGuid>{F48221FF-D272-4F27-82FE-5F922DC22CE6}</ProjectGuid>
     <RootNamespace>RType</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -38,34 +38,19 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDIr)hpl;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <LibraryPath>$(SolutionDir)SFML-2.1\lib;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);</LibraryPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SolutionDIr)hpl;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <LibraryPath>$(SolutionDir)SFML-2.1\lib;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);</LibraryPath>
-  </PropertyGroup>
+  <PropertyGroup />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)\SFML-2.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\SMFL-2.1\include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)\SFML-2.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-system-d.lib;sfml-window-d.lib;sfml-audio-d.lib;sfml-graphics-d.lib;sfml-main-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\SFML-2.1\lib;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-system.lib;sfml-window.lib;sfml-audio.lib;sfml-graphics.lib;sfml-main.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <PostBuildEvent>
-      <Command>copy $(SolutionDir)SFML-2.1\lib\sfml-audio-d-2.dll $(OutDir)\sfml-audio-d-2.dll
-copy $(SolutionDir)SFML-2.1\lib\sfml-graphics-d-2.dll $(OutDir)\sfml-graphics-d-2.dll
-copy $(SolutionDir)SFML-2.1\lib\sfml-network-d-2.dll $(OutDir)\sfml-network-d-2.dll
-copy $(SolutionDir)SFML-2.1\lib\sfml-system-d-2.dll $(OutDir)\sfml-system-d-2.dll
-copy $(SolutionDir)SFML-2.1\lib\sfml-window-d-2.dll $(OutDir)\sfml-window-d-2.dll
-</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -83,65 +68,54 @@ copy $(SolutionDir)SFML-2.1\lib\sfml-window-d-2.dll $(OutDir)\sfml-window-d-2.dl
       <AdditionalLibraryDirectories>$(SolutionDir)\SFML-2.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-system.lib;sfml-window.lib;sfml-audio.lib;sfml-graphics.lib;sfml-main.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <PostBuildEvent>
-      <Command>copy $(SolutionDir)SFML-2.1\lib\sfml-audio-2.dll $(OutDir)\sfml-audio-2.dll
-copy $(SolutionDir)SFML-2.1\lib\sfml-graphics-2.dll $(OutDir)\sfml-graphics-2.dll
-copy $(SolutionDir)SFML-2.1\lib\sfml-network-2.dll $(OutDir)\sfml-network-2.dll
-copy $(SolutionDir)SFML-2.1\lib\sfml-system-2.dll $(OutDir)\sfml-system-2.dll
-copy $(SolutionDir)SFML-2.1\lib\sfml-window-2.dll $(OutDir)\sfml-window-2.dll
-</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AnimationComponent.h" />
+    <ClInclude Include="AnimationSystem.h" />
+    <ClInclude Include="AState.h" />
+    <ClInclude Include="BasicType.h" />
+    <ClInclude Include="CollisionComponent.h" />
+    <ClInclude Include="CollisionSystem.h" />
+    <ClInclude Include="ComponentFactory.h" />
+    <ClInclude Include="Components.h" />
+    <ClInclude Include="EmitterComponent.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="GameState.h" />
+    <ClInclude Include="GUIState.h" />
+    <ClInclude Include="IRFC.h" />
+    <ClInclude Include="ISystem.h" />
+    <ClInclude Include="MovementComponent.h" />
+    <ClInclude Include="ParticleComponent.h" />
+    <ClInclude Include="ParticleSystem.h" />
+    <ClInclude Include="RenderComponent.h" />
+    <ClInclude Include="RenderSystem.h" />
+    <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="RFC.h" />
+    <ClInclude Include="Systems.h" />
+    <ClInclude Include="TextComponent.h" />
+    <ClInclude Include="TextSystem.h" />
+    <ClInclude Include="TransformComponent.h" />
+    <ClInclude Include="TransformSystem.h" />
+    <ClInclude Include="World.h" />
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="AnimationSystem.cpp" />
-    <ClCompile Include="Button.cpp" />
+    <ClCompile Include="AState.cpp" />
     <ClCompile Include="CollisionSystem.cpp" />
-    <ClCompile Include="GuiMenu.cpp" />
-    <ClCompile Include="GuiPause.cpp" />
+    <ClCompile Include="ComponentFactory.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameState.cpp" />
+    <ClCompile Include="GUIState.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="RFC.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="TextSystem.cpp" />
     <ClCompile Include="TransformSystem.cpp" />
     <ClCompile Include="World.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="AnimationComponent.hpp" />
-    <ClInclude Include="AnimationSystem.h" />
-    <ClInclude Include="BasicType.h" />
-    <ClInclude Include="Button.h" />
-    <ClInclude Include="CollisionComponent.hpp" />
-    <ClInclude Include="CollisionSystem.h" />
-    <ClInclude Include="Components.h" />
-    <ClInclude Include="EmitterComponent.hpp" />
-    <ClInclude Include="IRFC.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="GuiMenu.h" />
-    <ClInclude Include="GuiPause.h" />
-    <ClInclude Include="ISystem.h" />
-    <ClInclude Include="MovementComponent.hpp" />
-    <ClInclude Include="ParticleComponent.hpp" />
-    <ClInclude Include="ParticleSystem.h" />
-    <ClInclude Include="RenderComponent.hpp" />
-    <ClInclude Include="RenderSystem.h" />
-    <ClInclude Include="ResourceManager.h" />
-    <ClInclude Include="RFC.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="TransformComponent.hpp" />
-    <ClInclude Include="Systems.h" />
-    <ClInclude Include="TransformSystem.h" />
-    <ClInclude Include="World.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\hpl\hpl.vcxproj">
-      <Project>{4a8f488f-6943-47f3-92bc-60f95987cf8c}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

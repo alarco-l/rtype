@@ -38,5 +38,11 @@ bool						GameState::initialize(ResourceManager &resourceManager)
 
 bool						GameState::handleEvents(const sf::Event &event)
 {
+	if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
+	{
+		_game->popState();
+		return (false);
+	}
+
 	return (true);
 }

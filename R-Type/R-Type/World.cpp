@@ -35,6 +35,7 @@ const unsigned int						World::createStaticEntity(const sf::Texture * const text
 	particleComponents.push_back(NULL);
 	emitterComponents.push_back(NULL);
 	animationComponents.push_back(NULL);
+	textComponents.push_back(NULL);
 //	collisionComponents.push_back(NULL);
 
 	return (entityCount++);
@@ -52,6 +53,7 @@ const unsigned int						World::createMovingEntity(const sf::Texture * const text
 	particleComponents.push_back(NULL);
 	emitterComponents.push_back(NULL);
 	animationComponents.push_back(NULL);
+	textComponents.push_back(NULL);
 	//collisionComponents.push_back(NULL);
 
 	return (entityCount++);
@@ -70,6 +72,7 @@ const unsigned int						World::createAnimatedEntity(const std::vector<const sf::
 	animationComponents.push_back(anim);
 	particleComponents.push_back(NULL);
 	emitterComponents.push_back(NULL);
+	textComponents.push_back(NULL);
 	//collisionComponents.push_back(NULL);
 	
 	return (entityCount++);
@@ -88,6 +91,7 @@ const unsigned int						World::createParticleEffect(const unsigned int maxPartic
 	particleComponents.push_back(NULL);
 	renderComponents.push_back(NULL);
 	animationComponents.push_back(NULL);
+	textComponents.push_back(NULL);
 //	collisionComponents.push_back(NULL);
 
 	emitterId = entityCount;
@@ -108,6 +112,7 @@ const unsigned int						World::createParticleEffect(const unsigned int maxPartic
 		particleComponents.push_back(particle);
 		emitterComponents.push_back(NULL);
 		animationComponents.push_back(NULL);
+		textComponents.push_back(NULL);
 	//	collisionComponents.push_back(NULL);
 
 		particleId.push_back(entityCount);
@@ -117,6 +122,19 @@ const unsigned int						World::createParticleEffect(const unsigned int maxPartic
 	emitter->particleId = particleId;
 
 	return (emitterId);
+}
+
+const unsigned int						World::createEmptyEntity()
+{
+	renderComponents.push_back(NULL);
+	animationComponents.push_back(NULL);
+	transformComponents.push_back(NULL);
+	movementComponents.push_back(NULL);
+	emitterComponents.push_back(NULL);
+	particleComponents.push_back(NULL);
+	textComponents.push_back(NULL);
+
+	return (entityCount++);
 }
 
 void									World::addRenderComponent(const unsigned int id, RenderComponent *render)

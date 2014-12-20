@@ -12,7 +12,6 @@ void						TransformSystem::update(World &world, const sf::Time &elapsed)
 			if (mov)
 				updatePosition(xform, mov, elapsed);
 			// TODO : rotation / scale
-			// compute transform a chaque fois ? ou just quand ça a change
 			computeTransform(xform);
 		}
 	}

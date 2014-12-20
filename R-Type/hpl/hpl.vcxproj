@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{4A8F488F-6943-47F3-92BC-60F95987CF8C}</ProjectGuid>
+    <ProjectGuid>{49B797B6-A065-4440-96F1-C5020E2F8B50}</ProjectGuid>
     <RootNamespace>hpl</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

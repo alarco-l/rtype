@@ -1,9 +1,5 @@
 #include "ComponentFactory.h"
 
-ComponentFactory::~ComponentFactory()
-{
-}
-
 RenderComponent					*ComponentFactory::createRenderComponent(const sf::Texture * const tex)
 {
 	RenderComponent				*render = new RenderComponent();
@@ -25,7 +21,10 @@ RenderComponent					*ComponentFactory::createRenderComponent(const sf::Texture *
 	return (render);
 }
 
-TransformComponent				*ComponentFactory::createTransformComponent(const sf::Vector2f &pos, const sf::Vector2f &sca, const float rot)
+TransformComponent				*ComponentFactory::createTransformComponent(const sf::Vector2f &pos,
+																			const sf::Vector2f &sca,
+																			const float rot,
+																			const sf::Vector2f &size)
 {
 	TransformComponent			*xform = new TransformComponent();
 
@@ -33,6 +32,7 @@ TransformComponent				*ComponentFactory::createTransformComponent(const sf::Vect
 	xform->scale = sca;
 	xform->rotation = rot;
 	xform->origin = sf::Vector2f(0.0f, 0.0f);
+	xform->size = size;
 
 	return (xform);
 }
@@ -85,4 +85,23 @@ ParticleComponent				*ComponentFactory::createParticleComponent(const sf::Time &
 	particle->lifetime = lifetime;
 
 	return (particle);
+}
+
+TextComponent					*ComponentFactory::createTextComponent(const std::string &string,
+																	   const sf::Font * const font,
+																	   bool centered,
+																	   bool highlighted,
+																	   const unsigned int size,
+																	   const sf::Color &color)
+{
+	TextComponent				*txt = new TextComponent();
+
+	txt->string = string;
+	txt->font = font;
+	txt->centered = centered;
+	txt->highlighted = highlighted;
+	txt->size = size;
+	txt->color = color;
+
+	return (txt);
 }
