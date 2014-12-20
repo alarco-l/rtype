@@ -11,18 +11,15 @@ void							RenderSystem::update(sf::RenderWindow *window, World &world)
 		{
 			sf::Vector2f	textureSize(render->texture->getSize());
 
-			if (render->vertices[2].texCoords != textureSize)
-			{
-				render->vertices[0].texCoords = sf::Vector2f(0.0f, 0.0f);
-				render->vertices[1].texCoords = sf::Vector2f(textureSize.x, 0.0f);
-				render->vertices[2].texCoords = sf::Vector2f(textureSize.x, textureSize.y);
-				render->vertices[3].texCoords = sf::Vector2f(0.0f, textureSize.y);
+			render->vertices[0].texCoords = sf::Vector2f(0.0f, 0.0f);
+			render->vertices[1].texCoords = sf::Vector2f(textureSize.x, 0.0f);
+			render->vertices[2].texCoords = sf::Vector2f(textureSize.x, textureSize.y);
+			render->vertices[3].texCoords = sf::Vector2f(0.0f, textureSize.y);
 
-				render->vertices[0].position = render->vertices[0].texCoords;
-				render->vertices[1].position = render->vertices[1].texCoords;
-				render->vertices[2].position = render->vertices[2].texCoords;
-				render->vertices[3].position = render->vertices[3].texCoords;
-			}
+			render->vertices[0].position = render->vertices[0].texCoords;
+			render->vertices[1].position = render->vertices[1].texCoords;
+			render->vertices[2].position = render->vertices[2].texCoords;
+			render->vertices[3].position = render->vertices[3].texCoords;
 
 			render->vertices[0].color = render->color;
 			render->vertices[1].color = render->color;
