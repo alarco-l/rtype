@@ -139,6 +139,11 @@ copy $(SolutionDir)SFML-2.1\lib\sfml-window-2.dll $(OutDir)sfml-window-2.dll
     <ClCompile Include="TransformSystem.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\hpl\hpl.vcxproj">
+      <Project>{49b797b6-a065-4440-96f1-c5020e2f8b50}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
