@@ -74,7 +74,6 @@ bool						GUIPauseState::handleEvents(const sf::Event &event)
 			else
 			{
 				_game->popState();
-				std::cout << "POPSTATE2" << std::endl;
 				_game->popState();
 				return (false);
 			}

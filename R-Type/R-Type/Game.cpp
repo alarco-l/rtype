@@ -83,22 +83,10 @@ void										Game::pushState(AState *state)
 
 void										Game::popState()
 {
-
-	delete (_states.back());
-	//_states.erase(_states.end());
 	_states.pop_back();
-	std::cout << _states.size() << std::endl;
-
 }
 
 sf::Vector2u				Game::getScreenSize() const
 {
 	return (_window->getSize());
 }
-
-/*GameState		*Game::createGameState() {
-	GameState	*gameState = new GameState(this);
-	if (!gameState->initialize(_resourceManager))
-		return (NULL);
-	return (gameState);
-}*/
