@@ -13,18 +13,11 @@ GUIPauseState::~GUIPauseState()
 
 bool						GUIPauseState::initialize(ResourceManager &resourceManager)
 {
-	unsigned int			background;
 	unsigned int			title;
 	sf::Vector2u			screenSize = _game->getScreenSize();
 
-	if (!resourceManager.loadTexture("textures/bg.png"))
-		return (false);
 	if (!resourceManager.loadFont("fonts/SPACEBAR.ttf"))
 		return (false);
-
-	background = _world.createEmptyEntity();
-	_world.addRenderComponent(background, ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/bg.png")));
-	_world.addTransformComponent(background, ComponentFactory::createTransformComponent(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(1.0f, 1.0f), 0.0f, sf::Vector2f(screenSize)));
 
 	title = _world.createEmptyEntity();
 	_world.addTextComponent(title, ComponentFactory::createTextComponent("R-TYPE", resourceManager.getFont("fonts/SPACEBAR.ttf"), true, false, 120, sf::Color(13, 205, 248, 255)));
