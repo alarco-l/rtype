@@ -5,11 +5,7 @@
 
 struct												CollisionComponent
 {
-	CollisionComponent(const std::vector<sf::FloatRect> &_aabb) :
-		aabb(_aabb)
-	{
-	}
-
+	sf::FloatRect									bounds;
 	std::vector<sf::FloatRect>						aabb;
 	// Coordonnées dans la collision grid
 };

@@ -21,10 +21,12 @@ World::~World()
 			delete (emitterComponents[i]);
 		if (particleComponents[i])
 			delete (particleComponents[i]);
+		if (collisionComponents[i])
+			delete (collisionComponents[i]);
 	}
 }
 
-const unsigned int						World::createStaticEntity(const sf::Texture * const texture, const sf::Vector2f &position, const sf::Vector2f &scale)
+/*const unsigned int						World::createStaticEntity(const sf::Texture * const texture, const sf::Vector2f &position, const sf::Vector2f &scale)
 {
 	RenderComponent						*render = ComponentFactory::createRenderComponent(texture);
 	TransformComponent					*xform = ComponentFactory::createTransformComponent(position, scale);
@@ -36,7 +38,7 @@ const unsigned int						World::createStaticEntity(const sf::Texture * const text
 	emitterComponents.push_back(NULL);
 	animationComponents.push_back(NULL);
 	textComponents.push_back(NULL);
-//	collisionComponents.push_back(NULL);
+	collisionComponents.push_back(NULL);
 
 	return (entityCount++);
 }
@@ -54,7 +56,7 @@ const unsigned int						World::createMovingEntity(const sf::Texture * const text
 	emitterComponents.push_back(NULL);
 	animationComponents.push_back(NULL);
 	textComponents.push_back(NULL);
-	//collisionComponents.push_back(NULL);
+	collisionComponents.push_back(NULL);
 
 	return (entityCount++);
 }
@@ -73,7 +75,7 @@ const unsigned int						World::createAnimatedEntity(const std::vector<const sf::
 	particleComponents.push_back(NULL);
 	emitterComponents.push_back(NULL);
 	textComponents.push_back(NULL);
-	//collisionComponents.push_back(NULL);
+	collisionComponents.push_back(NULL);
 	
 	return (entityCount++);
 }
@@ -92,7 +94,7 @@ const unsigned int						World::createParticleEffect(const unsigned int maxPartic
 	renderComponents.push_back(NULL);
 	animationComponents.push_back(NULL);
 	textComponents.push_back(NULL);
-//	collisionComponents.push_back(NULL);
+	collisionComponents.push_back(NULL);
 
 	emitterId = entityCount;
 	++entityCount;
@@ -113,7 +115,7 @@ const unsigned int						World::createParticleEffect(const unsigned int maxPartic
 		emitterComponents.push_back(NULL);
 		animationComponents.push_back(NULL);
 		textComponents.push_back(NULL);
-	//	collisionComponents.push_back(NULL);
+		collisionComponents.push_back(NULL);
 
 		particleId.push_back(entityCount);
 		++entityCount;
@@ -122,7 +124,7 @@ const unsigned int						World::createParticleEffect(const unsigned int maxPartic
 	emitter->particleId = particleId;
 
 	return (emitterId);
-}
+}*/
 
 const unsigned int						World::createEmptyEntity()
 {
@@ -133,6 +135,7 @@ const unsigned int						World::createEmptyEntity()
 	emitterComponents.push_back(NULL);
 	particleComponents.push_back(NULL);
 	textComponents.push_back(NULL);
+	collisionComponents.push_back(NULL);
 
 	return (entityCount++);
 }
@@ -170,6 +173,11 @@ void									World::addParticleComponent(const unsigned int id, ParticleComponen
 void									World::addTextComponent(const unsigned int id, TextComponent *text)
 {
 	textComponents[id] = text;
+}
+
+void									World::addCollisionComponent(const unsigned int id, CollisionComponent *col)
+{
+	collisionComponents[id] = col;
 }
 
 void									World::removeRenderComponent(const unsigned int id)
@@ -212,4 +220,10 @@ void									World::removeTextComponent(const unsigned int id)
 {
 	delete (textComponents[id]);
 	textComponents[id] = NULL;
+}
+
+void									World::removeCollisionComponent(const unsigned int id)
+{
+	delete (collisionComponents[id]);
+	collisionComponents[id] = NULL;
 }

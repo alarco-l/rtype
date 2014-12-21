@@ -7,4 +7,4 @@
 #include "ParticleComponent.h"
 #include "AnimationComponent.h"
 #include "TextComponent.h"
-//#include "CollisionComponent.h"
+#include "CollisionComponent.h"

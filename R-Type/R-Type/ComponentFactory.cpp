@@ -13,10 +13,10 @@ RenderComponent					*ComponentFactory::createRenderComponent(const sf::Texture *
 	return (render);
 }
 
-TransformComponent				*ComponentFactory::createTransformComponent(const sf::Vector2f &pos,
+TransformComponent				*ComponentFactory::createTransformComponent(const sf::Vector2f &size,
+																			const sf::Vector2f &pos,
 																			const sf::Vector2f &sca,
-																			const float rot,
-																			const sf::Vector2f &size)
+																			const float rot)
 {
 	TransformComponent			*xform = new TransformComponent();
 

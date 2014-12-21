@@ -17,6 +17,7 @@ private:
 		EXIT,
 		MAX
 	};
+
 	unsigned int				_state;
 	unsigned int				_id[2];
 };

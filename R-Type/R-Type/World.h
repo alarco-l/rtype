@@ -10,7 +10,7 @@ public:
 	World();
 	~World();
 
-	const unsigned int					createStaticEntity(const sf::Texture * const texture,
+	/*const unsigned int					createStaticEntity(const sf::Texture * const texture,
 													 	   const sf::Vector2f &position,
 														   const sf::Vector2f &scale = sf::Vector2f(1.0f, 1.0f));
 	const unsigned int					createMovingEntity(const sf::Texture * const texture,
@@ -25,7 +25,7 @@ public:
 	const unsigned int					createParticleEffect(const unsigned int maxParticleCount,
 															 const bool respawn,
 															 const sf::Texture * const texture,
-															 const sf::Vector2f &position = sf::Vector2f(0.0f, 0.0f));
+															 const sf::Vector2f &position = sf::Vector2f(0.0f, 0.0f));*/
 
 	const unsigned int					createEmptyEntity();
 
@@ -36,6 +36,7 @@ public:
 	void								addEmitterComponent(const unsigned int id, EmitterComponent *emitter);
 	void								addParticleComponent(const unsigned int id, ParticleComponent *particle);
 	void								addTextComponent(const unsigned int id, TextComponent *text);
+	void								addCollisionComponent(const unsigned int id, CollisionComponent *col);
 
 	void								removeRenderComponent(const unsigned int id);
 	void								removeTransformComponent(const unsigned int id);
@@ -44,6 +45,7 @@ public:
 	void								removeEmitterComponent(const unsigned int id);
 	void								removeParticleComponent(const unsigned int id);
 	void								removeTextComponent(const unsigned int id);
+	void								removeCollisionComponent(const unsigned int id);
 
 	unsigned int						entityCount;
 
@@ -54,5 +56,5 @@ public:
 	std::vector<EmitterComponent *>		emitterComponents;
 	std::vector<AnimationComponent *>	animationComponents;
 	std::vector<TextComponent *>		textComponents;
-	//std::vector<CollisionComponent *>	collisionComponents;
+	std::vector<CollisionComponent *>	collisionComponents;
 };
