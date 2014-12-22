@@ -108,6 +108,9 @@
     <ClInclude Include="GUIPauseState.h">
       <Filter>States</Filter>
     </ClInclude>
+    <ClInclude Include="SpinComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">

@@ -22,17 +22,18 @@ void									CollisionSystem::update(World &world, const sf::Vector2u &precision
 		if (col && xform)
 		{
 			// add entities one by one to the collision grid
-			std::vector<sf::Vector2f>	bounds = getEntityBounds(xform->transform, xform->size);
-			std::vector<sf::Vector2u>	cells;
+			std::vector<sf::Vector2f>	bounds = getEntityBounds(xform->transform, xform->size); // bounds of entity in global space after transforms
+			sf::FloatRect				aabb = xform->transform.transformRect(sf::FloatRect(sf::Vector2f(0.0f, 0.0f), xform->size)); // axis aligned bounding box for entity
+			std::vector<sf::Vector2u>	cells; // cells in which the entity is contained
 
-			cells = addEntityToGrid(grid, cellSize, bounds, i);
+			cells = addEntityToGrid(grid, cellSize, aabb, i);
 
-			//collision inside the cells of the entity
+			//collision inside the cells in which the entity is contained
 			for (std::vector<sf::Vector2u>::iterator it = cells.begin(); it != cells.end(); ++it)
 			{
 				for (std::set<unsigned int>::iterator it2 = grid[it->x][it->y].begin(); it2 != grid[it->x][it->y].end(); ++it2)
 				{
-					if (*it2 != i)
+					if (*it2 != i) // don't test entity against itself
 					{
 						std::vector<sf::Vector2f> target = getEntityBounds(world.transformComponents[*it2]->transform, world.transformComponents[*it2]->size);
 
@@ -48,22 +49,17 @@ void									CollisionSystem::update(World &world, const sf::Vector2u &precision
 	}
 }
 
-std::vector<sf::Vector2u>				CollisionSystem::addEntityToGrid(collisionGrid &grid, const sf::Vector2u &cellSize, const std::vector<sf::Vector2f> &bounds, const unsigned int id)
+std::vector<sf::Vector2u>				CollisionSystem::addEntityToGrid(collisionGrid &grid, const sf::Vector2u &cellSize, const sf::FloatRect &aabb, const unsigned int id)
 {
 	std::vector<sf::Vector2u>			cells;
 
-	// Si trop lent, trouver algo pour determiner les cells d'une entity (pas tester 'collide' avec toutes les cases de la grid)
 	for (unsigned int i = 0; i != grid.size(); ++i)
 	{
 		for (unsigned int j = 0; j != grid[i].size(); ++j)
 		{
-			std::vector<sf::Vector2f>	cellBounds;
-			sf::Transform				cellTransform;
+			sf::FloatRect				cell = sf::FloatRect(sf::Vector2f(static_cast<float>(i * cellSize.x), static_cast<float>(j * cellSize.y)), sf::Vector2f(cellSize));
 
-			cellTransform.translate(sf::Vector2f(static_cast<float>(i * cellSize.x), static_cast<float>(j * cellSize.y)));
-			cellBounds = getEntityBounds(cellTransform, sf::Vector2f(cellSize));
-
-			if (collide(bounds, cellBounds))
+			if (aabb.intersects(cell))
 			{
 				grid[i][j].insert(id);
 				if (std::find(cells.begin(), cells.end(), sf::Vector2u(i, j)) == cells.end())
@@ -71,6 +67,7 @@ std::vector<sf::Vector2u>				CollisionSystem::addEntityToGrid(collisionGrid &gri
 			}
 		}
 	}
+
 	return (cells);
 }
 

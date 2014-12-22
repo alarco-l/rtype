@@ -17,6 +17,6 @@ private:
 
 	static std::vector<sf::Vector2f>								getEntityBounds(const sf::Transform &transform, const sf::Vector2f &size);
 	static void														projectAxis(const std::vector<sf::Vector2f> &points, const sf::Vector2f &axis, float &min, float &max);
-	static std::vector<sf::Vector2u>								addEntityToGrid(collisionGrid &grid, const sf::Vector2u &cellSize, const std::vector<sf::Vector2f> &bounds, const unsigned int id);
+	static std::vector<sf::Vector2u>								addEntityToGrid(collisionGrid &grid, const sf::Vector2u &cellSize, const sf::FloatRect &aabb, const unsigned int id);
 	static bool														collide(const std::vector<sf::Vector2f> &self, const std::vector<sf::Vector2f> &target);
 };

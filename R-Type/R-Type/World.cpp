@@ -132,6 +132,7 @@ const unsigned int						World::createEmptyEntity()
 	animationComponents.push_back(NULL);
 	transformComponents.push_back(NULL);
 	movementComponents.push_back(NULL);
+	spinComponents.push_back(NULL);
 	emitterComponents.push_back(NULL);
 	particleComponents.push_back(NULL);
 	textComponents.push_back(NULL);

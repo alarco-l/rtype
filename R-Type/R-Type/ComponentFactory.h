@@ -19,6 +19,9 @@ public:
 	static MovementComponent	*createMovementComponent(const float vel,
 														 const sf::Vector2f &dir);
 
+	static SpinComponent		*createSpinComponent(const float speed,
+													 const int direction);
+
 	static EmitterComponent		*createEmitterComponent(const sf::Vector2f &lifetimeInterval,
 														const bool respawn,
 														const sf::Vector2f &propagationInterval = sf::Vector2f(0.0f, 360.0f),
@@ -33,6 +36,9 @@ public:
 													 bool hightlighted = false,
 													 const unsigned int size = 30,
 													 const sf::Color &color = sf::Color::White);
+
+	static CollisionComponent	*createCollisionComponent();
+
 private:
 	ComponentFactory();
 };

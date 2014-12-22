@@ -15,7 +15,7 @@ Game::~Game()
 
 bool										Game::initialize(const sf::Vector2u &size, const std::string &title)
 {
-	_window = new sf::RenderWindow(sf::VideoMode(size.x, size.y), title, sf::Style::Fullscreen);
+	_window = new sf::RenderWindow(sf::VideoMode(size.x, size.y), title, sf::Style::Default);
 
 	if (!_window->isOpen())
 		return (false);
@@ -96,16 +96,17 @@ sf::Vector2u								Game::getScreenSize() const
 
 bool										Game::loadTextures()
 {
-	std::string								textures[5] =
+	std::string								textures[6] =
 	{
 		"textures/menu_background.png",
 		"textures/unicolor.png",
 		"textures/missile_icon.png",
 		"textures/mine_icon.png",
 		"textures/laser_icon.png",
+		"textures/hero.png",
 	};
 
-	for (unsigned int i = 0; i != 5; ++i)
+	for (unsigned int i = 0; i != 6; ++i)
 	{
 		if (!_resourceManager.loadTexture(textures[i]))
 			return (false);

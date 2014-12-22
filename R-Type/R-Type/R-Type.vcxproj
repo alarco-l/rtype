@@ -113,6 +113,7 @@ copy $(SolutionDir)SFML-2.1\lib\sfml-window-2.dll $(OutDir)sfml-window-2.dll
     <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="RFC.h" />
+    <ClInclude Include="SpinComponent.h" />
     <ClInclude Include="Systems.h" />
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="TextSystem.h" />
