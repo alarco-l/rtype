@@ -52,6 +52,16 @@ MovementComponent				*ComponentFactory::createMovementComponent(const float vel,
 	return (mov);
 }
 
+SpinComponent					*ComponentFactory::createSpinComponent(const float speed,
+																	   const int direction)
+{
+	SpinComponent				*spin = new SpinComponent();
+
+	spin->speed = speed;
+	spin->direction = direction;
+	return (spin);
+}
+
 EmitterComponent				*ComponentFactory::createEmitterComponent(const sf::Vector2f &lifetimeInterval,
 																		  const bool respawn,
 																		  const sf::Vector2f &propagationInterval,
@@ -96,4 +106,11 @@ TextComponent					*ComponentFactory::createTextComponent(const std::string &stri
 	txt->color = color;
 
 	return (txt);
+}
+
+CollisionComponent				*ComponentFactory::createCollisionComponent()
+{
+	CollisionComponent			*col = new CollisionComponent();
+
+	return (col);
 }

@@ -2,6 +2,7 @@
 
 #include "TransformComponent.h"
 #include "MovementComponent.h"
+#include "SpinComponent.h"
 #include "RenderComponent.h"
 #include "EmitterComponent.h"
 #include "ParticleComponent.h"

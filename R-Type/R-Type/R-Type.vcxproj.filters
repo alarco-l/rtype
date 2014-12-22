@@ -116,6 +116,8 @@
     </ClInclude>
     <ClInclude Include="GUILoad.h">
       <Filter>States</Filter>
+    <ClInclude Include="SpinComponent.h">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

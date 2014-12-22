@@ -6,18 +6,20 @@ void						TransformSystem::update(World &world, const sf::Time &elapsed)
 	{
 		TransformComponent	*xform = world.transformComponents[i];
 		MovementComponent	*mov = world.movementComponents[i];
+		SpinComponent		*spin = world.spinComponents[i];
 
 		if (xform)
 		{
 			if (mov)
-				updatePosition(xform, mov, elapsed);
-			// TODO : rotation / scale
+				applyMovement(xform, mov, elapsed);
+			if (spin)
+				applySpin(xform, spin, elapsed);
 			computeTransform(xform);
 		}
 	}
 }
 
-void						TransformSystem::updatePosition(TransformComponent *xform, MovementComponent *mov, const sf::Time &elapsed)
+void						TransformSystem::applyMovement(TransformComponent *xform, MovementComponent *mov, const sf::Time &elapsed)
 {
 	sf::Vector2f			direction;
 	float					length;
@@ -27,6 +29,11 @@ void						TransformSystem::updatePosition(TransformComponent *xform, MovementCom
 	if (length != 0.0f)
 		direction /= length;
 	xform->position += direction * mov->velocity * elapsed.asSeconds();
+}
+
+void						TransformSystem::applySpin(TransformComponent *xform, SpinComponent *spin, const sf::Time &elapsed)
+{
+	xform->rotation += spin->direction * spin->speed * elapsed.asSeconds();
 }
 
 void						TransformSystem::computeTransform(TransformComponent *xform)

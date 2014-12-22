@@ -33,6 +33,7 @@ public:
 	void								addTransformComponent(const unsigned int id, TransformComponent *xform);
 	void								addAnimationComponent(const unsigned int id, AnimationComponent *anim);
 	void								addMovementComponent(const unsigned int id, MovementComponent *mov);
+	void								addSpinComponent(const unsigned int id, SpinComponent *spin);
 	void								addEmitterComponent(const unsigned int id, EmitterComponent *emitter);
 	void								addParticleComponent(const unsigned int id, ParticleComponent *particle);
 	void								addTextComponent(const unsigned int id, TextComponent *text);
@@ -42,6 +43,7 @@ public:
 	void								removeTransformComponent(const unsigned int id);
 	void								removeAnimationComponent(const unsigned int id);
 	void								removeMovementComponent(const unsigned int id);
+	void								removeSpinComponent(const unsigned int id);
 	void								removeEmitterComponent(const unsigned int id);
 	void								removeParticleComponent(const unsigned int id);
 	void								removeTextComponent(const unsigned int id);
@@ -52,6 +54,7 @@ public:
 	std::vector<RenderComponent *>		renderComponents;
 	std::vector<TransformComponent *>	transformComponents;
 	std::vector<MovementComponent *>	movementComponents;
+	std::vector<SpinComponent *>		spinComponents;
 	std::vector<ParticleComponent *>	particleComponents;
 	std::vector<EmitterComponent *>		emitterComponents;
 	std::vector<AnimationComponent *>	animationComponents;
