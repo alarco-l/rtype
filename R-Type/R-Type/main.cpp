@@ -12,10 +12,11 @@ int								main()
 
 	std::srand(static_cast<unsigned int>(std::time(NULL)));
 
-	if (!game.initialize(sf::Vector2u(1280, 720), "R-Type"))
+	if (!game.initialize(sf::Vector2u(1280, 720), "R-Type")) {
+		system("pause");
 		return (EXIT_FAILURE);
+	}
 	game.run();
 	game.exit();
-
 	return (EXIT_SUCCESS);
 }

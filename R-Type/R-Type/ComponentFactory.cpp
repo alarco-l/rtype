@@ -20,11 +20,12 @@ TransformComponent				*ComponentFactory::createTransformComponent(const sf::Vect
 {
 	TransformComponent			*xform = new TransformComponent();
 
+
+	xform->size = size;
 	xform->position = pos;
 	xform->scale = sca;
 	xform->rotation = rot;
-	xform->origin = sf::Vector2f(0.0f, 0.0f);
-	xform->size = size;
+	xform->origin = sf::Vector2f();
 
 	return (xform);
 }

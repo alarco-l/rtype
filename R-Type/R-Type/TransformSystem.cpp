@@ -38,15 +38,10 @@ void						TransformSystem::applySpin(TransformComponent *xform, SpinComponent *s
 
 void						TransformSystem::computeTransform(TransformComponent *xform)
 {
-	float angle = -xform->rotation * 3.141592654f / 180.f;
-	float cosine = std::cosf(angle);
-	float sine = std::sinf(angle);
-	float sxc = xform->scale.x * cosine;
-	float syc = xform->scale.y * cosine;
-	float sxs = xform->scale.x * sine;
-	float sys = xform->scale.y * sine;
-	float tx = -xform->origin.x * sxc - xform->origin.y * sys + xform->position.x;
-	float ty = xform->origin.x * sxs - xform->origin.y * syc + xform->position.y;
-
-	xform->transform = sf::Transform(sxc, sys, tx, -sxs, syc, ty, 0.0f, 0.0f, 1.0f);
+	xform->transform = sf::Transform::Identity;
+	xform->transform.translate(xform->position);
+	xform->transform.translate(sf::Vector2f(xform->size.x / 2, xform->size.y / 2));
+	xform->transform.rotate(xform->rotation);
+	xform->transform.scale(xform->scale);
+	xform->transform.translate(sf::Vector2f(-xform->size.x / 2, -xform->size.y / 2));
 }

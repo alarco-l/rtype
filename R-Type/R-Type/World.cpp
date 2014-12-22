@@ -161,6 +161,11 @@ void									World::addMovementComponent(const unsigned int id, MovementComponen
 	movementComponents[id] = mov;
 }
 
+void									World::addSpinComponent(const unsigned int id, SpinComponent *spin)
+{
+	spinComponents[id] = spin;
+}
+
 void									World::addEmitterComponent(const unsigned int id, EmitterComponent *emitter)
 {
 	emitterComponents[id] = emitter;
@@ -197,6 +202,12 @@ void									World::removeAnimationComponent(const unsigned int id)
 {
 	delete (animationComponents[id]);
 	animationComponents[id] = NULL;
+}
+
+void									World::removeSpinComponent(const unsigned int id)
+{
+	delete (spinComponents[id]);
+	spinComponents[id] = NULL;
 }
 
 void									World::removeMovementComponent(const unsigned int id)

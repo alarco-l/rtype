@@ -103,7 +103,7 @@ bool										Game::loadTextures()
 		"textures/missile_icon.png",
 		"textures/mine_icon.png",
 		"textures/laser_icon.png",
-		"textures/load_icon.png"
+		"textures/load_icon.png",
 		"textures/hero.png",
 	};
 
