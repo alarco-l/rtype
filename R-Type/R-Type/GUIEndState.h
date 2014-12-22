@@ -5,22 +5,29 @@
 class							GUIEndState : public AState
 {
 public:
-	GUIEndState(Game *game);
+
+	enum Result
+	{
+		WIN,
+		LOSE
+	};
+
+	GUIEndState(Game *game, const Result &result);
 	~GUIEndState();
 
 	void						initialize(ResourceManager &resourceManager);
 	bool						handleEvents(const sf::Event &event);
+
 private:
-	enum Button
+	enum Element
 	{
-		TITLE,
 		TEXT,
-		TEXT2,
+		FILTER,
 		SCORE,
 		EXIT,
 		MAX
 	};
-
+	std::string					_result;
 	unsigned int				_state;
 	unsigned int				_id[MAX];
 };

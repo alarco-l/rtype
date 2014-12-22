@@ -1,5 +1,6 @@
 #include "GameState.h"
 #include "GUIPauseState.h"
+#include "GUIEndState.h"
 
 GameState::GameState(Game *game) : AState(game)
 {
@@ -13,6 +14,9 @@ GameState::~GameState()
 void						GameState::initialize(ResourceManager &resourceManager)
 {
 	this->initializeHUD(resourceManager);
+	unsigned int player = _world.createEmptyEntity();
+	_world.addRenderComponent(player, ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/hero.png")));
+	_world.addTransformComponent(player, ComponentFactory::createTransformComponent(sf::Vector2f(1021, 748), sf::Vector2f(0, 0), sf::Vector2f(0.15f, 0.15f)));
 }
 
 bool						GameState::handleEvents(const sf::Event &event)
@@ -22,7 +26,10 @@ bool						GameState::handleEvents(const sf::Event &event)
 		_game->pushState(new GUIPauseState(_game));
 		return (true);
 	}
-
+	if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::R) {
+		_game->pushState(new GUIEndState(_game, GUIEndState::LOSE));
+		return (true);
+	}
 	return (true);
 }
 
