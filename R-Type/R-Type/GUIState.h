@@ -8,7 +8,7 @@ public:
 	GUIState(Game *game);
 	~GUIState();
 
-	bool						initialize(ResourceManager &resourceManager);
+	void						initialize(ResourceManager &resourceManager);
 	bool						handleEvents(const sf::Event &event);
 private:
 	enum Button

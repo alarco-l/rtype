@@ -11,12 +11,14 @@ GUIPauseState::~GUIPauseState()
 {
 }
 
-bool						GUIPauseState::initialize(ResourceManager &resourceManager)
+void						GUIPauseState::initialize(ResourceManager &resourceManager)
 {
+	unsigned int			filter;
 	sf::Vector2u			screenSize = _game->getScreenSize();
 
-	if (!resourceManager.loadFont("fonts/SPACEBAR.ttf"))
-		return (false);
+	filter = _world.createEmptyEntity();
+	_world.addRenderComponent(filter, ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/unicolor.png"), sf::Color(0, 0, 0, 150)));
+	_world.addTransformComponent(filter, ComponentFactory::createTransformComponent(sf::Vector2f(screenSize), sf::Vector2f(0.0f, 0.0f)));
 
 	_id[CONTINUE] = _world.createEmptyEntity();
 	_world.addTextComponent(_id[CONTINUE], ComponentFactory::createTextComponent("Continue", resourceManager.getFont("fonts/SPACEBAR.ttf"), true, true, 80, sf::Color(255, 255, 255, 150)));
@@ -25,8 +27,6 @@ bool						GUIPauseState::initialize(ResourceManager &resourceManager)
 	_id[EXIT] = _world.createEmptyEntity();
 	_world.addTextComponent(_id[EXIT], ComponentFactory::createTextComponent("Quit", resourceManager.getFont("fonts/SPACEBAR.ttf"), true, false, 80, sf::Color(255, 255, 255, 150)));
 	_world.addTransformComponent(_id[EXIT], ComponentFactory::createTransformComponent(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, screenSize.y / 3.0f + 150.0f)));
-
-	return (true);
 }
 
 bool						GUIPauseState::handleEvents(const sf::Event &event)

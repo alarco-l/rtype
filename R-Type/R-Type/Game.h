@@ -24,6 +24,9 @@ private:
 	Game(const Game &rhs);
 	Game &operator=(const Game &rhs);
 
+	bool						loadTextures();
+	bool						loadFonts();
+
 	ResourceManager				_resourceManager;
 	sf::RenderWindow			*_window;
 	sf::Clock					_clock;

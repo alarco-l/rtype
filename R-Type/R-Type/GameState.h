@@ -8,7 +8,7 @@ public:
 	GameState(Game *game);
 	~GameState();
 
-	bool						initialize(ResourceManager &resourceManager);
+	void						initialize(ResourceManager &resourceManager);
 	bool						handleEvents(const sf::Event &event);
 	void						update(const sf::Time &elapsed);
 	void						updateHUD();
@@ -26,6 +26,8 @@ private:
 		WEAPON3,
 		MAX
 	};
+
+	void						initializeHUD(ResourceManager &resourceManager);
 
 	void						updateLife();
 	void						updateLifeBoss();

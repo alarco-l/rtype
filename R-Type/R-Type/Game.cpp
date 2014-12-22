@@ -20,6 +20,9 @@ bool										Game::initialize(const sf::Vector2u &size, const std::string &titl
 	if (!_window->isOpen())
 		return (false);
 
+	if (!this->loadTextures() || !this->loadFonts())
+		return (false);
+
 	this->pushState(new GUIState(this));
 	return (true);
 }
@@ -77,10 +80,8 @@ void										Game::exit()
 
 void										Game::pushState(AState *state)
 {
-	if (state->initialize(_resourceManager))
-		_states.push_back(state);
-	else
-		delete (state);
+	state->initialize(_resourceManager);
+	_states.push_back(state);
 }
 
 void										Game::popState()
@@ -91,4 +92,41 @@ void										Game::popState()
 sf::Vector2u								Game::getScreenSize() const
 {
 	return (_window->getSize());
+}
+
+bool										Game::loadTextures()
+{
+	std::string								textures[5] =
+	{
+		"textures/menu_background.png",
+		"textures/unicolor.png",
+		"textures/missile_icon.png",
+		"textures/mine_icon.png",
+		"textures/laser_icon.png",
+	};
+
+	for (unsigned int i = 0; i != 5; ++i)
+	{
+		if (!_resourceManager.loadTexture(textures[i]))
+			return (false);
+	}
+
+	return (true);
+}
+
+bool										Game::loadFonts()
+{
+	std::string								fonts[2] =
+	{
+		"fonts/SPACEBAR.ttf",
+		"fonts/BMSPA.ttf",
+	};
+
+	for (unsigned int i = 0; i != 2; ++i)
+	{
+		if (!_resourceManager.loadFont(fonts[i]))
+			return (false);
+	}
+
+	return (true);
 }
