@@ -11,7 +11,7 @@ public:
 	void						initialize(ResourceManager &resourceManager);
 	bool						handleEvents(const sf::Event &event);
 private:
-	enum Button
+	enum Element
 	{
 		BACKGROUND,
 		TITLE,

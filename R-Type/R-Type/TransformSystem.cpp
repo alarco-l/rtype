@@ -40,8 +40,6 @@ void						TransformSystem::computeTransform(TransformComponent *xform)
 {
 	xform->transform = sf::Transform::Identity;
 	xform->transform.translate(xform->position);
-	xform->transform.translate(sf::Vector2f(xform->size.x / 2, xform->size.y / 2));
-	xform->transform.rotate(xform->rotation);
+	xform->transform.rotate(xform->rotation, sf::Vector2f(xform->size.x / 2, xform->size.y / 2));
 	xform->transform.scale(xform->scale);
-	xform->transform.translate(sf::Vector2f(-xform->size.x / 2, -xform->size.y / 2));
 }

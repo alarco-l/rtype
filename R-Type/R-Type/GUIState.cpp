@@ -1,11 +1,11 @@
 #include "GUIState.h"
 #include "GameState.h"
-#include "GUILoadState.h"
+#include "GUIEndState.h"
 
 GUIState::GUIState(Game *game) : AState(game)
 {
 	_isBlocking = true;
-	_state = Button::CONNECT;
+	_state = Element::CONNECT;
 }
 
 GUIState::~GUIState()
@@ -45,20 +45,20 @@ bool						GUIState::handleEvents(const sf::Event &event)
 		{
 		case sf::Keyboard::Up:
 			if ((_state--) == 0)
-				_state = Button::EXIT;
+				_state = Element::EXIT;
 			_world.textComponents[_id[_state]]->highlighted = true;
 			_world.textComponents[_id[prev]]->highlighted = false;
 			return(true);
 
 		case sf::Keyboard::Down:
-			if ((++_state) == Button::MAX)
-				_state = Button::CONNECT;
+			if ((++_state) == Element::MAX)
+				_state = Element::CONNECT;
 			_world.textComponents[_id[_state]]->highlighted = true;
 			_world.textComponents[_id[prev]]->highlighted = false;
 			return(true);
 
 		case sf::Keyboard::Return:
-			if (_state == Button::CONNECT)
+			if (_state == Element::CONNECT)
 			{
 				_game->pushState(new GameState(_game));
 				return (true);

@@ -13,7 +13,7 @@ public:
 	void						update(const sf::Time &elapsed);
 	void						updateHUD();
 private:
-	enum HUD
+	enum Hud
 	{
 		LIFETEXT,
 		SHIELDTEXT,
