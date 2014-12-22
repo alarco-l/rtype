@@ -1,5 +1,6 @@
 #include "GUIState.h"
 #include "GameState.h"
+#include "GUILoad.h"
 
 GUIState::GUIState(Game *game) : AState(game)
 {
@@ -59,7 +60,7 @@ bool						GUIState::handleEvents(const sf::Event &event)
 		case sf::Keyboard::Return:
 			if (_state == Button::CONNECT)
 			{
-				_game->pushState(new GameState(_game));
+				_game->pushState(new GUILoad(_game));
 				return (true);
 			}
 			else

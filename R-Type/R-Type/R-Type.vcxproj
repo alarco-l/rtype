@@ -102,6 +102,9 @@ copy $(SolutionDir)SFML-2.1\lib\sfml-window-2.dll $(OutDir)sfml-window-2.dll
     <ClInclude Include="EmitterComponent.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameState.h" />
+    <ClInclude Include="GUIEndState.cpp" />
+    <ClInclude Include="GUIEndState.h" />
+    <ClInclude Include="GUILoad.h" />
     <ClInclude Include="GUIPauseState.h" />
     <ClInclude Include="GUIState.h" />
     <ClInclude Include="IRFC.h" />
@@ -127,6 +130,7 @@ copy $(SolutionDir)SFML-2.1\lib\sfml-window-2.dll $(OutDir)sfml-window-2.dll
     <ClCompile Include="ComponentFactory.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameState.cpp" />
+    <ClCompile Include="GUILoad.cpp" />
     <ClCompile Include="GUIPauseState.cpp" />
     <ClCompile Include="GUIState.cpp" />
     <ClCompile Include="main.cpp" />
