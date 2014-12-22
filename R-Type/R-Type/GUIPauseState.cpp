@@ -51,6 +51,10 @@ bool						GUIPauseState::handleEvents(const sf::Event &event)
 			_world.textComponents[_id[prev]]->highlighted = false;
 			return(true);
 
+		case sf::Keyboard::Escape:
+			_game->popState();
+			return (false);
+
 		case sf::Keyboard::Return:
 			if (_state == Button::CONTINUE)
 			{

@@ -60,7 +60,7 @@ bool						GUIState::handleEvents(const sf::Event &event)
 		case sf::Keyboard::Return:
 			if (_state == Button::CONNECT)
 			{
-				_game->pushState(new GUILoadState(_game));
+				_game->pushState(new GameState(_game));
 				return (true);
 			}
 			else
