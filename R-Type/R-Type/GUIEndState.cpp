@@ -33,7 +33,11 @@ void						GUIEndState::initialize(ResourceManager &resourceManager)
 	_world.addTransformComponent(_id[EXIT], ComponentFactory::createTransformComponent(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, screenSize.y - screenSize.y / 3.0f)));
 }
 
-bool						GUIEndState::handleEvents(const sf::Event &event)
+bool						GUIEndState::handleKeyState() {
+	return (true);
+}
+
+bool						GUIEndState::handleKeyEvent(const sf::Event &event)
 {
 	_state = Element::EXIT;
 	_world.textComponents[_id[_state]]->highlighted = true;

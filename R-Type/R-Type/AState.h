@@ -16,7 +16,8 @@ public:
 	virtual void				initialize(ResourceManager &resourceManager) = 0;
 	virtual void				update(const sf::Time &elapsed);
 	virtual void				draw(sf::RenderWindow *window);
-	virtual bool				handleEvents(const sf::Event &event) = 0;
+	virtual bool				handleKeyEvent(const sf::Event &event) = 0;
+	virtual bool				handleKeyState() = 0;
 	virtual bool				isBlocking() const;
 protected:
 	bool						_isBlocking;

@@ -33,7 +33,11 @@ void						GUILoadState::initialize(ResourceManager &resourceManager)
 	_world.addTransformComponent(_id[IMG], ComponentFactory::createTransformComponent(sf::Vector2f(175, 175), sf::Vector2f(screenSize.x - screenSize.x / 2.0f - 87.5f, screenSize.y/2 + 100.0f)));
 }
 
-bool						GUILoadState::handleEvents(const sf::Event &event)
+bool						GUILoadState::handleKeyState() {
+	return (true);
+}
+
+bool						GUILoadState::handleKeyEvent(const sf::Event &event)
 {
 	return (true);
 }

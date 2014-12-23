@@ -35,7 +35,11 @@ void						GUIState::initialize(ResourceManager &resourceManager)
 	_world.addTransformComponent(_id[EXIT], ComponentFactory::createTransformComponent(sf::Vector2f(), sf::Vector2f(0.0f, screenSize.y / 3.0f + 150.0f)));
 }
 
-bool						GUIState::handleEvents(const sf::Event &event)
+bool						GUIState::handleKeyState() {
+	return (true);
+}
+
+bool						GUIState::handleKeyEvent(const sf::Event &event)
 {
 	if (event.type == sf::Event::KeyPressed)
 	{

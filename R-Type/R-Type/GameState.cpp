@@ -11,18 +11,40 @@ GameState::~GameState()
 {
 }
 
+void						GameState::initializePlayer(ResourceManager &resourceManager) {
+	 //create player
+	_idPlayer = _world.createEmptyEntity();
+	_world.addRenderComponent(_idPlayer, ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/hero.png"), 1));
+	_world.addTransformComponent(_idPlayer, ComponentFactory::createTransformComponent(sf::Vector2f(1021, 748), sf::Vector2f(0, 0), sf::Vector2f(0.15f, 0.15f)));
+	_world.addMovementComponent(_idPlayer, ComponentFactory::createMovementComponent(200, sf::Vector2f()));
+}
+
 void						GameState::initialize(ResourceManager &resourceManager)
 {
 	this->initializeBackground(resourceManager);
 	this->initializeHUD(resourceManager);
-
-	// create player
-	/*unsigned int player = _world.createEmptyEntity();
-	_world.addRenderComponent(player, ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/hero.png")));
-	_world.addTransformComponent(player, ComponentFactory::createTransformComponent(sf::Vector2f(1021, 748), sf::Vector2f(0, 0), sf::Vector2f(0.15f, 0.15f)));*/
+	this->initializePlayer(resourceManager);
 }
 
-bool						GameState::handleEvents(const sf::Event &event)
+
+bool						GameState::handleKeyState() {
+	_world.movementComponents[_idPlayer]->direction = sf::Vector2f();
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+		_world.movementComponents[_idPlayer]->direction += sf::Vector2f(0, -1);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+		_world.movementComponents[_idPlayer]->direction += sf::Vector2f(0, 1);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+		_world.movementComponents[_idPlayer]->direction += sf::Vector2f(-1, 0);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+		_world.movementComponents[_idPlayer]->direction += sf::Vector2f(1, 0);
+	}
+	return (true);
+}
+
+bool						GameState::handleKeyEvent(const sf::Event &event)
 {
 	if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
 	{
@@ -35,7 +57,6 @@ bool						GameState::handleEvents(const sf::Event &event)
 		_game->pushState(new GUIEndState(_game, GUIEndState::LOSE));
 		return (true);
 	}
-
 	return (true);
 }
 
@@ -47,6 +68,7 @@ void						GameState::update(const sf::Time &elapsed)
 	AnimationSystem::update(_world, elapsed);
 	this->updateBackground();
 	this->updateHUD();
+	this->updatePlayer();
 }
 
 void						GameState::initializeHUD(ResourceManager &resourceManager)
@@ -140,4 +162,7 @@ void						GameState::updateAmo() {
 	//_world.renderComponents[_id[AMO1]]
 	//_world.renderComponents[_id[AMO2]]
 	//_world.renderComponents[_id[AMO3]]
+}
+void						GameState::updatePlayer() {
+	_world.movementComponents[_idPlayer]->direction = sf::Vector2f(0, 0);
 }

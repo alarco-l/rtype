@@ -43,10 +43,10 @@ void										Game::run()
 		state = _states.back();
 		while (_window->pollEvent(event))
 		{
-			if (!state->handleEvents(event))
+			if (!state->handleKeyEvent(event))
 				break;
 		}
-
+		state->handleKeyState();
 		elapsed = _clock.restart();
 		_window->clear();
 

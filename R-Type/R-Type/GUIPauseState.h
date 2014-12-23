@@ -9,7 +9,9 @@ public:
 	~GUIPauseState();
 
 	void						initialize(ResourceManager &resourceManager);
-	bool						handleEvents(const sf::Event &event);
+	bool						handleKeyEvent(const sf::Event &event);
+	bool						handleKeyState();
+
 private:
 	enum Element
 	{

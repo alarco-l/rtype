@@ -9,7 +9,8 @@ public:
 	~GameState();
 
 	void						initialize(ResourceManager &resourceManager);
-	bool						handleEvents(const sf::Event &event);
+	bool						handleKeyEvent(const sf::Event &event);
+	bool						handleKeyState();
 	void						update(const sf::Time &elapsed);
 	
 private:
@@ -28,9 +29,11 @@ private:
 	};
 
 	void						initializeHUD(ResourceManager &resourceManager);
+	void						initializePlayer(ResourceManager &resourceManager);
 	void						initializeBackground(ResourceManager &resourceManager);
 
 	void						updateHUD();
+	void						updatePlayer();
 	void						updateBackground();
 
 
