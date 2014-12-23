@@ -17,7 +17,7 @@ void						GUIEndState::initialize(ResourceManager &resourceManager)
 	sf::Vector2u			screenSize = _game->getScreenSize();
 
 	_id[FILTER] = _world.createEmptyEntity();
-	_world.addRenderComponent(_id[FILTER], ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/unicolor.png"), sf::Color(0, 0, 0, 150)));
+	_world.addRenderComponent(_id[FILTER], ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/unicolor.png"), 0, sf::Color(0, 0, 0, 150)));
 	_world.addTransformComponent(_id[FILTER], ComponentFactory::createTransformComponent(sf::Vector2f(screenSize), sf::Vector2f(0.0f, 0.0f)));
 
 	_id[TEXT] = _world.createEmptyEntity();

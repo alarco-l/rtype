@@ -6,6 +6,7 @@ class							ComponentFactory
 {
 public:
 	static RenderComponent		*createRenderComponent(const sf::Texture * const tex,
+													   const unsigned int plane = 0,
 													   const sf::Color &color = sf::Color::White);
 
 	static TransformComponent	*createTransformComponent(const sf::Vector2f &size,

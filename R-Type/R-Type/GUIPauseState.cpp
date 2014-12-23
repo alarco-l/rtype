@@ -17,7 +17,7 @@ void						GUIPauseState::initialize(ResourceManager &resourceManager)
 	sf::Vector2u			screenSize = _game->getScreenSize();
 
 	filter = _world.createEmptyEntity();
-	_world.addRenderComponent(filter, ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/unicolor.png"), sf::Color(0, 0, 0, 150)));
+	_world.addRenderComponent(filter, ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/unicolor.png"), 0, sf::Color(0, 0, 0, 150)));
 	_world.addTransformComponent(filter, ComponentFactory::createTransformComponent(sf::Vector2f(screenSize), sf::Vector2f(0.0f, 0.0f)));
 
 	_id[CONTINUE] = _world.createEmptyEntity();

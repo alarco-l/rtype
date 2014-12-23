@@ -39,8 +39,6 @@ bool						GameState::handleEvents(const sf::Event &event)
 	return (true);
 }
 
-
-
 void						GameState::update(const sf::Time &elapsed)
 {
 	ParticleSystem::update(_world, elapsed);
@@ -60,7 +58,7 @@ void						GameState::initializeHUD(ResourceManager &resourceManager)
 	_world.addTransformComponent(_idHud[SHIELDTEXT], ComponentFactory::createTransformComponent(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(25.0f, screenSize.y - 38.0f)));
 
 	_idHud[SHIELDBAR] = _world.createEmptyEntity();
-	_world.addRenderComponent(_idHud[SHIELDBAR], ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/unicolor.png"), sf::Color(13, 205, 248)));
+	_world.addRenderComponent(_idHud[SHIELDBAR], ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/unicolor.png"), 0, sf::Color(13, 205, 248)));
 	_world.addTransformComponent(_idHud[SHIELDBAR], ComponentFactory::createTransformComponent(sf::Vector2f(200, 10), sf::Vector2f(120.0f, screenSize.y - 30.0f)));
 
 	_idHud[LIFETEXT] = _world.createEmptyEntity();
@@ -68,11 +66,11 @@ void						GameState::initializeHUD(ResourceManager &resourceManager)
 	_world.addTransformComponent(_idHud[LIFETEXT], ComponentFactory::createTransformComponent(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(25.0f, screenSize.y - 58.0f)));
 
 	_idHud[LIFEBAR] = _world.createEmptyEntity();
-	_world.addRenderComponent(_idHud[LIFEBAR], ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/unicolor.png"), sf::Color::Green));
+	_world.addRenderComponent(_idHud[LIFEBAR], ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/unicolor.png"), 0, sf::Color::Green));
 	_world.addTransformComponent(_idHud[LIFEBAR], ComponentFactory::createTransformComponent(sf::Vector2f(200, 10), sf::Vector2f(120.0f, screenSize.y - 50.0f)));
 
 	_idHud[BOSSLIFEBAR] = _world.createEmptyEntity();
-	_world.addRenderComponent(_idHud[BOSSLIFEBAR], ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/unicolor.png"), sf::Color::Red));
+	_world.addRenderComponent(_idHud[BOSSLIFEBAR], ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/unicolor.png"), 0, sf::Color::Red));
 	_world.addTransformComponent(_idHud[BOSSLIFEBAR], ComponentFactory::createTransformComponent(sf::Vector2f(500, 10), sf::Vector2f(screenSize.x / 2 - 250.0f, 50.0f)));
 
 	_idHud[WEAPON1] = _world.createEmptyEntity();
@@ -84,7 +82,7 @@ void						GameState::initializeHUD(ResourceManager &resourceManager)
 	_world.addTransformComponent(_idHud[WEAPON2], ComponentFactory::createTransformComponent(sf::Vector2f(50, 50), sf::Vector2f(screenSize.x - screenSize.x / 7.0f + 70, screenSize.y - 70.0f)));
 
 	_idHud[WEAPON3] = _world.createEmptyEntity();
-	_world.addRenderComponent(_idHud[WEAPON3], ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/missile_icon.png"), sf::Color::Green));
+	_world.addRenderComponent(_idHud[WEAPON3], ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/missile_icon.png"), 0, sf::Color::Green));
 	_world.addTransformComponent(_idHud[WEAPON3], ComponentFactory::createTransformComponent(sf::Vector2f(50, 50), sf::Vector2f(screenSize.x - screenSize.x / 7.0f - 70, screenSize.y - 70.0f)));
 
 	_idHud[SCORE] = _world.createEmptyEntity();
@@ -95,13 +93,13 @@ void						GameState::initializeHUD(ResourceManager &resourceManager)
 void						GameState::initializeBackground(ResourceManager &resourceManager)
 {
 	_idBackground[0] = _world.createEmptyEntity();
-	_world.addRenderComponent(_idBackground[0], ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/background.png")));
+	_world.addRenderComponent(_idBackground[0], ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/background.png"), 30));
 	_world.addTransformComponent(_idBackground[0], ComponentFactory::createTransformComponent(sf::Vector2f(_game->getScreenSize()), sf::Vector2f(0.0f, 0.0f)));
 	_world.addScrollComponent(_idBackground[0], ComponentFactory::createScrollComponent(20.0f));
 
 	_idBackground[1] = _world.createEmptyEntity();
-	_world.addRenderComponent(_idBackground[1], ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/background_reversed.png")));
-	_world.addTransformComponent(_idBackground[1], ComponentFactory::createTransformComponent(sf::Vector2f(_game->getScreenSize()), sf::Vector2f(_game->getScreenSize().x, 0.0f)));
+	_world.addRenderComponent(_idBackground[1], ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/background_reversed.png"), 25));
+	_world.addTransformComponent(_idBackground[1], ComponentFactory::createTransformComponent(sf::Vector2f(_game->getScreenSize()), sf::Vector2f(static_cast<float>(_game->getScreenSize().x), 0.0f)));
 	_world.addScrollComponent(_idBackground[1], ComponentFactory::createScrollComponent(20.0f));
 }
 

@@ -1,14 +1,15 @@
 #include "ComponentFactory.h"
 
 RenderComponent					*ComponentFactory::createRenderComponent(const sf::Texture * const tex,
+																		 const unsigned int plane,
 																		 const sf::Color &color)
 {
 	RenderComponent				*render = new RenderComponent();
-	sf::Vector2f				textureSize(tex->getSize());
 
 	render->texture = tex;
 	render->vertices = sf::VertexArray(sf::Quads, 4);
 	render->color = color;
+	render->plane = plane;
 
 	return (render);
 }
