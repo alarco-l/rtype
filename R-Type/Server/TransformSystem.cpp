@@ -30,12 +30,12 @@ void							TransformSystem::applyScroll(TransformComponent *xform, ScrollCompone
 void						TransformSystem::applyMovement(TransformComponent *xform, MovementComponent *mov, const sf::Time &elapsed)
 {
 	sf::Vector2f			direction;
-	float					length;
+	//float					length;
 
 	direction = mov->direction;
-	length = sqrt(direction.x * direction.x + direction.y * direction.y);
-	if (length != 0.0f)
-		direction /= length;
+	//length = sqrt(direction.x * direction.x + direction.y * direction.y);
+	//if (length != 0.0f)
+	//	direction /= length;
 	xform->position += direction * mov->velocity * elapsed.asSeconds();
 }
 
