@@ -115,3 +115,13 @@ CollisionComponent				*ComponentFactory::createCollisionComponent()
 
 	return (col);
 }
+
+ScrollComponent					*ComponentFactory::createScrollComponent(const float speed, const sf::Vector2f &direction)
+{
+	ScrollComponent				*scroll = new ScrollComponent();
+
+	scroll->speed = speed;
+	scroll->direction = direction;
+
+	return (scroll);
+}

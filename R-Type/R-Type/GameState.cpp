@@ -13,10 +13,13 @@ GameState::~GameState()
 
 void						GameState::initialize(ResourceManager &resourceManager)
 {
+	this->initializeBackground(resourceManager);
 	this->initializeHUD(resourceManager);
-	unsigned int player = _world.createEmptyEntity();
+
+	// create player
+	/*unsigned int player = _world.createEmptyEntity();
 	_world.addRenderComponent(player, ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/hero.png")));
-	_world.addTransformComponent(player, ComponentFactory::createTransformComponent(sf::Vector2f(1021, 748), sf::Vector2f(0, 0), sf::Vector2f(0.15f, 0.15f)));
+	_world.addTransformComponent(player, ComponentFactory::createTransformComponent(sf::Vector2f(1021, 748), sf::Vector2f(0, 0), sf::Vector2f(0.15f, 0.15f)));*/
 }
 
 bool						GameState::handleEvents(const sf::Event &event)
@@ -26,10 +29,13 @@ bool						GameState::handleEvents(const sf::Event &event)
 		_game->pushState(new GUIPauseState(_game));
 		return (true);
 	}
+
+	// simuler une fin de partie
 	if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::R) {
 		_game->pushState(new GUIEndState(_game, GUIEndState::LOSE));
 		return (true);
 	}
+
 	return (true);
 }
 
@@ -41,6 +47,7 @@ void						GameState::update(const sf::Time &elapsed)
 	TransformSystem::update(_world, elapsed);
 	CollisionSystem::update(_world, sf::Vector2u(10, 10), _game->getScreenSize());
 	AnimationSystem::update(_world, elapsed);
+	this->updateBackground();
 	this->updateHUD();
 }
 
@@ -48,41 +55,54 @@ void						GameState::initializeHUD(ResourceManager &resourceManager)
 {
 	sf::Vector2u			screenSize = _game->getScreenSize();
 
-	_id[SHIELDTEXT] = _world.createEmptyEntity();
-	_world.addTextComponent(_id[SHIELDTEXT], ComponentFactory::createTextComponent("Shield", resourceManager.getFont("fonts/BMSPA.ttf"), false, false, 18, sf::Color(255, 255, 255, 255)));
-	_world.addTransformComponent(_id[SHIELDTEXT], ComponentFactory::createTransformComponent(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(25.0f, screenSize.y - 38.0f)));
+	_idHud[SHIELDTEXT] = _world.createEmptyEntity();
+	_world.addTextComponent(_idHud[SHIELDTEXT], ComponentFactory::createTextComponent("Shield", resourceManager.getFont("fonts/BMSPA.ttf"), false, false, 18, sf::Color(255, 255, 255, 255)));
+	_world.addTransformComponent(_idHud[SHIELDTEXT], ComponentFactory::createTransformComponent(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(25.0f, screenSize.y - 38.0f)));
 
-	_id[SHIELDBAR] = _world.createEmptyEntity();
-	_world.addRenderComponent(_id[SHIELDBAR], ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/unicolor.png"), sf::Color(13, 205, 248)));
-	_world.addTransformComponent(_id[SHIELDBAR], ComponentFactory::createTransformComponent(sf::Vector2f(200, 10), sf::Vector2f(120.0f, screenSize.y - 30.0f)));
+	_idHud[SHIELDBAR] = _world.createEmptyEntity();
+	_world.addRenderComponent(_idHud[SHIELDBAR], ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/unicolor.png"), sf::Color(13, 205, 248)));
+	_world.addTransformComponent(_idHud[SHIELDBAR], ComponentFactory::createTransformComponent(sf::Vector2f(200, 10), sf::Vector2f(120.0f, screenSize.y - 30.0f)));
 
-	_id[LIFETEXT] = _world.createEmptyEntity();
-	_world.addTextComponent(_id[LIFETEXT], ComponentFactory::createTextComponent("Life", resourceManager.getFont("fonts/BMSPA.ttf"), false, false, 18, sf::Color(255, 255, 255, 255)));
-	_world.addTransformComponent(_id[LIFETEXT], ComponentFactory::createTransformComponent(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(25.0f, screenSize.y - 58.0f)));
+	_idHud[LIFETEXT] = _world.createEmptyEntity();
+	_world.addTextComponent(_idHud[LIFETEXT], ComponentFactory::createTextComponent("Life", resourceManager.getFont("fonts/BMSPA.ttf"), false, false, 18, sf::Color(255, 255, 255, 255)));
+	_world.addTransformComponent(_idHud[LIFETEXT], ComponentFactory::createTransformComponent(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(25.0f, screenSize.y - 58.0f)));
 
-	_id[LIFEBAR] = _world.createEmptyEntity();
-	_world.addRenderComponent(_id[LIFEBAR], ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/unicolor.png"), sf::Color::Green));
-	_world.addTransformComponent(_id[LIFEBAR], ComponentFactory::createTransformComponent(sf::Vector2f(200, 10), sf::Vector2f(120.0f, screenSize.y - 50.0f)));
+	_idHud[LIFEBAR] = _world.createEmptyEntity();
+	_world.addRenderComponent(_idHud[LIFEBAR], ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/unicolor.png"), sf::Color::Green));
+	_world.addTransformComponent(_idHud[LIFEBAR], ComponentFactory::createTransformComponent(sf::Vector2f(200, 10), sf::Vector2f(120.0f, screenSize.y - 50.0f)));
 
-	_id[BOSSLIFEBAR] = _world.createEmptyEntity();
-	_world.addRenderComponent(_id[BOSSLIFEBAR], ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/unicolor.png"), sf::Color::Red));
-	_world.addTransformComponent(_id[BOSSLIFEBAR], ComponentFactory::createTransformComponent(sf::Vector2f(500, 10), sf::Vector2f(screenSize.x / 2 - 250.0f, 50.0f)));
+	_idHud[BOSSLIFEBAR] = _world.createEmptyEntity();
+	_world.addRenderComponent(_idHud[BOSSLIFEBAR], ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/unicolor.png"), sf::Color::Red));
+	_world.addTransformComponent(_idHud[BOSSLIFEBAR], ComponentFactory::createTransformComponent(sf::Vector2f(500, 10), sf::Vector2f(screenSize.x / 2 - 250.0f, 50.0f)));
 
-	_id[WEAPON1] = _world.createEmptyEntity();
-	_world.addRenderComponent(_id[WEAPON1], ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/laser_icon.png")));
-	_world.addTransformComponent(_id[WEAPON1], ComponentFactory::createTransformComponent(sf::Vector2f(50, 50), sf::Vector2f(screenSize.x - screenSize.x / 7.0f, screenSize.y - 70.0f)));
+	_idHud[WEAPON1] = _world.createEmptyEntity();
+	_world.addRenderComponent(_idHud[WEAPON1], ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/laser_icon.png")));
+	_world.addTransformComponent(_idHud[WEAPON1], ComponentFactory::createTransformComponent(sf::Vector2f(50, 50), sf::Vector2f(screenSize.x - screenSize.x / 7.0f, screenSize.y - 70.0f)));
 
-	_id[WEAPON2] = _world.createEmptyEntity();
-	_world.addRenderComponent(_id[WEAPON2], ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/mine_icon.png")));
-	_world.addTransformComponent(_id[WEAPON2], ComponentFactory::createTransformComponent(sf::Vector2f(50, 50), sf::Vector2f(screenSize.x - screenSize.x / 7.0f + 70, screenSize.y - 70.0f)));
+	_idHud[WEAPON2] = _world.createEmptyEntity();
+	_world.addRenderComponent(_idHud[WEAPON2], ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/mine_icon.png")));
+	_world.addTransformComponent(_idHud[WEAPON2], ComponentFactory::createTransformComponent(sf::Vector2f(50, 50), sf::Vector2f(screenSize.x - screenSize.x / 7.0f + 70, screenSize.y - 70.0f)));
 
-	_id[WEAPON3] = _world.createEmptyEntity();
-	_world.addRenderComponent(_id[WEAPON3], ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/missile_icon.png"), sf::Color::Green));
-	_world.addTransformComponent(_id[WEAPON3], ComponentFactory::createTransformComponent(sf::Vector2f(50, 50), sf::Vector2f(screenSize.x - screenSize.x / 7.0f - 70, screenSize.y - 70.0f)));
+	_idHud[WEAPON3] = _world.createEmptyEntity();
+	_world.addRenderComponent(_idHud[WEAPON3], ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/missile_icon.png"), sf::Color::Green));
+	_world.addTransformComponent(_idHud[WEAPON3], ComponentFactory::createTransformComponent(sf::Vector2f(50, 50), sf::Vector2f(screenSize.x - screenSize.x / 7.0f - 70, screenSize.y - 70.0f)));
 
-	_id[SCORE] = _world.createEmptyEntity();
-	_world.addTextComponent(_id[SCORE], ComponentFactory::createTextComponent("Score : 1000000", resourceManager.getFont("fonts/BMSPA.ttf"), true, false, 18, sf::Color(255, 255, 255, 255)));
-	_world.addTransformComponent(_id[SCORE], ComponentFactory::createTransformComponent(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0, 15.0f)));
+	_idHud[SCORE] = _world.createEmptyEntity();
+	_world.addTextComponent(_idHud[SCORE], ComponentFactory::createTextComponent("Score : 1000000", resourceManager.getFont("fonts/BMSPA.ttf"), true, false, 18, sf::Color(255, 255, 255, 255)));
+	_world.addTransformComponent(_idHud[SCORE], ComponentFactory::createTransformComponent(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0, 15.0f)));
+}
+
+void						GameState::initializeBackground(ResourceManager &resourceManager)
+{
+	_idBackground[0] = _world.createEmptyEntity();
+	_world.addRenderComponent(_idBackground[0], ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/background.png")));
+	_world.addTransformComponent(_idBackground[0], ComponentFactory::createTransformComponent(sf::Vector2f(_game->getScreenSize()), sf::Vector2f(0.0f, 0.0f)));
+	_world.addScrollComponent(_idBackground[0], ComponentFactory::createScrollComponent(20.0f));
+
+	_idBackground[1] = _world.createEmptyEntity();
+	_world.addRenderComponent(_idBackground[1], ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/background_reversed.png")));
+	_world.addTransformComponent(_idBackground[1], ComponentFactory::createTransformComponent(sf::Vector2f(_game->getScreenSize()), sf::Vector2f(_game->getScreenSize().x, 0.0f)));
+	_world.addScrollComponent(_idBackground[1], ComponentFactory::createScrollComponent(20.0f));
 }
 
 void						GameState::updateHUD()
@@ -93,6 +113,14 @@ void						GameState::updateHUD()
 	this->updateAmo();
 }
 
+void						GameState::updateBackground()
+{
+	if (_world.transformComponents[_idBackground[0]]->position.x + _world.transformComponents[_idBackground[0]]->size.x <= 0.0f)
+		_world.transformComponents[_idBackground[0]]->position.x = _world.transformComponents[_idBackground[0]]->size.x;
+
+	if (_world.transformComponents[_idBackground[1]]->position.x + _world.transformComponents[_idBackground[1]]->size.x <= 0.0f)
+		_world.transformComponents[_idBackground[1]]->position.x = _world.transformComponents[_idBackground[1]]->size.x;
+}
 
 void						GameState::updateLife() {
 	//_world.renderComponents[_id[LIFEBAR]]

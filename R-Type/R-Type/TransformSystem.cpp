@@ -5,11 +5,14 @@ void						TransformSystem::update(World &world, const sf::Time &elapsed)
 	for (unsigned int i = 0; i != world.entityCount; ++i)
 	{
 		TransformComponent	*xform = world.transformComponents[i];
+		ScrollComponent		*scroll = world.scrollComponent[i];
 		MovementComponent	*mov = world.movementComponents[i];
 		SpinComponent		*spin = world.spinComponents[i];
 
 		if (xform)
 		{
+			if (scroll)
+				applyScroll(xform, scroll, elapsed);
 			if (mov)
 				applyMovement(xform, mov, elapsed);
 			if (spin)
@@ -17,6 +20,11 @@ void						TransformSystem::update(World &world, const sf::Time &elapsed)
 			computeTransform(xform);
 		}
 	}
+}
+
+void							TransformSystem::applyScroll(TransformComponent *xform, ScrollComponent *scroll, const sf::Time &elapsed)
+{
+	xform->position += scroll->direction * scroll->speed * elapsed.asSeconds();
 }
 
 void						TransformSystem::applyMovement(TransformComponent *xform, MovementComponent *mov, const sf::Time &elapsed)

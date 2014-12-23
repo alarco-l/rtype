@@ -9,3 +9,4 @@
 #include "AnimationComponent.h"
 #include "TextComponent.h"
 #include "CollisionComponent.h"
+#include "ScrollComponent.h"

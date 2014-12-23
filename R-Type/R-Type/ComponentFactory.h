@@ -39,6 +39,8 @@ public:
 
 	static CollisionComponent	*createCollisionComponent();
 
+	static ScrollComponent		*createScrollComponent(const float speed, const sf::Vector2f &direction = sf::Vector2f(-1.0f, 0.0f));
+
 private:
 	ComponentFactory();
 };
