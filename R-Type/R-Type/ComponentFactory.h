@@ -29,7 +29,7 @@ public:
 														const sf::Vector2f &velocityInterval = sf::Vector2f(30.0f, 100.0f),
 														const sf::Vector2f &scaleInterval = sf::Vector2f(1.0f, 1.0f));
 
-	static ParticleComponent	*createParticleComponent(const sf::Time &lifetime);
+	static ParticleComponent	*createParticleComponent(const sf::Time &lifetime, unsigned int emitterId);
 
 	static TextComponent		*createTextComponent(const std::string &string,
 													 const sf::Font * const font,

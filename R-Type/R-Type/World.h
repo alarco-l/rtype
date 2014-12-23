@@ -22,10 +22,12 @@ public:
 															 const sf::Vector2f &position,
 															 const sf::Vector2f &scale = sf::Vector2f(1.0f, 1.0f),
 															 const float velocity = 50.0f);
+	*/
+	
 	const unsigned int					createParticleEffect(const unsigned int maxParticleCount,
 															 const bool respawn,
 															 const sf::Texture * const texture,
-															 const sf::Vector2f &position = sf::Vector2f(0.0f, 0.0f));*/
+															 const sf::Vector2f &position, const sf::Vector2f &lifeTime, const sf::Vector2f &scale = sf::Vector2f(1,1));
 
 	const unsigned int					createEmptyEntity();
 

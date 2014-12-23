@@ -59,8 +59,8 @@ void							ParticleSystem::resetParticle(World &world, const unsigned int id)
 			float				scale;
 
 			scale = std::fmodf(static_cast<float>(std::rand()), scaleInterval.y - scaleInterval.x + 0.000001f) + scaleInterval.x;
-			xform->scale.x = scale;
-			xform->scale.y = scale;
+			xform->scale.x *= scale;
+			xform->scale.y *= scale;
 			xform->position = emitterPos;
 		}
 	}

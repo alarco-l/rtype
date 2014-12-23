@@ -81,10 +81,11 @@ EmitterComponent				*ComponentFactory::createEmitterComponent(const sf::Vector2f
 	return (emitter);
 }
 
-ParticleComponent				*ComponentFactory::createParticleComponent(const sf::Time &lifetime)
+ParticleComponent				*ComponentFactory::createParticleComponent(const sf::Time &lifetime, unsigned int emitterId)
 {
 	ParticleComponent			*particle = new ParticleComponent();
 
+	particle->emitterId = emitterId;
 	particle->maxLifetime = lifetime;
 	particle->lifetime = lifetime;
 

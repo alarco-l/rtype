@@ -27,13 +27,19 @@ private:
 		WEAPON3,
 		MAX
 	};
+	enum PlayerPart
+	{
+		SHIP,
+		MOTORUP,
+		MOTORDOWN,
+		MAXPART
+	};
 
 	void						initializeHUD(ResourceManager &resourceManager);
 	void						initializePlayer(ResourceManager &resourceManager);
 	void						initializeBackground(ResourceManager &resourceManager);
 
 	void						updateHUD();
-	void						updatePlayer();
 	void						updateBackground();
 
 
@@ -44,7 +50,7 @@ private:
 	void						updateScore();
 
 	int							_idBoss;
-	int							_idPlayer;
+	int							_idPlayer[MAXPART];
 	unsigned int				_idHud[MAX];
 	unsigned int				_idBackground[2];
 };

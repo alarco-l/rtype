@@ -12,11 +12,17 @@ GameState::~GameState()
 }
 
 void						GameState::initializePlayer(ResourceManager &resourceManager) {
-	 //create player
-	_idPlayer = _world.createEmptyEntity();
-	_world.addRenderComponent(_idPlayer, ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/hero.png"), 1));
-	_world.addTransformComponent(_idPlayer, ComponentFactory::createTransformComponent(sf::Vector2f(1021, 748), sf::Vector2f(0, 0), sf::Vector2f(0.15f, 0.15f)));
-	_world.addMovementComponent(_idPlayer, ComponentFactory::createMovementComponent(200, sf::Vector2f()));
+	_idPlayer[SHIP] = _world.createEmptyEntity();
+	_world.addRenderComponent(_idPlayer[SHIP], ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/hero.png"), 1));
+	_world.addTransformComponent(_idPlayer[SHIP], ComponentFactory::createTransformComponent(sf::Vector2f(1021, 748), sf::Vector2f(0, 0), sf::Vector2f(0.15f, 0.15f)));
+	_world.addMovementComponent(_idPlayer[SHIP], ComponentFactory::createMovementComponent(500, sf::Vector2f()));
+
+	_idPlayer[MOTORUP] = _world.createParticleEffect(20, true, resourceManager.getTexture("textures/fireMotor.png"), sf::Vector2f(-18, 0), sf::Vector2f(0.14f, 0.2f), sf::Vector2f(0.3f,0.3f));
+	_world.addMovementComponent(_idPlayer[MOTORUP], ComponentFactory::createMovementComponent(500, sf::Vector2f()));
+
+
+	_idPlayer[MOTORDOWN] = _world.createParticleEffect(20, true, resourceManager.getTexture("textures/fireMotor.png"), sf::Vector2f(-18,81), sf::Vector2f(0.14f, 0.2f), sf::Vector2f(0.3f, 0.3f));
+	_world.addMovementComponent(_idPlayer[MOTORDOWN], ComponentFactory::createMovementComponent(500, sf::Vector2f()));
 }
 
 void						GameState::initialize(ResourceManager &resourceManager)
@@ -28,18 +34,41 @@ void						GameState::initialize(ResourceManager &resourceManager)
 
 
 bool						GameState::handleKeyState() {
-	_world.movementComponents[_idPlayer]->direction = sf::Vector2f();
+	_world.movementComponents[_idPlayer[SHIP]]->direction = sf::Vector2f();
+	_world.movementComponents[_idPlayer[MOTORUP]]->direction = sf::Vector2f();
+	_world.movementComponents[_idPlayer[MOTORDOWN]]->direction = sf::Vector2f();
+
+	sf::Vector2f size = _world.transformComponents[_idPlayer[SHIP]]->size;
+	sf::Vector2f scale = _world.transformComponents[_idPlayer[SHIP]]->scale;
+	sf::Vector2f pos = _world.transformComponents[_idPlayer[SHIP]]->position;
+
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-		_world.movementComponents[_idPlayer]->direction += sf::Vector2f(0, -1);
+		if (pos.y > 0) {
+			_world.movementComponents[_idPlayer[SHIP]]->direction += sf::Vector2f(0, -1);
+			_world.movementComponents[_idPlayer[MOTORUP]]->direction += sf::Vector2f(0, -1);
+			_world.movementComponents[_idPlayer[MOTORDOWN]]->direction += sf::Vector2f(0, -1);
+		}
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-		_world.movementComponents[_idPlayer]->direction += sf::Vector2f(0, 1);
+		if (pos.y < _game->getScreenSize().y - (size.y * scale.y)) {
+			_world.movementComponents[_idPlayer[SHIP]]->direction += sf::Vector2f(0, 1);
+			_world.movementComponents[_idPlayer[MOTORUP]]->direction += sf::Vector2f(0, 1);
+			_world.movementComponents[_idPlayer[MOTORDOWN]]->direction += sf::Vector2f(0, 1);
+		}
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-		_world.movementComponents[_idPlayer]->direction += sf::Vector2f(-1, 0);
+		if (pos.x > 0) {
+			_world.movementComponents[_idPlayer[SHIP]]->direction += sf::Vector2f(-1, 0);
+			_world.movementComponents[_idPlayer[MOTORUP]]->direction += sf::Vector2f(-1, 0);
+			_world.movementComponents[_idPlayer[MOTORDOWN]]->direction += sf::Vector2f(-1, 0);
+		}
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-		_world.movementComponents[_idPlayer]->direction += sf::Vector2f(1, 0);
+		if (pos.x < _game->getScreenSize().x - (size.x * scale.x)) {
+			_world.movementComponents[_idPlayer[SHIP]]->direction += sf::Vector2f(1, 0);
+			_world.movementComponents[_idPlayer[MOTORUP]]->direction += sf::Vector2f(1, 0);
+			_world.movementComponents[_idPlayer[MOTORDOWN]]->direction += sf::Vector2f(1, 0);
+		}
 	}
 	return (true);
 }
@@ -68,7 +97,6 @@ void						GameState::update(const sf::Time &elapsed)
 	AnimationSystem::update(_world, elapsed);
 	this->updateBackground();
 	this->updateHUD();
-	this->updatePlayer();
 }
 
 void						GameState::initializeHUD(ResourceManager &resourceManager)
@@ -162,7 +190,4 @@ void						GameState::updateAmo() {
 	//_world.renderComponents[_id[AMO1]]
 	//_world.renderComponents[_id[AMO2]]
 	//_world.renderComponents[_id[AMO3]]
-}
-void						GameState::updatePlayer() {
-	_world.movementComponents[_idPlayer]->direction = sf::Vector2f(0, 0);
 }
