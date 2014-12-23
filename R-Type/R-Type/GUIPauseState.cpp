@@ -4,7 +4,7 @@
 GUIPauseState::GUIPauseState(Game *game) : AState(game)
 {
 	_isBlocking = false;
-	_state = Button::CONTINUE;
+	_state = Element::CONTINUE;
 }
 
 GUIPauseState::~GUIPauseState()
@@ -39,20 +39,24 @@ bool						GUIPauseState::handleEvents(const sf::Event &event)
 		{
 		case sf::Keyboard::Up:
 			if ((_state--) == 0)
-				_state = Button::EXIT;
+				_state = Element::EXIT;
 			_world.textComponents[_id[_state]]->highlighted = true;
 			_world.textComponents[_id[prev]]->highlighted = false;
 			return(true);
 
 		case sf::Keyboard::Down:
-			if ((++_state) == Button::MAX)
-				_state = Button::CONTINUE;
+			if ((++_state) == Element::MAX)
+				_state = Element::CONTINUE;
 			_world.textComponents[_id[_state]]->highlighted = true;
 			_world.textComponents[_id[prev]]->highlighted = false;
 			return(true);
 
+		case sf::Keyboard::Escape:
+			_game->popState();
+			return (false);
+
 		case sf::Keyboard::Return:
-			if (_state == Button::CONTINUE)
+			if (_state == Element::CONTINUE)
 			{
 				_game->popState();
 				return (false);

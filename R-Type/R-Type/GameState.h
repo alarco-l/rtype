@@ -11,9 +11,9 @@ public:
 	void						initialize(ResourceManager &resourceManager);
 	bool						handleEvents(const sf::Event &event);
 	void						update(const sf::Time &elapsed);
-	void						updateHUD();
+	
 private:
-	enum HUD
+	enum Hud
 	{
 		LIFETEXT,
 		SHIELDTEXT,
@@ -28,6 +28,11 @@ private:
 	};
 
 	void						initializeHUD(ResourceManager &resourceManager);
+	void						initializeBackground(ResourceManager &resourceManager);
+
+	void						updateHUD();
+	void						updateBackground();
+
 
 	void						updateLife();
 	void						updateLifeBoss();
@@ -37,5 +42,6 @@ private:
 
 	int							_idBoss;
 	int							_idPlayer;
-	unsigned int				_id[MAX];
+	unsigned int				_idHud[MAX];
+	unsigned int				_idBackground[2];
 };

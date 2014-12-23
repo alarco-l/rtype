@@ -111,6 +111,7 @@
     <ClInclude Include="RenderComponent.h" />
     <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="RFC.h" />
+    <ClInclude Include="ScrollComponent.h" />
     <ClInclude Include="SpinComponent.h" />
     <ClInclude Include="Systems.h" />
     <ClInclude Include="TextComponent.h" />

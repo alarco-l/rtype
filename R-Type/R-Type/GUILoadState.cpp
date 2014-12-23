@@ -4,7 +4,7 @@
 GUILoadState::GUILoadState(Game *game) : AState(game)
 {
 	_isBlocking = true;
-	_state = Button::MAX;
+	_state = Element::MAX;
 }
 
 GUILoadState::~GUILoadState()

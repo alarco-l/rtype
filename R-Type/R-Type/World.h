@@ -38,6 +38,7 @@ public:
 	void								addParticleComponent(const unsigned int id, ParticleComponent *particle);
 	void								addTextComponent(const unsigned int id, TextComponent *text);
 	void								addCollisionComponent(const unsigned int id, CollisionComponent *col);
+	void								addScrollComponent(const unsigned int id, ScrollComponent *scroll);
 
 	void								removeRenderComponent(const unsigned int id);
 	void								removeTransformComponent(const unsigned int id);
@@ -48,6 +49,7 @@ public:
 	void								removeParticleComponent(const unsigned int id);
 	void								removeTextComponent(const unsigned int id);
 	void								removeCollisionComponent(const unsigned int id);
+	void								removeScrollComponent(const unsigned int id);
 
 	unsigned int						entityCount;
 
@@ -60,4 +62,5 @@ public:
 	std::vector<AnimationComponent *>	animationComponents;
 	std::vector<TextComponent *>		textComponents;
 	std::vector<CollisionComponent *>	collisionComponents;
+	std::vector<ScrollComponent *>		scrollComponent;
 };

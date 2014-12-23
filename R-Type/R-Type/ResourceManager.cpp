@@ -21,6 +21,7 @@ bool																	ResourceManager::loadTexture(const std::string &path)
 	
 	if (!texture->loadFromFile(path))
 		return (false);
+	texture->setSmooth(true);
 	_textures.insert(std::pair<const std::string, const sf::Texture * const>(path, texture));
 	return (true);
 }

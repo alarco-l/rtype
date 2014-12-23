@@ -167,5 +167,8 @@
     <ClInclude Include="GUILoadState.h">
       <Filter>States</Filter>
     </ClInclude>
+    <ClInclude Include="ScrollComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -137,6 +137,7 @@ const unsigned int						World::createEmptyEntity()
 	particleComponents.push_back(NULL);
 	textComponents.push_back(NULL);
 	collisionComponents.push_back(NULL);
+	scrollComponent.push_back(NULL);
 
 	return (entityCount++);
 }
@@ -184,6 +185,11 @@ void									World::addTextComponent(const unsigned int id, TextComponent *text)
 void									World::addCollisionComponent(const unsigned int id, CollisionComponent *col)
 {
 	collisionComponents[id] = col;
+}
+
+void									World::addScrollComponent(const unsigned int id, ScrollComponent *scroll)
+{
+	scrollComponent[id] = scroll;
 }
 
 void									World::removeRenderComponent(const unsigned int id)
@@ -238,4 +244,10 @@ void									World::removeCollisionComponent(const unsigned int id)
 {
 	delete (collisionComponents[id]);
 	collisionComponents[id] = NULL;
+}
+
+void									World::removeScrollComponent(const unsigned int id)
+{
+	delete (scrollComponent[id]);
+	scrollComponent[id] = NULL;
 }
