@@ -18,6 +18,7 @@ namespace hpl
 	}
 
 	void	Process::async(::hpl::Call call) { ::hpl::Internal::Thread::Manager::instance().launch(call); }
+	void	Process::service(::hpl::CallBack<::hpl::Internal::Thread::CustomInstance&> call) { ::hpl::Internal::Thread::Manager::instance().launchService(call); }
 
 	void	Process::sleep(::hpl::Time const &time)
 	{

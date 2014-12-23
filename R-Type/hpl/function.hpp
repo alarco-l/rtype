@@ -1,6 +1,7 @@
 #pragma once
 
 #include "basictypes.h"
+#include "utils.hpp"
 
 namespace hpl
 {
@@ -34,6 +35,7 @@ namespace hpl
 
 	template <typename TRet, typename ...TArgs> class _FunctionBase
 	{
+	protected:
 		_IPointer<TRet, TArgs...>	*_func;
 	public:
 		_FunctionBase(void) : _func(NULL) {}
@@ -51,6 +53,7 @@ namespace hpl
 	};
 	template <typename ...TArgs> class _FunctionBase < void, TArgs... >
 	{
+	protected:
 		_IPointer<void, TArgs...>	*_func;
 	public:
 		_FunctionBase(void) : _func(NULL) {}
@@ -78,6 +81,7 @@ namespace hpl
 		template <typename Type> Function(::hpl::Function<Type> const &func) { assign(func); }
 
 		template <typename Type> Function<TFunc>	&operator=(::hpl::Function<Type> const &func) { assign(func); return (*this); }
+													operator bool(void) const { return (_func != 0); }
 	};
 
 	template <typename ...Type> using CallBack = ::hpl::Function < void(Type...) > ;
@@ -213,16 +217,18 @@ namespace hpl
 		typedef TRet	ret;
 	};
 
-
-	template <typename ...Args> struct Arguments { static const ullint count = sizeof...(Args); };
-
-	template <typename Func, typename ...Args>	_Bind<Storage<Args...>, typename Callable<Func>::type, typename Callable<Func>::ret, Arguments<Args...>::count>	bind(Func func, Args &&...args)
+	template <typename Ret, typename ...Args, typename ...Params>
+	_Bind<Storage<Params...>, Ret(*)(Args...), Ret, Arguments<Params...>::size>	bind(Ret(*func)(Args...), Params ...args)
 	{
-		return (_Bind<Storage<Args...>, typename Callable<Func>::type, typename Callable<Func>::ret, Arguments<Args...>::count>(Storage<Args...>(args...), func));
+		Storage<Params...>	stor(args...);
+		return (_Bind<Storage<Params...>, Ret(*)(Args...), Ret, Arguments<Params...>::size>(stor, func));
 	}
 
-	template <typename TRet, class Class, typename ...Args, typename ...Params>	_Bind<Storage<Args...>, Pointer<Class, TRet, Args...>, TRet, Arguments<Args...>::count>	bind(TRet(Class::*func)(Args...), Class *clas, Params &&...args)
+	template <typename Ret, typename Class, typename ...Args, typename ...Params>
+	_Bind<Storage<Params...>, Pointer<Class, Ret, Args...>, Ret, Arguments<Params...>::size>	bind(Ret(Class::*func)(Args...), Class *c, Params ...args)
 	{
-		return (_Bind<Storage<Args...>, Pointer<Class, TRet, Args...>, TRet, Arguments<Args...>::count>(Storage<Args...>(args...), Pointer<Class, TRet, Args...>(func, clas)));
+		Storage<Params...>				stor(args...);
+		Pointer<Class, Ret, Args...>	ptr(func, c);
+		return (_Bind<Storage<Params...>, Pointer<Class, Ret, Args...>, Ret, Arguments<Params...>::size>(stor, ptr));
 	}
 }

@@ -1,0 +1,30 @@
+#pragma once
+
+#include "basictypes.h"
+#include "function.hpp"
+
+#include "buffer.h"
+
+namespace hpl
+{
+	enum
+	{
+		tcp_ip4		= 0,
+		udp_ip4
+	};
+
+	namespace tcp
+	{
+		enum
+		{
+			ip4		= tcp_ip4
+		};
+	}
+	namespace udp
+	{
+		enum
+		{
+			ip4		= udp_ip4
+		};
+	}
+}

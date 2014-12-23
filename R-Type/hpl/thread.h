@@ -39,6 +39,32 @@ namespace hpl
 				void								*_thread;
 			};
 
+			class CustomInstance
+			{
+			public:
+				enum Status
+				{
+					Waitting,
+					Running,
+					Ended
+				};
+
+				CustomInstance(::hpl::Internal::Thread::Manager &manager, ::hpl::CallBack<CustomInstance&> call);
+				~CustomInstance(void);
+
+				Status	status(void) const;
+				void	start(void);
+				void	stop(void);
+
+				Status								_status;
+				::hpl::Internal::Thread::Manager	&_manager;
+
+			private:
+				::hpl::CallBack<CustomInstance&>	_call;
+				void								*_thread;
+			};
+
+
 			class Manager
 			{
 			private:
@@ -49,7 +75,7 @@ namespace hpl
 				static ::hpl::Internal::Thread::Manager	&instance(void);
 
 				void	launch(::hpl::Call call);
-				void	launchService(::hpl::Call call);
+				void	launchService(::hpl::CallBack<CustomInstance&> call);
 
 				void	manage(void);
 
@@ -58,11 +84,13 @@ namespace hpl
 
 			public:
 				::ullint	_nbThreadReady;
+				::ullint	_nbThreadWaitting;
 
 				::hpl::Synchronous::Locker	_locker;
 				::hpl::Synchronous::Blocker	_blocker;
 
 				::hpl::Container::Dynamic<::hpl::Internal::Thread::Instance*>		_threads;
+				::hpl::Container::Dynamic<::hpl::Internal::Thread::CustomInstance*>	_services;
 				::hpl::Container::Dynamic<::hpl::Call>								_calls;
 			};
 

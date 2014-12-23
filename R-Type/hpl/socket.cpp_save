@@ -1,0 +1,83 @@
+#include "socket.h"
+
+namespace hpl
+{
+	Socket::Socket(ullint socketId) : _socketId(socketId), _socket(::hpl::Internal::Socket::Manager::instance().get(_socketId)) {}
+	Socket::Socket(Socket const &copy) : _socketId(copy._socketId), _socket(::hpl::Internal::Socket::Manager::instance().get(_socketId)) {}
+
+	Socket	&Socket::onRecive(::hpl::CallBack<Socket &> callback)
+	{
+		return (*this);
+	}
+	Socket	&Socket::onQuit(::hpl::CallBack<Socket const &> callback)
+	{
+		return (*this);
+	}
+
+	void	Socket::send(::hpl::Buffer const &buff);
+	void	Socket::close(void);
+
+	bool	Socket::isOpen(void) const;
+	ullint	Socket::id(void) const;
+
+	Socket	&Socket::operator=(Socket &copy);
+
+
+	namespace Internal
+	{
+		namespace Socket
+		{
+			Manager::Content::Content(ullint sock, Todo to, Buffer const &buff) : socket(sock), toDo(to), data(buff) {}
+			Manager::Content::Content(Content const &copy) socket(copy.socket), toDo(copy.toDo), data(copy.data) {}
+
+			Manager	*Manager::_instance = new Manager;
+
+			Manager::Manager(void) { ::hpl::Process::service(::hpl::bind(&Manager::thread, this, ::hpl::Placeholder::_1)); }
+			Manager::~Manager(void) {}
+
+			static void	Manager::doThis(Content &content)
+			{
+				_locker.lock();
+				_toDo.push_back(content);
+				_locker.unlock();
+			}
+
+			void	Manager::thread(::hpl::Internal::Thread::CustomInstance &thread)
+			{
+				thread._manager._locker.lock();
+				thread._status = ::hpl::Internal::Thread::CustomInstance::Status::Waitting;
+				++thread._manager._nbThreadWaitting;
+				while (thread._status != ::hpl::Internal::Thread::CustomInstance::Status::Ended)
+				{
+					while (!_toDo.empty())
+					{
+						switch (_toDo.front().toDO)
+						{
+						case Content::ToDo::Manage:
+							
+							break;
+						case Content::ToDo::WriteText:
+							break;
+						case Content::ToDo::Close:
+							break;
+						default:
+						}
+						_toDO.pop_front();
+					}
+					if (_sockets.empty())
+					{
+						thread._status = ::hpl::Internal::Thread::CustomInstance::Status::Waitting;
+						thread._manager._locker.unlock();
+						::hpl::Process::Sleep(::hpl::Time::Milisecond(100));
+						thread._manager._locker.lock();
+					}
+					else
+					{
+
+					}
+				}
+				thread._manager._locker.unlock();
+			}
+		}
+	}
+}

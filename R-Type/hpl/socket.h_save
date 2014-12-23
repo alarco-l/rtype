@@ -1,0 +1,72 @@
+#pragma once
+
+#include "../function.hpp"
+#include "basictypes.h"
+#include "buffer.h"
+#include "container.h"
+
+namespace hpl
+{
+	class Socket
+	{
+		ullint	_socketId;
+		bool	_isOpen;
+
+		Socket(Socket const &copy);
+	public:
+		Socket(ullint socketId);
+
+		Socket	&onRecive(::hpl::CallBack<Socket &> callback);
+		Socket	&onQuit(::hpl::CallBack<Socket const &> callback);
+
+		void	send(::hpl::Buffer const &buff);
+		void	close(void);
+
+		bool	isOpen(void) const;
+		ullint	id(void) const;
+
+		Socket	&operator=(Socket &copy);
+	};
+
+	namespace Internal
+	{
+		namespace Socket
+		{
+			class Manager
+			{
+			public:
+				struct Content
+				{
+					enum ToDO
+					{
+						Manage,
+						WriteText,
+						Close
+					};
+
+					Content(ullint, Todo, Buffer const &);
+					Content(Content const &);
+
+					ullint	socket;
+					ToDo	toDo;
+					Buffer	data;
+				};
+
+			private:
+				static Manager	*_instance;
+
+				::hpl::Container::Associative<ullint, ::hpl::Container::Dynamique<ullint *> >	_sockets;
+				::hpl::Container::Dynamique<Content>											_todo;
+
+				::hpl::Locker		_locker;
+
+				Manager(void);
+				~Manager(void);
+			public:
+				static void	doThis(Content &content);				
+
+				void	thread(::hpl::Internal::Thread::CustomInstance &);
+			};
+		}
+	}
+}

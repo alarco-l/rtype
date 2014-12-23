@@ -7,7 +7,7 @@
 #include "thread.h"
 #include "times.h"
 
-int hpl_main(int, char *[], char *[]);
+int hpl_main(int, char **, char **);
 
 namespace hpl
 {
@@ -20,10 +20,14 @@ namespace hpl
 		static void	atExit(::hpl::Call call);
 
 		static void	async(::hpl::Call call);
+		static void	service(::hpl::CallBack<::hpl::Internal::Thread::CustomInstance&> call);
 
 		static void	sleep(::hpl::Time const &time);
 
 	private:
 		static ::hpl::Function<int(void)>	_main;
+		static int	_argc;
+		static char	**_argv;
+		static char	**_env;
 	};
 }

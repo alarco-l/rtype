@@ -65,19 +65,29 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="basictypes.h" />
+    <ClInclude Include="buffer.h" />
     <ClInclude Include="container.h" />
     <ClInclude Include="exceptions.h" />
     <ClInclude Include="exit.h" />
     <ClInclude Include="function.hpp" />
     <ClInclude Include="hpl.h" />
     <ClInclude Include="logger.hpp" />
+    <ClInclude Include="Network\Client.h" />
+    <ClInclude Include="Network\Protocol.h" />
+    <ClInclude Include="Network\Protocol\None.h" />
+    <ClInclude Include="Network\Protocol\Prototype.h" />
+    <ClInclude Include="Network\Protocol\Type.h" />
+    <ClInclude Include="Network\Server.h" />
+    <ClInclude Include="Network\Socket.h" />
     <ClInclude Include="process.hpp" />
     <ClInclude Include="synchronous.h" />
     <ClInclude Include="thread.h" />
     <ClInclude Include="prepros.h" />
     <ClInclude Include="times.h" />
+    <ClInclude Include="utils.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="buffer.cpp" />
     <ClCompile Include="exit.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </ExcludedFromBuild>
@@ -86,6 +96,10 @@
     </ClCompile>
     <ClCompile Include="function.cpp" />
     <ClCompile Include="logger.cpp" />
+    <ClCompile Include="Network\Client.cpp" />
+    <ClCompile Include="Network\Protocol\None.cpp" />
+    <ClCompile Include="Network\Server.cpp" />
+    <ClCompile Include="Network\Socket.cpp" />
     <ClCompile Include="process.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </ExcludedFromBuild>
