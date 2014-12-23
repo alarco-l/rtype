@@ -66,7 +66,6 @@ void							DlLoader::loadDLL(std::string const &path, std::string const &name)
 void							DlLoader::loadDLLDir(std::string const &path)
 {
 	WIN32_FIND_DATA				ffd;
-	HMODULE						dll;
 	HANDLE						handle = NULL;
 	std::string					tmppath(_path + "/*");
 	size_t						found;
