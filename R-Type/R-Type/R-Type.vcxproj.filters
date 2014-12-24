@@ -78,6 +78,12 @@
     <ClCompile Include="GUILoadState.cpp">
       <Filter>States</Filter>
     </ClCompile>
+    <ClCompile Include="RFCClient.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Serialize.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TransformSystem.h">
@@ -169,6 +175,15 @@
     </ClInclude>
     <ClInclude Include="ScrollComponent.h">
       <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="RFCClient.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IRFCClient.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Serialize.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
