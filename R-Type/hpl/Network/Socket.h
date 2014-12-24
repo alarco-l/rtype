@@ -1,9 +1,5 @@
 #pragma once
 
-#include <streambuf>
-#include <type_traits>
-#include <mutex>
-
 #ifndef __LINUX__
 # include <Windows.h>
 #else
@@ -16,6 +12,7 @@
 #include "../function.hpp"
 #include "../buffer.h"
 #include "../utils.hpp"
+#include "../synchronous.h"
 
 namespace Network
 {
@@ -65,14 +62,18 @@ namespace Network
 
 		template <typename protocol> void	useProtocol(void)
 		{
-			Lock	lock(_mutex);
+			_mutex.lock();
 			if (!::hpl::Inheritance::IsInherit<Protocol::Prototype, protocol>::value
 				|| ::hpl::Inheritance::IsSame<Protocol::Prototype, protocol>::value)
+			{
+				_mutex.unlock();
 				throw (std::runtime_error("Network: Socket: useProtocol with bad protocol"));
-			if (_protocol)
+			}
+			if (this->_protocol)
 				delete _protocol;
 			_protocol = new protocol;
 			_protocol->init(*this);
+			_mutex.unlock();
 		}
 
 		void	recive(void);
@@ -88,8 +89,6 @@ namespace Network
 		bool	connected(void);
 
 	private:
-		typedef std::lock_guard<std::recursive_mutex>	Lock;
-
 		ulint			_socket;
 		Socket::Type	_type;
 
@@ -98,13 +97,13 @@ namespace Network
 		::hpl::CallBack<Socket&>		_onReciveEvent;
 		::hpl::CallBack<Socket const&>	_onEndEvent;
 
-		Protocol::Prototype		*_protocol;
+		Protocol::Prototype				*_protocol;
 
-		::hpl::Buffer			_readStream;
-		::hpl::Buffer			_writeStream;
-		ulint					_writeLength;
+		::hpl::Buffer					_readStream;
+		::hpl::Buffer					_writeStream;
+		ulint							_writeLength;
 
-		std::recursive_mutex			_mutex;
+		::hpl::Synchronous::Locker		_mutex;
 		
 	Socket(Socket const &copy) : _protocol(NULL) {(void)copy;}
 		Socket	&operator=(Socket const &copy) { (void)copy; return (*this); }

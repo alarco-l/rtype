@@ -1,10 +1,5 @@
 #pragma once
 
-#include <thread>
-#include <mutex>
-#include <condition_variable>
-#include <map>
-
 #ifndef __LINUX__
 # include <Winsock.h>
 #endif // !__LINUX__
@@ -12,6 +7,8 @@
 #include "../basictypes.h"
 #include "../function.hpp"
 #include "../process.hpp"
+#include "../synchronous.h"
+#include "../container.h"
 #include "Socket.h"
 
 namespace Network
@@ -48,15 +45,11 @@ namespace Network
 		std::thread			_thread;
 
 	protected:
-		typedef std::map<ulint, Socket *>								SocketTank;
-		typedef std::map<ulint, ::hpl::CallBack<Server&, Socket &> >	CallbackTank;
-		typedef	std::map<ulint, ulint>									SocketToCallback;
+		typedef ::hpl::Container::Associative<ulint, Socket *>								SocketTank;
+		typedef ::hpl::Container::Associative<ulint, ::hpl::CallBack<Server&, Socket &> >	CallbackTank;
+		typedef	::hpl::Container::Associative<ulint, ulint>									SocketToCallback;
 
-		typedef std::lock_guard<std::recursive_mutex>			Lock;
-
-		std::recursive_mutex		_mutex;
-		std::mutex					_conditionMutex;
-		std::condition_variable		_condition;
+		::hpl::Synchronous::Locker	_mutex;
 		bool						_running;
 
 		CallbackTank							_onConnectEvent;

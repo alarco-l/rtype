@@ -7,13 +7,11 @@ namespace Network
 
 	Client::Client(ulint socket, ::hpl::CallBack<Client &> onConnectEvent) : socket(socket, Socket::Type::Connection)
 	{
-		Lock	lock(_mutex);
 		onConnectEvent(*this);
 	}
 
 	Client::~Client(void)
 	{
-		Lock	lock(_mutex);
 		Client::Manager::getInstance()->forget(*this);
 	}
 
@@ -113,7 +111,6 @@ namespace Network
 			instance._manager._locker.unlock();
 			std::memcpy(&fdRead, &_fdRead, sizeof(fd_set));
 			std::memcpy(&fdWrite, &_fdWrite, sizeof(fd_set));
-			_condition.notify_all();
 			_mutex.unlock();
 			timeVal.tv_usec = 500;
 			ret = select(FD_SETSIZE, &fdRead, &fdWrite, NULL, &timeVal);
@@ -146,6 +143,9 @@ namespace Network
 			instance._manager._locker.lock();
 		}
 		_mutex.unlock();
+		if (instance._status == ::hpl::Internal::Thread::CustomInstance::Status::Running)
+			++instance._manager._nbThreadWaitting;
+		instance._status = ::hpl::Internal::Thread::CustomInstance::Status::Ended;
 		instance._manager._locker.unlock();
 	}
 

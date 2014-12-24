@@ -68,6 +68,7 @@ namespace Network
 					}
 				}
 				instance._manager._locker.unlock();
+
 				std::memcpy(&fdRead, &_fdRead, sizeof(fd_set));
 				std::memcpy(&fdWrite, &_fdWrite, sizeof(fd_set));
 				_mutex.unlock();
@@ -76,44 +77,46 @@ namespace Network
 				_mutex.lock();
 				if (!_running)
 					break;
-				for (auto it = _ports.begin(); it != _ports.end(); ++it)
-					if (FD_ISSET(it->second->native(), &fdRead))
-					{
-						size = sizeof(cli_addr);
-						std::memset((void*)&cli_addr, 0, sizeof(cli_addr));
-						if ((socket = accept(it->second->native(), (struct sockaddr *)&cli_addr, &size)) == (ulint)-1)
-							throw (std::runtime_error("Network: accept fail"));
-						_clients[socket] = new Socket(socket, Socket::Type::Client);
-						FD_SET(socket, &_fdRead);
-						_onConnectEvent[_socketToCallback[it->second->native()]](*this, *_clients[socket]);
-					}
-				auto it = _clients.begin();
-				while (it != _clients.end())
+				if (ret)
 				{
-					if (FD_ISSET(it->second->native(), &fdRead))
-					{
-						it->second->recive();
-						if (!it->second->connected())
+					for (SocketTank::iterator it = _ports.begin(); it != _ports.end(); ++it)
+						if (FD_ISSET(it->second->native(), &fdRead))
 						{
-							FD_CLR(it->second->native(), &_fdRead);
-							FD_CLR(it->second->native(), &_fdWrite);
-							delete (it->second);
-							it = _clients.erase(it);
-							continue;
+							size = sizeof(cli_addr);
+							std::memset((void*)&cli_addr, 0, sizeof(cli_addr));
+							if ((socket = accept(it->second->native(), (struct sockaddr *)&cli_addr, &size)) == (ulint)-1)
+								throw (std::runtime_error("Network: accept fail"));
+							_clients[socket] = new Socket(socket, Socket::Type::Client);
+							FD_SET(socket, &_fdRead);
+							_onConnectEvent[_socketToCallback[it->second->native()]](*this, *_clients[socket]);
 						}
-					}
-					if (FD_ISSET(it->second->native(), &fdWrite))
+					SocketTank::iterator it = _clients.begin();
+					while (it != _clients.end())
 					{
-						it->second->send();
-						FD_CLR(it->second->native(), &_fdWrite);
+						if (FD_ISSET(it->second->native(), &fdRead))
+						{
+							it->second->recive();
+							if (!it->second->connected())
+							{
+								FD_CLR(it->second->native(), &_fdRead);
+								FD_CLR(it->second->native(), &_fdWrite);
+								delete (it->second);
+								it = _clients.erase(it);
+								continue;
+							}
+						}
+						if (FD_ISSET(it->second->native(), &fdWrite))
+						{
+							it->second->send();
+							FD_CLR(it->second->native(), &_fdWrite);
+						}
+						if (it->second->out().size())
+							FD_SET(it->second->native(), &_fdWrite);
+						++it;
 					}
-					if (it->second->out().size())
-						FD_SET(it->second->native(), &_fdWrite);
-					++it;
+					instance._manager._locker.lock();
 				}
-				instance._manager._locker.lock();
 			}
-
 			_mutex.unlock();
 			instance._manager._locker.unlock();
 		}
@@ -130,25 +133,28 @@ namespace Network
 
 	void	Server::onConnect(::hpl::CallBack<Server&, Socket&> onConnectEvent)
 	{
-		Lock	lock(_mutex);
+		_mutex.lock();
 		_onConnectEventDefault = onConnectEvent;
+		_mutex.unlock();
 	}
 
 	void	Server::onDisconnect(::hpl::CallBack<Server&, Socket const&> onDisconnectEvent)
 	{
-		Lock	lock(_mutex);
+		_mutex.lock();
 		_onDisconnectEvent = onDisconnectEvent;
+		_mutex.unlock();
 	}
 	void	Server::onEnd(::hpl::CallBack<Server const&> onEndEvent)
 	{
-		Lock	lock(_mutex);
+		_mutex.lock();
 		_onEndEvent = onEndEvent;
+		_mutex.unlock();
 	}
 
 	void	Server::listen(uint port, ::hpl::CallBack<Server&> onListenEvent, ::hpl::CallBack<Server&, Socket &> onConnectEvent)
 	{
 
-		Lock	lock(_mutex);
+		_mutex.lock();
 
 		sockaddr_in	addr;
 		ulint	socket;
@@ -168,13 +174,14 @@ namespace Network
 		_socketToCallback[socket] = port;
 		_onConnectEvent[port] = onConnectEvent;
 		onListenEvent(*this);
+		_mutex.unlock();
 	}
 
 	void	Server::listen(uint port, ::hpl::CallBack<Server&> onListenEvent) { listen(port, onListenEvent, _onConnectEventDefault); }
 
 	void	Server::close(uint port)
 	{
-		Lock	lock(_mutex);
+		_mutex.lock();
 		auto it = _ports.find(port);
 		if (it != _ports.end())
 		{
@@ -182,10 +189,11 @@ namespace Network
 			delete (it->second);
 			_ports.erase(it);
 		}
+		_mutex.unlock();
 	}
 	void	Server::close(void)
 	{
-		Lock	lock(_mutex);
+		_mutex.lock();
 
 		auto	it = _clients.begin();
 		while (it != _clients.end())
@@ -207,6 +215,7 @@ namespace Network
 #ifndef __LINUX__
 		WSACleanup();
 #endif // !__LINUX__
+		_mutex.unlock();
 	}
 }
 

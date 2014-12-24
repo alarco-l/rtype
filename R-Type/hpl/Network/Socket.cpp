@@ -19,7 +19,7 @@ namespace Network
 
   Socket::Socket(ulint socket, Socket::Type type) : _socket(socket), _type(type), _connected(socket != (ulint)-1), _protocol(NULL)
 	{
-		useProtocol<Protocol::None>();
+		this->useProtocol<Protocol::None>();
 	}
 	Socket::~Socket(void) { close(); }
 	
@@ -28,7 +28,7 @@ namespace Network
 
 	void	Socket::recive(void)
 	{
-		Lock	lock(_mutex);
+		_mutex.lock();
 		char	buff[255];
 		ulint	size;
 
@@ -43,47 +43,49 @@ namespace Network
 			_readStream.write(buff, size);
 			_onReciveEvent(*this);
 		}
-
+		_mutex.unlock();
 	}
 	void	Socket::send(void)
 	{
-		Lock	lock(_mutex);
+		_mutex.lock();
 		ulint length = _writeStream.size();
 		if (!length)
+		{
+			_mutex.unlock();
 			return;
+		}
 		char *buffer = new char[length];
 		_writeStream.get(buffer, length);
 		_protocol->send(buffer, length);
 		delete []buffer;
+		_mutex.unlock();
 	}
 
 	void	Socket::onRecive(::hpl::CallBack<Socket&> onReciveEvent)
 	{
-		Lock	lock(_mutex);
+		_mutex.lock();
 		_onReciveEvent = onReciveEvent;
 		if (_readStream.size())
+		{
+			_mutex.unlock();
 			_onReciveEvent(*this);
+		}
+		else
+			_mutex.unlock();
 	}
 
 	void	Socket::onEnd(::hpl::CallBack<Socket const&> onEndEvent)
 	{
-		Lock	lock(_mutex);
+		_mutex.lock();
 		_onEndEvent = onEndEvent;
+		_mutex.unlock();
 	}
-	::hpl::Buffer	&Socket::in(void)
-	{
-		Lock	lock(_mutex);
-		return (_readStream);
-	}
-	::hpl::Buffer	&Socket::out(void)
-	{
-		Lock	lock(_mutex);
-		return (_writeStream);
-	}
+	::hpl::Buffer	&Socket::in(void) { return (_readStream); }
+	::hpl::Buffer	&Socket::out(void) { return (_writeStream); }
 
 	void	Socket::close(void)
 	{
-		Lock	lock(_mutex);
+		_mutex.lock();
 
 		if (_connected)
 		{
@@ -100,11 +102,8 @@ namespace Network
 				_protocol = NULL;
 			}
 		}
+		_mutex.unlock();
 	}
 
-	bool	Socket::connected(void)
-	{
-		Lock	lock(_mutex);
-		return (_connected);
-	}
+	bool	Socket::connected(void) { return (_connected); }
 }

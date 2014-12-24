@@ -1,13 +1,12 @@
 #pragma once
 
-#include <mutex>
-#include <condition_variable>
 #include <string>
-#include <map>
 
 #include "../basictypes.h"
 #include "../function.hpp"
 #include "../process.hpp"
+#include "../container.h"
+#include "../synchronous.h"
 #include "Socket.h"
 
 namespace Network
@@ -35,9 +34,8 @@ namespace Network
 		Socket	socket;
 
 	private:
-		typedef std::lock_guard<std::recursive_mutex>	Lock;
 
-		std::recursive_mutex	_mutex;
+		::hpl::Synchronous::Locker	_mutex;
 
 		class Manager
 		{
@@ -56,14 +54,9 @@ namespace Network
 			void			start(::hpl::Internal::Thread::CustomInstance &);
 
 		private:
-			typedef std::lock_guard<std::recursive_mutex>	Lock;
-			typedef std::map<ulint, Client*>	SocketTank;
+			typedef ::hpl::Container::Associative<ulint, Client*>	SocketTank;
 
-			std::thread				_thread;
-			std::recursive_mutex	_mutex;
-
-			std::mutex				_conditionMutex;
-			std::condition_variable	_condition;
+			::hpl::Synchronous::Locker	_mutex;
 
 			SocketTank	_sockets;
 			fd_set		_fdRead;
