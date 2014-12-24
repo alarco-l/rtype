@@ -1,6 +1,5 @@
 #pragma once
 
-#include <thread>
 #include <mutex>
 #include <condition_variable>
 #include <string>
@@ -8,6 +7,7 @@
 
 #include "../basictypes.h"
 #include "../function.hpp"
+#include "../process.hpp"
 #include "Socket.h"
 
 namespace Network
@@ -52,6 +52,8 @@ namespace Network
 
 			void			manage(Client &client);
 			void			forget(Client &client);
+
+			void			start(::hpl::Internal::Thread::CustomInstance &);
 
 		private:
 			typedef std::lock_guard<std::recursive_mutex>	Lock;

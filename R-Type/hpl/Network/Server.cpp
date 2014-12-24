@@ -53,7 +53,7 @@ namespace Network
 			{
 				if (std::memcmp(&fdRead, nullBuff, sizeof(fd_set)))
 				{
-					if (instance._status != ::hpl::Internal::Thread::CustomInstance::Status::Running)
+					if (instance._status == ::hpl::Internal::Thread::CustomInstance::Status::Waitting)
 					{
 						instance._status = ::hpl::Internal::Thread::CustomInstance::Status::Running;
 						--instance._manager._nbThreadWaitting;
@@ -61,7 +61,7 @@ namespace Network
 				}
 				else
 				{
-					if (instance._status != ::hpl::Internal::Thread::CustomInstance::Status::Waitting)
+					if (instance._status == ::hpl::Internal::Thread::CustomInstance::Status::Running)
 					{
 						instance._status = ::hpl::Internal::Thread::CustomInstance::Status::Waitting;
 						++instance._manager._nbThreadWaitting;
