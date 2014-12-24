@@ -20,7 +20,7 @@ void						GUILoadState::initialize(ResourceManager &resourceManager)
 	_world.addTransformComponent(_id[TITLE], ComponentFactory::createTransformComponent(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, 10.0f)));
 
 	_id[BACKGROUND] = _world.createEmptyEntity();
-	_world.addRenderComponent(_id[BACKGROUND], ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/menu_background.png")));
+	_world.addRenderComponent(_id[BACKGROUND], ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/menu_background.png"), RenderComponent::Plane::HUD));
 	_world.addTransformComponent(_id[BACKGROUND], ComponentFactory::createTransformComponent(sf::Vector2f(screenSize), sf::Vector2f(0.0f, 0.0f)));
 
 	_id[TEXT] = _world.createEmptyEntity();
@@ -29,11 +29,12 @@ void						GUILoadState::initialize(ResourceManager &resourceManager)
 
 	_id[IMG] = _world.createEmptyEntity();
 	_world.addSpinComponent(_id[IMG], ComponentFactory::createSpinComponent(50, 1));
-	_world.addRenderComponent(_id[IMG], ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/load_icon.png")));
+	_world.addRenderComponent(_id[IMG], ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/load_icon.png"), RenderComponent::Plane::HUD));
 	_world.addTransformComponent(_id[IMG], ComponentFactory::createTransformComponent(sf::Vector2f(175, 175), sf::Vector2f(screenSize.x - screenSize.x / 2.0f - 87.5f, screenSize.y/2 + 100.0f)));
 }
 
-bool						GUILoadState::handleKeyState() {
+bool						GUILoadState::handleKeyState()
+{
 	return (true);
 }
 

@@ -17,89 +17,47 @@ World::~World()
 			delete (animationComponents[i]);
 		if (movementComponents[i])
 			delete (movementComponents[i]);
+		if (scrollComponents[i])
+			delete (scrollComponents[i]);
+		if (spinComponents[i])
+			delete (spinComponents[i]);
 		if (emitterComponents[i])
 			delete (emitterComponents[i]);
 		if (particleComponents[i])
 			delete (particleComponents[i]);
 		if (collisionComponents[i])
 			delete (collisionComponents[i]);
+		if (textComponents[i])
+			delete (textComponents[i]);
 	}
 }
 
-/*const unsigned int						World::createStaticEntity(const sf::Texture * const texture, const sf::Vector2f &position, const sf::Vector2f &scale)
-{
-	RenderComponent						*render = ComponentFactory::createRenderComponent(texture);
-	TransformComponent					*xform = ComponentFactory::createTransformComponent(position, scale);
-
-	renderComponents.push_back(render);
-	transformComponents.push_back(xform);
-	movementComponents.push_back(NULL);
-	particleComponents.push_back(NULL);
-	emitterComponents.push_back(NULL);
-	animationComponents.push_back(NULL);
-	textComponents.push_back(NULL);
-	collisionComponents.push_back(NULL);
-
-	return (entityCount++);
-}
-
-const unsigned int						World::createMovingEntity(const sf::Texture * const texture, const sf::Vector2f &position, const sf::Vector2f &scale, const float velocity)
-{
-	RenderComponent						*render = ComponentFactory::createRenderComponent(texture);
-	TransformComponent					*xform = ComponentFactory::createTransformComponent(position, scale);
-	MovementComponent					*mov = ComponentFactory::createMovementComponent(velocity, sf::Vector2f(1.0f, 0.0f));
-
-	renderComponents.push_back(render);
-	transformComponents.push_back(xform);
-	movementComponents.push_back(mov);
-	particleComponents.push_back(NULL);
-	emitterComponents.push_back(NULL);
-	animationComponents.push_back(NULL);
-	textComponents.push_back(NULL);
-	collisionComponents.push_back(NULL);
-
-	return (entityCount++);
-}
-
-const unsigned int						World::createAnimatedEntity(const std::vector<const sf::Texture * const> &textures, const sf::Time &duration, const sf::Vector2f &position, const sf::Vector2f &scale, const float velocity)
-{
-	RenderComponent						*render = ComponentFactory::createRenderComponent(textures[0]);
-	TransformComponent					*xform = ComponentFactory::createTransformComponent(position, scale);
-	MovementComponent					*mov = ComponentFactory::createMovementComponent(velocity, sf::Vector2f(1.0f, 0.0f));
-	AnimationComponent					*anim = ComponentFactory::createAnimationComponent(textures, duration);
-
-	renderComponents.push_back(render);
-	transformComponents.push_back(xform);
-	movementComponents.push_back(mov);
-	animationComponents.push_back(anim);
-	particleComponents.push_back(NULL);
-	emitterComponents.push_back(NULL);
-	textComponents.push_back(NULL);
-	collisionComponents.push_back(NULL);
-	
-	return (entityCount++);
-}
-*/
-const unsigned int						World::createParticleEffect(const unsigned int maxParticleCount, const bool respawn, const sf::Texture * const texture, const sf::Vector2f &position, const sf::Vector2f &lifeTime, const sf::Vector2f &scale)
+const unsigned int						World::createParticleEffect(const unsigned int maxParticleCount,
+																	const bool respawn,
+																	const sf::Texture * const texture,
+																	const sf::Vector2f &position,
+																	const sf::Vector2f &scale)
 {
 	unsigned int						emitterId;
 	std::vector<unsigned int>			particleId;
 
 	emitterId = this->createEmptyEntity();
-	this->addEmitterComponent(emitterId, ComponentFactory::createEmitterComponent(lifeTime, respawn, sf::Vector2f(180.0f, 185.0f)));
+	this->addEmitterComponent(emitterId, ComponentFactory::createEmitterComponent(respawn));
 	this->addTransformComponent(emitterId, ComponentFactory::createTransformComponent(sf::Vector2f(), position));
 
 	for (unsigned int i = 0; i != maxParticleCount; ++i)
 	{
 		unsigned int					id;
+
 		id = this->createEmptyEntity();
-		this->addRenderComponent(id, ComponentFactory::createRenderComponent(texture, 2));
+		this->addRenderComponent(id, ComponentFactory::createRenderComponent(texture, RenderComponent::Plane::PARTICLE));
 		this->addTransformComponent(id, ComponentFactory::createTransformComponent(sf::Vector2f(texture->getSize()), position, scale));
 		this->addMovementComponent(id, ComponentFactory::createMovementComponent(50.0f, sf::Vector2f(1.0f, 0.0f)));
 		this->addParticleComponent(id, ComponentFactory::createParticleComponent(sf::Time::Zero, emitterId));
 
 		particleId.push_back(id);
 	}
+
 	this->emitterComponents[emitterId]->particleId = particleId;
 
 	return (emitterId);
@@ -116,7 +74,7 @@ const unsigned int						World::createEmptyEntity()
 	particleComponents.push_back(NULL);
 	textComponents.push_back(NULL);
 	collisionComponents.push_back(NULL);
-	scrollComponent.push_back(NULL);
+	scrollComponents.push_back(NULL);
 
 	return (entityCount++);
 }
@@ -168,7 +126,7 @@ void									World::addCollisionComponent(const unsigned int id, CollisionCompon
 
 void									World::addScrollComponent(const unsigned int id, ScrollComponent *scroll)
 {
-	scrollComponent[id] = scroll;
+	scrollComponents[id] = scroll;
 }
 
 void									World::removeRenderComponent(const unsigned int id)
@@ -227,6 +185,6 @@ void									World::removeCollisionComponent(const unsigned int id)
 
 void									World::removeScrollComponent(const unsigned int id)
 {
-	delete (scrollComponent[id]);
-	scrollComponent[id] = NULL;
+	delete (scrollComponents[id]);
+	scrollComponents[id] = NULL;
 }

@@ -17,7 +17,7 @@ void						GUIPauseState::initialize(ResourceManager &resourceManager)
 	sf::Vector2u			screenSize = _game->getScreenSize();
 
 	filter = _world.createEmptyEntity();
-	_world.addRenderComponent(filter, ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/unicolor.png"), 0, sf::Color(0, 0, 0, 150)));
+	_world.addRenderComponent(filter, ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/unicolor.png"), RenderComponent::Plane::HUD, sf::Color(0, 0, 0, 150)));
 	_world.addTransformComponent(filter, ComponentFactory::createTransformComponent(sf::Vector2f(screenSize), sf::Vector2f(0.0f, 0.0f)));
 
 	_id[CONTINUE] = _world.createEmptyEntity();
@@ -28,9 +28,12 @@ void						GUIPauseState::initialize(ResourceManager &resourceManager)
 	_world.addTextComponent(_id[EXIT], ComponentFactory::createTextComponent("Quit", resourceManager.getFont("fonts/SPACEBAR.ttf"), true, false, 80, sf::Color(255, 255, 255, 150)));
 	_world.addTransformComponent(_id[EXIT], ComponentFactory::createTransformComponent(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, screenSize.y / 3.0f + 150.0f)));
 }
-bool						GUIPauseState::handleKeyState() {
+
+bool						GUIPauseState::handleKeyState()
+{
 	return (true);
 }
+
 bool						GUIPauseState::handleKeyEvent(const sf::Event &event)
 {
 	if (event.type == sf::Event::KeyPressed)

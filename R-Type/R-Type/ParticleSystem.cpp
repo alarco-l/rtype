@@ -1,22 +1,38 @@
 #include "ParticleSystem.h"
 
-void							ParticleSystem::update(World &world, const sf::Time &elapsed)
+void									ParticleSystem::update(World &world, const sf::Time &elapsed)
 {
 	for (unsigned int i = 0; i != world.entityCount; ++i)
 	{
-		ParticleComponent		*particle = world.particleComponents[i];
-		RenderComponent			*render = world.renderComponents[i];
+		ParticleComponent				*particle = world.particleComponents[i];
+		RenderComponent					*render = world.renderComponents[i];
 
 		if (particle)
 		{
+			MovementComponent			*emitterMov = world.movementComponents[particle->emitterId];
+
 			particle->lifetime -= elapsed;
 			if (particle->lifetime <= sf::Time::Zero)
 				resetParticle(world, i);
 			//TODO : respawn = false -> delete emitter and particles
 
+			// a voir si ca rends mieux
+			if (emitterMov)
+			{
+				TransformComponent		*xform = world.transformComponents[i];
+				sf::Vector2f			direction;
+				float					length;
+
+				direction = emitterMov->direction;
+				length = sqrt(direction.x * direction.x + direction.y * direction.y);
+				if (length != 0.0f)
+					direction /= length;
+				xform->position += direction * (emitterMov->velocity * 0.75f) * elapsed.asSeconds();
+			}
+
 			if (render)
 			{
-				float			ratio = particle->lifetime.asSeconds() / particle->maxLifetime.asSeconds();
+				float					ratio = particle->lifetime.asSeconds() / particle->maxLifetime.asSeconds();
 
 				render->vertices[0].color.a = static_cast<sf::Uint8>(ratio * 255);
 				render->vertices[1].color.a = static_cast<sf::Uint8>(ratio * 255);
@@ -27,26 +43,26 @@ void							ParticleSystem::update(World &world, const sf::Time &elapsed)
 	}
 }
 
-// Enlever les if de "au cas ou" ?
 
-void							ParticleSystem::resetParticle(World &world, const unsigned int id)
+void									ParticleSystem::resetParticle(World &world, const unsigned int id)
 {
-	ParticleComponent			*particle = world.particleComponents[id];
-	TransformComponent			*xform = world.transformComponents[id];
-	MovementComponent			*mov = world.movementComponents[id];
-	EmitterComponent			*emitter = world.emitterComponents[particle->emitterId];
+	ParticleComponent					*particle = world.particleComponents[id];
+	TransformComponent					*xform = world.transformComponents[id];
+	MovementComponent					*mov = world.movementComponents[id];
+	EmitterComponent					*emitter = world.emitterComponents[particle->emitterId];
 
 	if (emitter)
 	{
-		sf::Vector2f			emitterPos = world.transformComponents[particle->emitterId]->position;
-		sf::Vector2f			velocityInterval = emitter->velocityInterval;
-		sf::Vector2f			propagationInterval = emitter->propagationInterval;
-		sf::Vector2f			lifetimeInterval = emitter->lifetimeInterval;
-		sf::Vector2f			scaleInterval = emitter->scaleInterval;
-		float					angle;
+		sf::Vector2f					emitterPos = world.transformComponents[particle->emitterId]->position;
+		sf::Vector2f					velocityInterval = emitter->velocityInterval;
+		sf::Vector2f					propagationInterval = emitter->propagationInterval;
+		sf::Vector2f					lifetimeInterval = emitter->lifetimeInterval;
+		sf::Vector2f					scaleInterval = emitter->scaleInterval;
+		float							angle;
 
 		particle->maxLifetime = sf::seconds(std::fmodf(static_cast<float>(std::rand()), lifetimeInterval.y - lifetimeInterval.x + 0.000001f) + lifetimeInterval.x);
 		particle->lifetime = particle->maxLifetime;
+
 		if (mov)
 		{
 			mov->velocity = std::fmodf(static_cast<float>(std::rand()), velocityInterval.y - velocityInterval.x + 0.000001f) + velocityInterval.x;
@@ -54,9 +70,10 @@ void							ParticleSystem::resetParticle(World &world, const unsigned int id)
 			angle *= 3.141592f / 180.0f;
 			mov->direction = sf::Vector2f(std::cosf(angle) * mov->velocity, std::sinf(angle) * mov->velocity);
 		}
+
 		if (xform)
 		{
-			float				scale;
+			float						scale;
 
 			scale = std::fmodf(static_cast<float>(std::rand()), scaleInterval.y - scaleInterval.x + 0.000001f) + scaleInterval.x;
 			xform->scale.x *= scale;

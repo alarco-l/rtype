@@ -64,8 +64,8 @@ SpinComponent					*ComponentFactory::createSpinComponent(const float speed,
 	return (spin);
 }
 
-EmitterComponent				*ComponentFactory::createEmitterComponent(const sf::Vector2f &lifetimeInterval,
-																		  const bool respawn,
+EmitterComponent				*ComponentFactory::createEmitterComponent(const bool respawn,
+																		  const sf::Vector2f &lifetimeInterval,
 																		  const sf::Vector2f &propagationInterval,
 																		  const sf::Vector2f &velocityInterval,
 																		  const sf::Vector2f &scaleInterval)

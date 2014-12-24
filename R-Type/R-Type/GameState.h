@@ -27,6 +27,7 @@ private:
 		WEAPON3,
 		MAX
 	};
+
 	enum PlayerPart
 	{
 		SHIP,

@@ -14,5 +14,4 @@ struct									EmitterComponent
 	sf::Vector2f						scaleInterval;
 	// intervalle de rotation ?
 	std::vector<unsigned int>			particleId;
-	
 };

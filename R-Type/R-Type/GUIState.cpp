@@ -19,7 +19,7 @@ void						GUIState::initialize(ResourceManager &resourceManager)
 	sf::Vector2u			screenSize = _game->getScreenSize();
 
 	background = _world.createEmptyEntity();
-	_world.addRenderComponent(background, ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/menu_background.png")));
+	_world.addRenderComponent(background, ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/menu_background.png"), RenderComponent::Plane::HUD));
 	_world.addTransformComponent(background, ComponentFactory::createTransformComponent(sf::Vector2f(screenSize), sf::Vector2f()));
 
 	title = _world.createEmptyEntity();
@@ -35,7 +35,8 @@ void						GUIState::initialize(ResourceManager &resourceManager)
 	_world.addTransformComponent(_id[EXIT], ComponentFactory::createTransformComponent(sf::Vector2f(), sf::Vector2f(0.0f, screenSize.y / 3.0f + 150.0f)));
 }
 
-bool						GUIState::handleKeyState() {
+bool						GUIState::handleKeyState()
+{
 	return (true);
 }
 

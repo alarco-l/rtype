@@ -17,7 +17,7 @@ void						GUIEndState::initialize(ResourceManager &resourceManager)
 	sf::Vector2u			screenSize = _game->getScreenSize();
 
 	_id[FILTER] = _world.createEmptyEntity();
-	_world.addRenderComponent(_id[FILTER], ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/unicolor.png"), 0, sf::Color(0, 0, 0, 150)));
+	_world.addRenderComponent(_id[FILTER], ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/unicolor.png"), RenderComponent::Plane::HUD, sf::Color(0, 0, 0, 150)));
 	_world.addTransformComponent(_id[FILTER], ComponentFactory::createTransformComponent(sf::Vector2f(screenSize), sf::Vector2f(0.0f, 0.0f)));
 
 	_id[TEXT] = _world.createEmptyEntity();
@@ -33,7 +33,8 @@ void						GUIEndState::initialize(ResourceManager &resourceManager)
 	_world.addTransformComponent(_id[EXIT], ComponentFactory::createTransformComponent(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, screenSize.y - screenSize.y / 3.0f)));
 }
 
-bool						GUIEndState::handleKeyState() {
+bool						GUIEndState::handleKeyState()
+{
 	return (true);
 }
 

@@ -10,24 +10,11 @@ public:
 	World();
 	~World();
 
-	/*const unsigned int					createStaticEntity(const sf::Texture * const texture,
-													 	   const sf::Vector2f &position,
-														   const sf::Vector2f &scale = sf::Vector2f(1.0f, 1.0f));
-	const unsigned int					createMovingEntity(const sf::Texture * const texture,
-											   			   const sf::Vector2f &position,
-													       const sf::Vector2f &scale = sf::Vector2f(1.0f, 1.0f),
-													       const float velocity = 50.0f);
-	const unsigned int					createAnimatedEntity(const std::vector<const sf::Texture * const> &textures,
-															 const sf::Time &duration,
-															 const sf::Vector2f &position,
-															 const sf::Vector2f &scale = sf::Vector2f(1.0f, 1.0f),
-															 const float velocity = 50.0f);
-	*/
-	
 	const unsigned int					createParticleEffect(const unsigned int maxParticleCount,
 															 const bool respawn,
 															 const sf::Texture * const texture,
-															 const sf::Vector2f &position, const sf::Vector2f &lifeTime, const sf::Vector2f &scale = sf::Vector2f(1,1));
+															 const sf::Vector2f &position,
+															 const sf::Vector2f &scale = sf::Vector2f(1,1));
 
 	const unsigned int					createEmptyEntity();
 
@@ -64,5 +51,5 @@ public:
 	std::vector<AnimationComponent *>	animationComponents;
 	std::vector<TextComponent *>		textComponents;
 	std::vector<CollisionComponent *>	collisionComponents;
-	std::vector<ScrollComponent *>		scrollComponent;
+	std::vector<ScrollComponent *>		scrollComponents;
 };

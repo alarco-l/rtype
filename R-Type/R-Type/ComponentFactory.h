@@ -23,8 +23,8 @@ public:
 	static SpinComponent		*createSpinComponent(const float speed,
 													 const int direction);
 
-	static EmitterComponent		*createEmitterComponent(const sf::Vector2f &lifetimeInterval,
-														const bool respawn,
+	static EmitterComponent		*createEmitterComponent(const bool respawn,
+														const sf::Vector2f &lifetimeInterval = sf::Vector2f(0.0f, 3.0f),
 														const sf::Vector2f &propagationInterval = sf::Vector2f(0.0f, 360.0f),
 														const sf::Vector2f &velocityInterval = sf::Vector2f(30.0f, 100.0f),
 														const sf::Vector2f &scaleInterval = sf::Vector2f(1.0f, 1.0f));
@@ -40,7 +40,8 @@ public:
 
 	static CollisionComponent	*createCollisionComponent();
 
-	static ScrollComponent		*createScrollComponent(const float speed, const sf::Vector2f &direction = sf::Vector2f(-1.0f, 0.0f));
+	static ScrollComponent		*createScrollComponent(const float speed,
+													   const sf::Vector2f &direction = sf::Vector2f(-1.0f, 0.0f));
 
 private:
 	ComponentFactory();
