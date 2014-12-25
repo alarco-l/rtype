@@ -3,6 +3,8 @@
 #include <vector>
 
 #include "IRFC.h"
+#include "function.hpp"
+#define Callback	::hpl::CallBack
 
 class						RFC : public IRFC
 {

@@ -2,6 +2,9 @@
 
 #include "BasicType.h"
 
+#include "Network/Client.h"
+#define Socket	Network::Socket
+
 class					IRFC
 {
 public:
