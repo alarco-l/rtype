@@ -1,6 +1,9 @@
 # pragma once
 
 # include "IRFCClient.h"
+# include "Network/Client.h"
+
+# define ASocket	Network::Socket
 
 class RFCClient : public IRFCClient
 {

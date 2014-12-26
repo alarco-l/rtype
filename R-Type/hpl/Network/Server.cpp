@@ -93,26 +93,35 @@ namespace Network
 					SocketTank::iterator it = _clients.begin();
 					while (it != _clients.end())
 					{
-						if (FD_ISSET(it->second->native(), &fdRead))
+						if (it->second->connected())
 						{
-							it->second->recive();
-							if (!it->second->connected())
+							if (FD_ISSET(it->second->native(), &fdRead))
 							{
-								FD_CLR(it->second->native(), &_fdRead);
-								FD_CLR(it->second->native(), &_fdWrite);
-								delete (it->second);
-								it = _clients.erase(it);
-								continue;
+								it->second->recive();
+								//if (!it->second->connected())
+								//{
+								//	FD_CLR(it->second->native(), &_fdRead);
+								//	FD_CLR(it->second->native(), &_fdWrite);
+								//	delete (it->second);
+								//	it = _clients.erase(it);
+								//	continue;
+								//}
 							}
+							if (FD_ISSET(it->second->native(), &fdWrite))
+							{
+								it->second->send();
+								FD_CLR(it->second->native(), &_fdWrite);
+							}
+							if (it->second->out().size())
+								FD_SET(it->second->native(), &_fdWrite);
+							++it;
 						}
-						if (FD_ISSET(it->second->native(), &fdWrite))
+						else
 						{
-							it->second->send();
-							FD_CLR(it->second->native(), &_fdWrite);
+							_onDisconnectEvent(*this, *it->second);
+							delete it->second;
+							it = _clients.erase(it);
 						}
-						if (it->second->out().size())
-							FD_SET(it->second->native(), &_fdWrite);
-						++it;
 					}
 					instance._manager._locker.lock();
 				}

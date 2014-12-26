@@ -13,7 +13,7 @@ RFCClient::~RFCClient() {}
 
 void	RFCClient::sendHandshate(unsigned int idClient) // 6bytes
 {
-	if (_socket->isConnect() == true) {
+	if (_socket->connected() == true) {
 		_socket->out().write("1000", 4);
 		_socket->out().write((char *)&idClient, sizeof(short int));
 	}
@@ -21,8 +21,9 @@ void	RFCClient::sendHandshate(unsigned int idClient) // 6bytes
 
 void	RFCClient::sendMove(const sf::Vector2f &pos, const sf::Vector2f &direction) // 9bytes
 {
-	if (_socket->isConnect() == true) {
-		_socket->out().write(RFCClient::SENDMOVE,1);
+	if (_socket->connected() == true) {
+		char c = RFCClient::SENDMOVE;
+		_socket->out().write(&c,1);
 		_socket->out().write((char *)&(pos.x), sizeof(short int));
 		_socket->out().write((char *)&(pos.y), sizeof(short int));
 		_socket->out().write((char *)&(direction.x), sizeof(short int));
@@ -32,9 +33,11 @@ void	RFCClient::sendMove(const sf::Vector2f &pos, const sf::Vector2f &direction)
 
 void	RFCClient::sendShoot(RFCClient::Weapon weapon, unsigned int idAmmo, const sf::Vector2f &pos, const sf::Vector2f &direction) // 12bytes
 {
-	if (_socket->isConnect() == true) {
-		_socket->out().write(RFCClient::SENDSHOOT, 1);
-		_socket->out().write(&weapon, 1);
+	if (_socket->connected() == true) {
+		char c = RFCClient::SENDSHOOT;
+		_socket->out().write(&c, 1);
+		c = weapon;
+		_socket->out().write(&c, 1);
 		_socket->out().write((char *)&(idAmmo), sizeof(short int));
 		_socket->out().write((char *)&(pos.x), sizeof(short int));
 		_socket->out().write((char *)&(pos.y), sizeof(short int));
@@ -45,8 +48,9 @@ void	RFCClient::sendShoot(RFCClient::Weapon weapon, unsigned int idAmmo, const s
 
 void	RFCClient::sendCollision(unsigned int idClient, unsigned int idMonster, const sf::Vector2f &pos) // 9bytes
 {
-	if (_socket->isConnect() == true) {
-		_socket->out().write(RFCClient::SENDCOLLISION, 1);
+	if (_socket->connected() == true) {
+		char c = RFCClient::SENDCOLLISION;
+		_socket->out().write(&c, 1);
 		_socket->out().write((char *)&(idClient), sizeof(short int));
 		_socket->out().write((char *)&(idMonster), sizeof(short int));
 		_socket->out().write((char *)&(pos.x), sizeof(short int));
@@ -56,8 +60,9 @@ void	RFCClient::sendCollision(unsigned int idClient, unsigned int idMonster, con
 
 void	RFCClient::sendHitMonster(unsigned int idMonster, const sf::Vector2f &posMonster) // 7bytes
 {
-	if (_socket->isConnect() == true) {
-		_socket->out().write(RFCClient::SENDHITMONSTER, 1);
+	if (_socket->connected() == true) {
+		char c = RFCClient::SENDHITMONSTER;
+		_socket->out().write(&c, 1);
 		_socket->out().write((char *)&(idMonster), sizeof(short int));
 		_socket->out().write((char *)&(posMonster.x), sizeof(short int));
 		_socket->out().write((char *)&(posMonster.y), sizeof(short int));
@@ -66,8 +71,9 @@ void	RFCClient::sendHitMonster(unsigned int idMonster, const sf::Vector2f &posMo
 
 void	RFCClient::sendKillMonster(unsigned int idMonster, const sf::Vector2f &posMonster) // 7btytes
 {
-	if (_socket->isConnect() == true) {
-		_socket->out().write(RFCClient::SENDKILLMONSTER, 1);
+	if (_socket->connected() == true) {
+		char c = RFCClient::SENDKILLMONSTER;
+		_socket->out().write(&c, 1);
 		_socket->out().write((char *)&(idMonster), sizeof(short int));
 		_socket->out().write((char *)&(posMonster.x), sizeof(short int));
 		_socket->out().write((char *)&(posMonster.y), sizeof(short int));
@@ -76,7 +82,7 @@ void	RFCClient::sendKillMonster(unsigned int idMonster, const sf::Vector2f &posM
 
 void	RFCClient::recvCmd() {
 	char cmd;
-	_socket->in().get(cmd, 1);
+	_socket->in().get(&cmd, 1);
 	switch (cmd)
 	{
 	case RECVMOVE:
