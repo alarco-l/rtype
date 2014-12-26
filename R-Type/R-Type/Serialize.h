@@ -2,10 +2,12 @@
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include "IRFCClient.h"
+# include "Convert.hpp"
 
 class Serialize
 {
 public:
+
 	~Serialize();
 	static void		*createSendHandshake(unsigned int idClient = 0); //6bytes
 	static void		*createSendMove(const sf::Vector2f &pos, const sf::Vector2f &direction); // 9bytes

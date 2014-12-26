@@ -11,11 +11,7 @@ Serialize::~Serialize()
 
 void		*Serialize::createSendHandshake(unsigned int idClient) //6bytes
 {
-	char	tmp[5];
-	tmp[0] = '1';
-	tmp[1] = '0';
-	tmp[2] = '0';
-	tmp[3] = '0';
+
 }
 
 void		*Serialize::createSendMove(const sf::Vector2f &pos, const sf::Vector2f &direction) // 9bytes
