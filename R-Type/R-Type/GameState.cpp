@@ -5,11 +5,21 @@
 GameState::GameState(Game *game) : AState(game)
 {
 	_isBlocking = true;
+	Network::Client	*client = Network::Client::connect(Network::Client::Config("127.0.0.1", 2222), ::hpl::bind(&GameState::onConnectEvent, this, ::hpl::Placeholder::_1));
 }
 
 GameState::~GameState()
 {
 }
+
+void	GameState::onConnectEvent(Network::Client &client)
+{
+	client.socket.onRecive(::hpl::bind(&GameState::onRecive, this, ::hpl::Placeholder::_1));
+	client.socket.onEnd(::hpl::bind(&GameState::onEnd, this, ::hpl::Placeholder::_1));
+}
+
+void	GameState::onRecive(Network::Socket &socket) {}
+void	GameState::onEnd(Network::Socket const &socket) {}
 
 void						GameState::initialize(ResourceManager &resourceManager)
 {

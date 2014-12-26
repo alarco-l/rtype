@@ -9,26 +9,26 @@ namespace hpl
 
 	template <typename TRet, typename ...TArgs> struct _IPointer
 	{
-		virtual TRet	operator()(TArgs ...args) = 0;
+		virtual TRet	operator()(TArgs &&...args) = 0;
 		virtual _IPointer<TRet, TArgs...>	*clone(void) = 0;
 	};
 	template <typename ...TArgs> struct _IPointer<void, TArgs...>
 	{
-		virtual void	operator()(TArgs ...args) = 0;
+		virtual void	operator()(TArgs &&...args) = 0;
 		virtual _IPointer<void, TArgs...>	*clone(void) = 0;
 	};
 
 	template <typename TPtr, typename TRet, typename ...TArgs> struct _Pointer : public _IPointer < TRet, TArgs... >
 	{
 		_Pointer(TPtr ptr) : _ptr(ptr) {}
-		TRet	operator()(TArgs ...args) { return (_ptr(args...)); }
+		TRet	operator()(TArgs &&...args) { return (_ptr(args...)); }
 		_IPointer<TRet, TArgs...>	*clone(void) { return (new _Pointer<TPtr, TRet, TArgs...>(_ptr)); }
 		TPtr	_ptr;
 	};
 	template <typename TPtr, typename ...TArgs> struct _Pointer<TPtr, void, TArgs...> : public _IPointer < void, TArgs... >
 	{
 		_Pointer(TPtr ptr) : _ptr(ptr) {}
-		void	operator()(TArgs ...args) { _ptr(args...); }
+		void	operator()(TArgs &&...args) { _ptr(args...); }
 		_IPointer<void, TArgs...>	*clone(void) { return (new _Pointer<TPtr, void, TArgs...>(_ptr)); }
 		TPtr	_ptr;
 	};
@@ -49,7 +49,7 @@ namespace hpl
 			if (_func) delete _func;
 			_func = new _Pointer<Type, TRet, TArgs...>(func._func->clone());
 		}
-		TRet	operator()(TArgs ...args) { return ((*_func)(args...)); }
+		TRet	operator()(TArgs &&...args) { return ((*_func)(args...)); }
 	};
 	template <typename ...TArgs> class _FunctionBase < void, TArgs... >
 	{
@@ -67,7 +67,7 @@ namespace hpl
 			if (_func) delete _func;
 			_func = new _Pointer<Type, void, TArgs...>(func._func->clone());
 		}
-		void	operator()(TArgs ...args) { (*_func)(args...); }
+		void	operator()(TArgs &&...args) { (*_func)(args...); }
 	};
 	template <typename TFunc> struct _Function;
 	template <typename TRet, typename ...TArgs> struct _Function < TRet(TArgs...) > { typedef _FunctionBase<TRet, TArgs...> type; };
@@ -124,7 +124,7 @@ namespace hpl
 	public:
 		Pointer(TRet(Class::*func)(Args...), Class *clas) : _func(func), _class(clas) {}
 
-		template <typename ...Args> TRet	operator()(Args ...args) { return ((_class->*_func)(args...)); }
+		template <typename ...Args> TRet	operator()(Args &&...args) { return ((_class->*_func)(args...)); }
 	};
 	template <class Class, typename ...Args> class Pointer < Class, void(Class::*)(Args...) >
 	{
@@ -134,7 +134,7 @@ namespace hpl
 	public:
 		Pointer(void(Class::*func)(Args...), Class *clas) : _func(func), _class(clas) {}
 
-		template <typename ...Args> void	operator()(Args ...args) { (_class->*_func)(args...); }
+		template <typename ...Args> void	operator()(Args &&...args) { (_class->*_func)(args...); }
 	};
 
 	template <typename ...Elements> struct Storage;
@@ -218,14 +218,14 @@ namespace hpl
 	};
 
 	template <typename Ret, typename ...Args, typename ...Params>
-	_Bind<Storage<Params...>, Ret(*)(Args...), Ret, Arguments<Params...>::size>	bind(Ret(*func)(Args...), Params ...args)
+	_Bind<Storage<Params...>, Ret(*)(Args...), Ret, Arguments<Params...>::size>	bind(Ret(*func)(Args...), Params &&...args)
 	{
 		Storage<Params...>	stor(args...);
 		return (_Bind<Storage<Params...>, Ret(*)(Args...), Ret, Arguments<Params...>::size>(stor, func));
 	}
 
 	template <typename Ret, typename Class, typename ...Args, typename ...Params>
-	_Bind<Storage<Params...>, Pointer<Class, Ret, Args...>, Ret, Arguments<Params...>::size>	bind(Ret(Class::*func)(Args...), Class *c, Params ...args)
+	_Bind<Storage<Params...>, Pointer<Class, Ret, Args...>, Ret, Arguments<Params...>::size>	bind(Ret(Class::*func)(Args...), Class *c, Params &&...args)
 	{
 		Storage<Params...>				stor(args...);
 		Pointer<Class, Ret, Args...>	ptr(func, c);

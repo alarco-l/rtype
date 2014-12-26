@@ -2,6 +2,8 @@
 
 #include "AState.h"
 
+#include "Network/Client.h"
+
 class							GameState : public AState
 {
 public:
@@ -39,6 +41,10 @@ private:
 	void						initializeHUD(ResourceManager &resourceManager);
 	void						initializePlayer(ResourceManager &resourceManager);
 	void						initializeBackground(ResourceManager &resourceManager);
+
+	void						onConnectEvent(Network::Client &client);
+	void						onRecive(Network::Socket &socket);
+	void						onEnd(Network::Socket const &socket);
 
 	void						updateHUD();
 	void						updateBackground();
