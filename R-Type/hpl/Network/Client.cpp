@@ -153,6 +153,7 @@ namespace Network
 	{
 		FD_CLR(client.socket.native(), &_fdRead);
 		FD_CLR(client.socket.native(), &_fdWrite);
-		_sockets.erase(client.socket.native());
+		client.socket.close();
+		//_sockets.erase(client.socket.native());
 	}
 }

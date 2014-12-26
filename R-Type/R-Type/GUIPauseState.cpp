@@ -29,6 +29,9 @@ void						GUIPauseState::initialize(ResourceManager &resourceManager)
 	_world.addTransformComponent(_id[EXIT], ComponentFactory::createTransformComponent(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, screenSize.y / 3.0f + 150.0f)));
 }
 
+void						GUIPauseState::stop(void) {}
+
+
 bool						GUIPauseState::handleKeyState()
 {
 	return (true);

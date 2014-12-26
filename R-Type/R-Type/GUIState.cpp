@@ -35,6 +35,8 @@ void						GUIState::initialize(ResourceManager &resourceManager)
 	_world.addTransformComponent(_id[EXIT], ComponentFactory::createTransformComponent(sf::Vector2f(), sf::Vector2f(0.0f, screenSize.y / 3.0f + 150.0f)));
 }
 
+void						GUIState::stop(void) {}
+
 bool						GUIState::handleKeyState()
 {
 	return (true);

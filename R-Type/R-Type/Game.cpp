@@ -86,6 +86,7 @@ void										Game::pushState(AState *state)
 
 void										Game::popState()
 {
+	_states.back()->stop();
 	_states.pop_back();
 }
 

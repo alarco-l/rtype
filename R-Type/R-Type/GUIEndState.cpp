@@ -33,6 +33,8 @@ void						GUIEndState::initialize(ResourceManager &resourceManager)
 	_world.addTransformComponent(_id[EXIT], ComponentFactory::createTransformComponent(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, screenSize.y - screenSize.y / 3.0f)));
 }
 
+void						GUIEndState::stop(void) {}
+
 bool						GUIEndState::handleKeyState()
 {
 	return (true);

@@ -9,6 +9,7 @@ public:
 	~GUIPauseState();
 
 	void						initialize(ResourceManager &resourceManager);
+	void						stop(void);
 	bool						handleKeyEvent(const sf::Event &event);
 	bool						handleKeyState();
 

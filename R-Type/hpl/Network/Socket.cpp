@@ -21,7 +21,15 @@ namespace Network
 	{
 		this->useProtocol<Protocol::None>();
 	}
-	Socket::~Socket(void) { close(); }
+	Socket::~Socket(void)
+	{
+		close();
+		if (_protocol)
+		{
+			delete _protocol;
+			_protocol = NULL;
+		}
+	}
 	
 	ulint			Socket::native(void) const { return (_socket); }
 	Socket::Type	Socket::type(void) const { return (_type); }
@@ -31,6 +39,7 @@ namespace Network
 		_mutex.lock();
 		char	buff[255];
 		ulint	size;
+
 
 		size = _protocol->recive(buff, sizeof(buff));
 		switch (size)
@@ -89,18 +98,13 @@ namespace Network
 
 		if (_connected)
 		{
-			_writeStream.clear();
-			_readStream.clear();
+			//_writeStream.clear();
+			//_readStream.clear();
 			if (_onEndEvent)
 				_onEndEvent(*this);
-			if (_socket != (ulint)-1)
+			//if (_socket != (ulint)-1)
 				close(_socket);
 			_connected = false;
-			if (_protocol)
-			{
-				delete _protocol;
-				_protocol = NULL;
-			}
 		}
 		_mutex.unlock();
 	}

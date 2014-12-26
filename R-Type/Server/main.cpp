@@ -8,6 +8,9 @@
 #include "ComponentFactory.h"
 #include "ResourceManager.h"
 
+#include "hpl.h"
+#include "Network/Server.h"
+
 sf::Vector2f normalize(const sf::Vector2f& source)
 {
 	float length = sqrt((source.x * source.x) + (source.y * source.y));
@@ -17,7 +20,34 @@ sf::Vector2f normalize(const sf::Vector2f& source)
 		return sf::Vector2f(source.x, source.y);
 }
 
-int main()
+void	onConnectEvent(Network::Server &server, Network::Socket &socket)
+{
+	::hpl::Logger::out("New client");
+}
+void	onDisconnectEvent(Network::Server &server, Network::Socket const &socket)
+{
+	::hpl::Logger::out("Losing client");
+}
+void	onEndEvent(Network::Server const &server)
+{
+	::hpl::Logger::out("Stopping server");
+}
+
+void	onListenEvent(Network::Server &server)
+{
+	::hpl::Logger::out("Listen on 2222");
+	server.onDisconnect(::hpl::bind(&onDisconnectEvent, ::hpl::Placeholder::_1, ::hpl::Placeholder::_2));
+	server.onEnd(::hpl::bind(&onEndEvent, ::hpl::Placeholder::_1));
+}
+
+void	onServerStart(Network::Server &server)
+{
+	::hpl::Logger::out("Starting server");
+	server.onConnect(::hpl::bind(&onConnectEvent, ::hpl::Placeholder::_1, ::hpl::Placeholder::_2));
+	server.listen(2222, ::hpl::bind(&onListenEvent, ::hpl::Placeholder::_1));
+}
+
+int		main(int argc, char *argv[], char *env[])
 {
 	sf::RenderWindow window(sf::VideoMode(1280, 720), "R-Type");
 	World	world;
@@ -36,6 +66,7 @@ int main()
 	world.addRenderComponent(id, ComponentFactory::createRenderComponent(resource.getTexture("../R-Type/textures/hero.png")));
 	world.addTransformComponent(id, ComponentFactory::createTransformComponent(sf::Vector2f(1021, 728), sf::Vector2f(0, y), sf::Vector2f(0.05f, 0.20f)));
 	world.addMovementComponent(id, ComponentFactory::createMovementComponent(50, sf::Vector2f(0, y)));
+	Network::Server	*server = Network::Server::create(::hpl::bind(&onServerStart, ::hpl::Placeholder::_1));
 	while (window.isOpen())
 	{
 		sf::Time time = clock.restart();
@@ -56,5 +87,6 @@ int main()
 		RenderSystem::update(&window, world);
 		window.display();
 	}
+	delete server;
 	return(0);
 }

@@ -11,6 +11,7 @@ public:
 	~GameState();
 
 	void						initialize(ResourceManager &resourceManager);
+	void						stop(void);
 	bool						handleKeyEvent(const sf::Event &event);
 	bool						handleKeyState();
 	void						update(const sf::Time &elapsed);
@@ -60,4 +61,5 @@ private:
 	int							_idPlayer[MAXPART];
 	unsigned int				_idHud[MAX];
 	unsigned int				_idBackground[2];
+	Network::Client				*_client;
 };

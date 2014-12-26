@@ -14,6 +14,7 @@ public:
 	~AState();
 
 	virtual void				initialize(ResourceManager &resourceManager) = 0;
+	virtual void				stop(void) = 0;
 	virtual void				update(const sf::Time &elapsed);
 	virtual void				draw(sf::RenderWindow *window);
 	virtual bool				handleKeyEvent(const sf::Event &event) = 0;

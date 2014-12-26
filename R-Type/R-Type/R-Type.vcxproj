@@ -57,11 +57,11 @@
       <AdditionalDependencies>ws2_32.lib;sfml-audio-d.lib;sfml-graphics-d.lib;sfml-system-d.lib;sfml-main-d.lib;sfml-window-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy $(SolutionDIr)SFML-2.1\lib\sfml-audio-d-2.dll $(OutDir)
-copy $(SolutionDIr)SFML-2.1\lib\sfml-graphics-d-2.dll $(OutDir)
-copy $(SolutionDIr)SFML-2.1\lib\sfml-network-d-2.dll $(OutDir)
-copy $(SolutionDIr)SFML-2.1\lib\sfml-system-d-2.dll $(OutDir)
-copy $(SolutionDIr)SFML-2.1\lib\sfml-window-d-2.dll $(OutDir)
+      <Command>copy /Y $(SolutionDIr)SFML-2.1\lib\sfml-audio-d-2.dll $(OutDir)
+copy /Y $(SolutionDIr)SFML-2.1\lib\sfml-graphics-d-2.dll $(OutDir)
+copy /Y $(SolutionDIr)SFML-2.1\lib\sfml-network-d-2.dll $(OutDir)
+copy /Y $(SolutionDIr)SFML-2.1\lib\sfml-system-d-2.dll $(OutDir)
+copy /Y $(SolutionDIr)SFML-2.1\lib\sfml-window-d-2.dll $(OutDir)
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -82,11 +82,11 @@ copy $(SolutionDIr)SFML-2.1\lib\sfml-window-d-2.dll $(OutDir)
       <AdditionalDependencies>ws2_32.lib;sfml-audio.lib;sfml-graphics.lib;sfml-system.lib;sfml-main.lib;sfml-window.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy $(SolutionDIr)SFML-2.1\lib\sfml-audio-2.dll $(OutDir)
-copy $(SolutionDIr)SFML-2.1\lib\sfml-graphics-2.dll $(OutDir)
-copy $(SolutionDIr)SFML-2.1\lib\sfml-network-2.dll $(OutDir)
-copy $(SolutionDIr)SFML-2.1\lib\sfml-system-2.dll $(OutDir)
-copy $(SolutionDIr)SFML-2.1\lib\sfml-window-2.dll $(OutDir)
+      <Command>copy /Y $(SolutionDIr)SFML-2.1\lib\sfml-audio-2.dll $(OutDir)
+copy /Y $(SolutionDIr)SFML-2.1\lib\sfml-graphics-2.dll $(OutDir)
+copy /Y $(SolutionDIr)SFML-2.1\lib\sfml-network-2.dll $(OutDir)
+copy /Y $(SolutionDIr)SFML-2.1\lib\sfml-system-2.dll $(OutDir)
+copy /Y $(SolutionDIr)SFML-2.1\lib\sfml-window-2.dll $(OutDir)
 </Command>
     </PostBuildEvent>
     <PreBuildEvent>
@@ -162,14 +162,6 @@ copy $(SolutionDIr)SFML-2.1\lib\sfml-window-2.dll $(OutDir)
   <ItemGroup>
     <ProjectReference Include="..\hpl\hpl.vcxproj">
       <Project>{49b797b6-a065-4440-96f1-c5020e2f8b50}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Server\Server.vcxproj">
-      <Project>{804a43dc-5c17-4324-a81d-b1b91586ebfe}</Project>
-      <Private>false</Private>
-      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
-      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
-      <LinkLibraryDependencies>false</LinkLibraryDependencies>
-      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

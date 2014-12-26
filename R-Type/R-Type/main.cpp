@@ -5,8 +5,9 @@
 #include "World.h"
 #include "Systems.h"
 #include "Game.h"
+#include "hpl.h"
 
-int								main()
+int								main(int argc, char *argv[], char *env[])
 {
 	Game						game;
 
