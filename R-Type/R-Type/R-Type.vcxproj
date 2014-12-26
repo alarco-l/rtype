@@ -54,11 +54,11 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>copy $(SolutionDir)SFML-2.1\lib\sfml-audio-d-2.dll $(OutDir)
-copy $(SolutionDir)SFML-2.1\lib\sfml-graphics-d-2.dll $(OutDir)
-copy $(SolutionDir)SFML-2.1\lib\sfml-network-d-2.dll $(OutDir)
-copy $(SolutionDir)SFML-2.1\lib\sfml-system-d-2.dll $(OutDir)
-copy $(SolutionDir)SFML-2.1\lib\sfml-window-d-2.dll $(OutDir)
+      <Command>copy $(SolutionDIr)SFML-2.1\lib\sfml-audio-d-2.dll $(OutDir)
+copy $(SolutionDIr)SFML-2.1\lib\sfml-graphics-d-2.dll $(OutDir)
+copy $(SolutionDIr)SFML-2.1\lib\sfml-network-d-2.dll $(OutDir)
+copy $(SolutionDIr)SFML-2.1\lib\sfml-system-d-2.dll $(OutDir)
+copy $(SolutionDIr)SFML-2.1\lib\sfml-window-d-2.dll $(OutDir)
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -79,11 +79,11 @@ copy $(SolutionDir)SFML-2.1\lib\sfml-window-d-2.dll $(OutDir)
       <AdditionalDependencies>sfml-audio.lib;sfml-graphics.lib;sfml-system.lib;sfml-main.lib;sfml-window.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy $(SolutionDir)SFML-2.1\lib\sfml-audio-2.dll $(OutDir)
-copy $(SolutionDir)SFML-2.1\lib\sfml-graphics-2.dll $(OutDir)
-copy $(SolutionDir)SFML-2.1\lib\sfml-network-2.dll $(OutDir)
-copy $(SolutionDir)SFML-2.1\lib\sfml-system-2.dll $(OutDir)
-copy $(SolutionDir)SFML-2.1\lib\sfml-window-2.dll $(OutDir)
+      <Command>copy $(SolutionDIr)SFML-2.1\lib\sfml-audio-2.dll $(OutDir)
+copy $(SolutionDIr)SFML-2.1\lib\sfml-graphics-2.dll $(OutDir)
+copy $(SolutionDIr)SFML-2.1\lib\sfml-network-2.dll $(OutDir)
+copy $(SolutionDIr)SFML-2.1\lib\sfml-system-2.dll $(OutDir)
+copy $(SolutionDIr)SFML-2.1\lib\sfml-window-2.dll $(OutDir)
 </Command>
     </PostBuildEvent>
     <PreBuildEvent>
