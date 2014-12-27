@@ -1,9 +1,9 @@
 # pragma once
 
 # include "IRFC.h"
-//# include "Network/Client.h"
+# include "Network/Client.h"
+#include <SFML/Graphics/RenderWindow.hpp>
 
-# define ASocket	Network::Socket
 
 class RFCClient : public IRFC
 {
@@ -36,10 +36,10 @@ private:
 	short int	_id[4];
 	short int	_idClientCrash;
 	//RecvCommand _recvCmd;
-	ASocket	*_socket;
+	Network::Socket	*_socket;
 
 public:
-	RFCClient(ASocket &socket);
+	RFCClient(Network::Socket &socket);
 	~RFCClient();
 	
 	enum SendCommand
@@ -77,8 +77,8 @@ public:
 	void	sendHitMonster(unsigned int idMonster, const sf::Vector2f &posMonster); // 7bytes
 	void	sendKillMonster(unsigned int idMonster, const sf::Vector2f &posMonster); // 7btytes
 
-	void	recvCmd(ASocket &socket);
-	void	recvHandshate(); 
+	void	recvCmd(Network::Socket &socket);
+	void	recvHandshake(); 
 	void	recvMove();  
 	void	recvShoot();  
 	void	recvCollision();  
@@ -91,28 +91,4 @@ public:
 	void	recvMonsterFire();
 	void	recvStartGame();
 	void	recvClientCrash();
-
-private:
-	enum idPlayer
-	{
-		PLAYER1,
-		PLAYER2,
-		PLAYER3,
-		PLAYER4,
-		PLAYERMAX,
-	};
-	enum Monster
-	{
-		MONSTER1,
-		MONSTER2,
-		MONSTER3,
-		MONSTER4,
-		MONSTERMAX,
-	};
-	bool	_handshate;
-	bool	_isConnect;
-	short int	_id[4];
-	short int	_idClientCrash;
-	RecvCommand _recvCmd;
-	ASocket	*_socket;
 };

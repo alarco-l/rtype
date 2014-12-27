@@ -1,9 +1,8 @@
 #pragma once
 
-//#include "BasicType.h"
+#include "BasicType.h"
 
-//#include "Network/Client.h"
-#define Socket	Network::Socket
+#include "Network/Client.h"
 
 class					IRFC
 {
@@ -23,6 +22,6 @@ public:
 
 	virtual				~IRFC() {}
 
-	virtual void		setSocket(Socket &socket) = 0;
-	virtual void		getData(Socket &socket) = 0;
+	//virtual void		setSocket(Network::Socket &socket) = 0;
+	//virtual void		getData(Network::Socket &socket) = 0;
 };
