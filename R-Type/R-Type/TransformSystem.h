@@ -6,7 +6,7 @@
 class							TransformSystem
 {
 public:
-	static void					update(World &world, const sf::Time &elapsed, const RFCClient *rfc);
+	static void					update(World &world, const sf::Time &elapsed, RFCClient *rfc);
 	TransformSystem();
 	TransformSystem(const TransformSystem &rhs);
 	TransformSystem &operator=(const TransformSystem &rhs);

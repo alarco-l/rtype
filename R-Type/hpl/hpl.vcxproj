@@ -69,7 +69,9 @@
     <ClInclude Include="container.h" />
     <ClInclude Include="exceptions.h" />
     <ClInclude Include="exit.h" />
-    <ClInclude Include="function.hpp" />
+    <ClInclude Include="function.hpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="hpl.h" />
     <ClInclude Include="logger.hpp" />
     <ClInclude Include="Network\Client.h" />

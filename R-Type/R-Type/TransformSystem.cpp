@@ -1,6 +1,6 @@
 #include "TransformSystem.h"
 
-void							TransformSystem::update(World &world, const sf::Time &elapsed, const RFCClient *rfc)
+void							TransformSystem::update(World &world, const sf::Time &elapsed, RFCClient *rfc)
 {
 	for (unsigned int i = 0; i != world.entityCount; ++i)
 	{
@@ -15,8 +15,8 @@ void							TransformSystem::update(World &world, const sf::Time &elapsed, const 
 				applyScroll(xform, scroll, elapsed);
 			if (mov) {
 				applyMovement(xform, mov, elapsed);
+				rfc->sendMove(xform->position, mov->direction);
 			}
-				//send
 			if (spin)
 				applySpin(xform, spin, elapsed);
 			computeTransform(xform);
