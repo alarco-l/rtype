@@ -31,7 +31,7 @@ void	RFCManager::onEndEvent2(Network::Socket const &socket)
 void	RFCManager::onConnectEvent(Network::Server &sever, Network::Socket &socket)
 {
 	::hpl::Logger::out("New client");
-	//socket.onRecive(::hpl::bind(&onReceiveEvent2, ::hpl::Placeholder::_1));
+	socket.onRecive(::hpl::bind(&RFCManager::onReceiveEvent2,this, ::hpl::Placeholder::_1));
 	socket.onEnd(::hpl::bind(&RFCManager::onEndEvent2, this, ::hpl::Placeholder::_1));
 	//RFC	*rfc = new RFC(socket);
 }
