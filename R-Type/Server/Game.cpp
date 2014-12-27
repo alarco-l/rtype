@@ -4,6 +4,7 @@ Game::Game()
 {
 	_dlLoader = new DlLoader(".");
 	_time.restart();
+	_fireTime.restart();
 	_spawn1 = true;
 	_spawn2 = true;
 }
@@ -36,7 +37,7 @@ void				Game::update()
 
 void				Game::deleteMonster(int id)
 {
-	if (_world.transformComponents[_idMonster[id]]->position.x < -1500)
+	if (_world.transformComponents[_idMonster[id]]->position.x < -800)
 	{
 		_monster.erase(_monster.begin() + id);
 		_idMonster.erase(_idMonster.begin() + id);
@@ -46,12 +47,14 @@ void				Game::deleteMonster(int id)
 
 void				Game::run()
 {
+	uint			id;
+
 	update();
 	for (unsigned i = 0; i < _monster.size(); ++i)
 	{
 		deleteMonster(i);
 	}
-	if ((int)_time.getElapsedTime().asSeconds() % 2)
+	if ((int)_time.getElapsedTime().asSeconds() % 3)
 	{
 		if (_spawn1)
 		{
@@ -61,7 +64,7 @@ void				Game::run()
 	}
 	else
 		_spawn1 = true;
-	if ((int)_time.getElapsedTime().asSeconds() % 3)
+	if ((int)_time.getElapsedTime().asSeconds() % 5)
 	{
 		if (_spawn2)
 		{
@@ -71,6 +74,16 @@ void				Game::run()
 	}
 	else
 		_spawn2 = true;
+	if (_fireTime.getElapsedTime().asSeconds() > 0.35)
+	{
+		std::cout << _monster.size() << std::endl;
+		if (_monster.size() > 0)
+		{
+			id = rand() % _monster.size();
+			fire(id);
+		}
+		_fireTime.restart();
+	}
 }
 
 void				Game::spawnMonster(std::string const &name)
@@ -98,6 +111,19 @@ void				Game::spawnMonster(std::string const &name)
 	_world.addTransformComponent(id, ComponentFactory::createTransformComponent(sf::Vector2f(1021, 728), sf::Vector2f(x, y), sf::Vector2f(0.05f, 0.20f)));
 	_world.addMovementComponent(id, ComponentFactory::createMovementComponent(50, sf::Vector2f(0, 0)));
 	_idMonster.push_back(id);
+}
+
+void				Game::fire(int id)
+{
+	uint			tmp;
+	IMonster::Dir	dir;
+
+	dir = _monster[id]->fire();
+	tmp = _world.createEmptyEntity();
+	_ressource.loadTexture(_monster[id]->getFire());
+	_world.addRenderComponent(tmp, ComponentFactory::createRenderComponent(_ressource.getTexture(_monster[id]->getFire())));
+	_world.addTransformComponent(tmp, ComponentFactory::createTransformComponent(sf::Vector2f(1021, 728), sf::Vector2f(dir.x, dir.y + 50), sf::Vector2f(0.01f, 0.01f)));
+	_world.addMovementComponent(tmp, ComponentFactory::createMovementComponent(50, sf::Vector2f(-10, 0)));
 }
 
 World				&Game::getWorld() { return (_world); }

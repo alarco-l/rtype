@@ -9,8 +9,12 @@ public:
 	~MonsterType1();
 
 	Dir							update();
+	Dir							fire();
 
 	const char					*getTexture() const;
+	const char					*getFire() const;
 
 	void						setSpawn(float x, float y);
+private:
+	IMonster::Dir				_dir;
 };

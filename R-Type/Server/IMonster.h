@@ -17,11 +17,15 @@ public:
 	virtual						~IMonster() {}
 
 	virtual Dir					update() = 0;
+	virtual Dir					fire() = 0;
 
 	virtual const char			*getTexture() const = 0;
+	virtual const char			*getFire() const = 0;
+
 	virtual void				setSpawn(float x, float y) = 0;
 protected:
 	std::string					_texture;
+	std::string					_fire;
 	float						_time;
 	Dir							_spawn;
 };
