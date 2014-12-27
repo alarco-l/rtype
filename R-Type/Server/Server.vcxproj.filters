@@ -102,6 +102,9 @@
     <ClInclude Include="RFC.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="RFCManager.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DlLoader.cpp">
@@ -141,6 +144,9 @@
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="RFC.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="RFCManager.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
