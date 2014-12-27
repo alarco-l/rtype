@@ -9,6 +9,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Server", "Server\Server.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "R-Type", "R-Type\R-Type.vcxproj", "{5D26548A-69E8-41A8-816A-9986DE28E8A1}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MonsterType1", "MonsterType1\MonsterType1.vcxproj", "{08000ECF-5E7A-4821-AC36-CCDA3C7930A8}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MonsterType2", "MonsterType2\MonsterType2.vcxproj", "{D036C7E0-CC4E-4661-9977-9C8C5D96F3DB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -27,6 +31,14 @@ Global
 		{5D26548A-69E8-41A8-816A-9986DE28E8A1}.Debug|Win32.Build.0 = Debug|Win32
 		{5D26548A-69E8-41A8-816A-9986DE28E8A1}.Release|Win32.ActiveCfg = Release|Win32
 		{5D26548A-69E8-41A8-816A-9986DE28E8A1}.Release|Win32.Build.0 = Release|Win32
+		{08000ECF-5E7A-4821-AC36-CCDA3C7930A8}.Debug|Win32.ActiveCfg = Debug|Win32
+		{08000ECF-5E7A-4821-AC36-CCDA3C7930A8}.Debug|Win32.Build.0 = Debug|Win32
+		{08000ECF-5E7A-4821-AC36-CCDA3C7930A8}.Release|Win32.ActiveCfg = Release|Win32
+		{08000ECF-5E7A-4821-AC36-CCDA3C7930A8}.Release|Win32.Build.0 = Release|Win32
+		{D036C7E0-CC4E-4661-9977-9C8C5D96F3DB}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D036C7E0-CC4E-4661-9977-9C8C5D96F3DB}.Debug|Win32.Build.0 = Debug|Win32
+		{D036C7E0-CC4E-4661-9977-9C8C5D96F3DB}.Release|Win32.ActiveCfg = Release|Win32
+		{D036C7E0-CC4E-4661-9977-9C8C5D96F3DB}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

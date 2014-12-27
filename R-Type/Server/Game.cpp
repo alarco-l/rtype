@@ -2,7 +2,7 @@
 
 Game::Game()
 {
-	_dlLoader = new DlLoader("../Release");
+	_dlLoader = new DlLoader(".");
 	_time.restart();
 	_spawn1 = true;
 	_spawn2 = true;
@@ -12,8 +12,8 @@ Game::~Game() {}
 
 void				Game::init()
 {
-	_dlLoader->loadDLL("../Debug/MonsterType1", "monsterType1");
-	_dlLoader->loadDLL("../Debug/MonsterType2", "monsterType2");
+	_dlLoader->loadDLL("MonsterType1", "monsterType1");
+	_dlLoader->loadDLL("MonsterType2", "monsterType2");
 }
 
 void				Game::update()
@@ -36,7 +36,7 @@ void				Game::update()
 
 void				Game::deleteMonster(int id)
 {
-	if (_world.transformComponents[_idMonster[id]]->position.x < -1000)
+	if (_world.transformComponents[_idMonster[id]]->position.x < -1500)
 	{
 		_monster.erase(_monster.begin() + id);
 		_idMonster.erase(_idMonster.begin() + id);
