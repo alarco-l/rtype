@@ -22,7 +22,7 @@ void	GameState::onEnd(Network::Socket const &socket) {}
 
 void						GameState::initialize(ResourceManager &resourceManager)
 {
-	_client = Network::Client::connect(Network::Client::Config("127.0.0.1", 2222), ::hpl::bind(&GameState::onConnectEvent, this, ::hpl::Placeholder::_1));
+	_client = Network::Client::connect<Network::tcp::ip4>(Network::Client::Config("127.0.0.1", 2222), ::hpl::bind(&GameState::onConnectEvent, this, ::hpl::Placeholder::_1));
 	this->initializeBackground(resourceManager);
 	this->initializeHUD(resourceManager);
 	this->initializePlayer(resourceManager);

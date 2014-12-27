@@ -8,6 +8,7 @@
 #include "../container.h"
 #include "../synchronous.h"
 #include "Socket.h"
+#include "network.h"
 
 namespace Network
 {
@@ -29,7 +30,12 @@ namespace Network
 	public:
 		~Client(void);
 
-		static Client	*connect(Config &config, ::hpl::CallBack<Client &> onConnectEvent);
+		template <int protocol> static Client	*connect(Client::Config &config, ::hpl::CallBack<Client &> onConnectEvent)
+		{
+			Client		*client = new Client(Client::Manager::getInstance()->connect(config, protocol), onConnectEvent);
+			Client::Manager::getInstance()->manage(*client);
+			return (client);
+		}
 
 		Socket	socket;
 
@@ -46,7 +52,7 @@ namespace Network
 		public:
 			static Manager	*getInstance(void);
 
-			ulint			connect(Config &config);
+			ulint			connect(Config &config, int protocol);
 
 			void			manage(Client &client);
 			void			forget(Client &client);

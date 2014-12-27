@@ -15,14 +15,6 @@ namespace Network
 		Client::Manager::getInstance()->forget(*this);
 	}
 
-	Client	*Client::connect(Client::Config &config, ::hpl::CallBack<Client &> onConnectEvent)
-	{
-		Client		*client = new Client(Client::Manager::getInstance()->connect(config), onConnectEvent);
-		Client::Manager::getInstance()->manage(*client);
-		return (client);
-	}
-
-
 	Client::Manager::Manager(void)
 	{
 #ifndef __LINUX__
@@ -44,12 +36,27 @@ namespace Network
 	Client::Manager	*Client::Manager::getInstance(void) { return (_instance); }
 	Client::Manager	*Client::Manager::_instance = new Client::Manager;
 
-	ulint			Client::Manager::connect(Client::Config &config)
+	ulint			Client::Manager::connect(Client::Config &config, int protocol)
 	{
 		ulint		socket;
 		sockaddr_in	sin;
 
-		if ((socket = ::socket(AF_INET, SOCK_STREAM, 0)) == (ulint)-1)
+		int	proType;
+		int	proto;
+
+		switch (protocol)
+		{
+		case Network::tcp_ip4:
+			proType = SOCK_STREAM;
+			proto = IPPROTO_TCP;
+			break;
+		case Network::udp_ip4:
+			proType = SOCK_DGRAM;
+			proto = IPPROTO_UDP;
+			break;
+		}
+
+		if ((socket = ::socket(AF_INET, proType, proto)) == (ulint)-1)
 			throw (std::runtime_error("Network: socket fail"));
 		sin.sin_addr.s_addr = inet_addr(config.addr.c_str());
 		sin.sin_family = AF_INET;

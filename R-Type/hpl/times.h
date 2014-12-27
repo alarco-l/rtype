@@ -27,11 +27,15 @@ namespace hpl
 
 		static Time	Millisecond(ullint time);
 		static Time	Second(ullint time);
+		static Time Curent(void);
 
 		ullint	millisecond(void) const;
 		ullint	second(void) const;
 
 		Time	&operator=(Time const &time);
+
+		Time	operator-(Time const &other);
+		Time	operator+(Time const &other);
 
 	private:
 		Content	_content;

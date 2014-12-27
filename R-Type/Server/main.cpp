@@ -20,9 +20,21 @@ sf::Vector2f normalize(const sf::Vector2f& source)
 		return sf::Vector2f(source.x, source.y);
 }
 
+void	onReceiveEvent2(Network::Socket &socket)
+{
+	::hpl::Logger::out("Receive");
+}
+
+void	onEndEvent2(Network::Socket const &socket)
+{
+	::hpl::Logger::out("End");
+}
+
 void	onConnectEvent(Network::Server &server, Network::Socket &socket)
 {
 	::hpl::Logger::out("New client");
+	socket.onRecive(::hpl::bind(&onReceiveEvent2, ::hpl::Placeholder::_1));
+	socket.onEnd(::hpl::bind(&onEndEvent2, ::hpl::Placeholder::_1));
 }
 void	onDisconnectEvent(Network::Server &server, Network::Socket const &socket)
 {
@@ -44,7 +56,7 @@ void	onServerStart(Network::Server &server)
 {
 	::hpl::Logger::out("Starting server");
 	server.onConnect(::hpl::bind(&onConnectEvent, ::hpl::Placeholder::_1, ::hpl::Placeholder::_2));
-	server.listen(2222, ::hpl::bind(&onListenEvent, ::hpl::Placeholder::_1));
+	server.listen<Network::tcp::ip4>(2222, ::hpl::bind(&onListenEvent, ::hpl::Placeholder::_1));
 }
 
 int		main(int argc, char *argv[], char *env[])
