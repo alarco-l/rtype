@@ -61,5 +61,4 @@ private:
 	int							_idPlayer[MAXPART];
 	unsigned int				_idHud[MAX];
 	unsigned int				_idBackground[2];
-	Network::Client				*_client;
 };

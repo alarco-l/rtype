@@ -24,4 +24,5 @@ protected:
 	bool						_isBlocking;
 	World						_world;
 	Game						*_game;
+	Network::Client				*_client;
 };

@@ -11,8 +11,8 @@ AState::~AState()
 void							AState::update(const sf::Time &elapsed)
 {
 	ParticleSystem::update(_world, elapsed);
-	TransformSystem::update(_world, elapsed);
-	CollisionSystem::update(_world, sf::Vector2u(10, 10), _game->getScreenSize());
+	TransformSystem::update(_world, elapsed, _client);
+	CollisionSystem::update(_world, sf::Vector2u(10, 10), _game->getScreenSize(), _client);
 	AnimationSystem::update(_world, elapsed);
 }
 

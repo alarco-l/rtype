@@ -2,7 +2,7 @@
 #include <iostream>
 #include <algorithm>
 
-void									CollisionSystem::update(World &world, const sf::Vector2u &precision, const sf::Vector2u &size)
+void									CollisionSystem::update(World &world, const sf::Vector2u &precision, const sf::Vector2u &size, const Network::Client *client)
 {
 	collisionGrid						grid;
 	sf::Vector2u						cellSize = sf::Vector2u(size.x / precision.x, size.y / precision.y);
