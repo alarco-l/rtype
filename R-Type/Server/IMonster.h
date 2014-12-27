@@ -1,15 +1,29 @@
 #pragma once
 
-#include "BasicTypes.h"
+#include <string>
 
-class						IMonster
+#define							EXPORT extern "C" 
+#define							DLL __declspec(dllexport) 
+
+class							IMonster
 {
 public:
-	virtual					~IMonster() {}
+	struct						Dir
+	{
+		float					x;
+		float					y;
+	};
 
-	virtual	void			update() = 0;
+	virtual						~IMonster() {}
 
-	virtual sint			getType() = 0;
-private:
-	sint					type;
+	virtual Dir					update() = 0;
+
+	virtual const char			*getTexture() const = 0;
+	virtual void				setSpawn(float x, float y) = 0;
+protected:
+	std::string					_texture;
+	float						_time;
+	Dir							_spawn;
 };
+
+EXPORT DLL IMonster				*newInstance();

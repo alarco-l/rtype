@@ -85,6 +85,7 @@
     <ClInclude Include="DlLoader.hpp" />
     <ClInclude Include="EmitterComponent.h" />
     <ClInclude Include="Factory.hpp" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="IDlLoader.h" />
     <ClInclude Include="IMonster.h" />
     <ClInclude Include="MovementComponent.h" />
@@ -107,6 +108,7 @@
     <ClCompile Include="CollisionSystem.cpp" />
     <ClCompile Include="ComponentFactory.cpp" />
     <ClCompile Include="DlLoader.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="RenderSystem.cpp" />

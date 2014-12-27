@@ -7,18 +7,10 @@
 #include "Systems.h"
 #include "ComponentFactory.h"
 #include "ResourceManager.h"
+#include "Game.h"
 
 #include "hpl.h"
 #include "Network/Server.h"
-
-sf::Vector2f normalize(const sf::Vector2f& source)
-{
-	float length = sqrt((source.x * source.x) + (source.y * source.y));
-	if (length != 0)
-		return sf::Vector2f((source.x / length), (source.y / length));
-	else
-		return sf::Vector2f(source.x, source.y);
-}
 
 void	onReceiveEvent2(Network::Socket &socket)
 {
@@ -62,23 +54,18 @@ void	onServerStart(Network::Server &server)
 int		main(int argc, char *argv[], char *env[])
 {
 	sf::RenderWindow window(sf::VideoMode(1280, 720), "R-Type");
-	World	world;
-	ResourceManager resource;
-	sf::Clock clock;
-	sf::Texture texture;
-	sf::Sprite sprite;
-	float d = 50.f;
-	float R = 100.f;
-	float x, y, tmp = 0.f;
-	y = window.getSize().y / 2;
-	uint id;
-
-	resource.loadTexture("../R-Type/textures/hero.png");
-	id = world.createEmptyEntity();
-	world.addRenderComponent(id, ComponentFactory::createRenderComponent(resource.getTexture("../R-Type/textures/hero.png")));
-	world.addTransformComponent(id, ComponentFactory::createTransformComponent(sf::Vector2f(1021, 728), sf::Vector2f(0, y), sf::Vector2f(0.05f, 0.20f)));
-	world.addMovementComponent(id, ComponentFactory::createMovementComponent(50, sf::Vector2f(0, y)));
+	Game			game;
+	sf::Clock		clock;
 	Network::Server	*server = Network::Server::create(::hpl::bind(&onServerStart, ::hpl::Placeholder::_1));
+
+	std::srand(static_cast<unsigned int>(std::time(NULL)));
+	try {
+		game.init();
+	}
+	catch (std::exception &e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
 	while (window.isOpen())
 	{
 		sf::Time time = clock.restart();
@@ -88,15 +75,10 @@ int		main(int argc, char *argv[], char *env[])
 			if (event.type == sf::Event::Closed)
 				window.close();
 		}
-		tmp += 0.002f;
-		x = (R * tmp) - (d * sin((tmp)));
-		y = (R - d * cos(tmp));
-		sf::Vector2f direction;
-		direction = sf::Vector2f(x, y) - world.transformComponents[id]->position;
-		world.movementComponents[id]->direction = sf::Vector2f(direction.x, direction.y);
-		TransformSystem::update(world, time);
+		game.run();
+		TransformSystem::update(game.getWorld(), time);
 		window.clear();
-		RenderSystem::update(&window, world);
+		RenderSystem::update(&window, game.getWorld());
 		window.display();
 	}
 	delete server;
