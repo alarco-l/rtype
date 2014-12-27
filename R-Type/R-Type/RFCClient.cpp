@@ -1,6 +1,8 @@
 #include "RFCClient.h"
 
-RFCClient::RFCClient() {
+RFCClient::RFCClient(ASocket &socket) {
+	_socket = &socket;
+	_socket->onRecive(::hpl::bind(&RFCClient::recvCmd, this, ::hpl::Placeholder::_1));
 	_handshate = false;
 	_isConnect = false;
 	_id[PLAYER1] = 0;
@@ -11,7 +13,7 @@ RFCClient::RFCClient() {
 
 RFCClient::~RFCClient() {}
 
-void	RFCClient::sendHandshate(unsigned int idClient) // 6bytes
+void	RFCClient::sendHandshake(unsigned int idClient) // 6bytes
 {
 	if (_socket->connected() == true) {
 		_socket->out().write("1000", 4);
@@ -80,7 +82,7 @@ void	RFCClient::sendKillMonster(unsigned int idMonster, const sf::Vector2f &posM
 	}
 }
 
-void	RFCClient::recvCmd() {
+void	RFCClient::recvCmd(ASocket &socket) {
 	char cmd;
 	_socket->in().get(&cmd, 1);
 	switch (cmd)

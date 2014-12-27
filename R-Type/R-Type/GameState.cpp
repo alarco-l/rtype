@@ -1,6 +1,7 @@
 #include "GameState.h"
 #include "GUIPauseState.h"
 #include "GUIEndState.h"
+#include "RFCClient.h"
 
 GameState::GameState(Game *game) : AState(game)
 {
@@ -11,7 +12,8 @@ GameState::~GameState() {}
 
 void	GameState::onConnectEvent(Network::Client &client)
 {
-	client.socket.onRecive(::hpl::bind(&GameState::onRecive, this, ::hpl::Placeholder::_1));
+	RFCClient	*rfc = new RFCClient(client.socket);
+	//client.socket.onRecive(::hpl::bind(&GameState::onRecive, this, ::hpl::Placeholder::_1));
 	client.socket.onEnd(::hpl::bind(&GameState::onEnd, this, ::hpl::Placeholder::_1));
 }
 

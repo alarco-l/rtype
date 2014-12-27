@@ -124,6 +124,7 @@ namespace Network
 				{
 					FD_CLR(it->second->socket.native(), &_fdRead);
 					FD_CLR(it->second->socket.native(), &_fdWrite);
+					it->second->socket.close();
 					it = _sockets.erase(it);
 				}
 				else
