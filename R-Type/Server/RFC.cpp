@@ -7,29 +7,40 @@ void				RFC::recvCmd(RFC::RecvCommand cmd, Network::Socket &socket) {
 	//static int i = 0;
 	//std::fstream tata("tata.txt", std::fstream::in | std::fstream::app);
 	int nb;
-	IRFC::Dir		dir;
-	IRFC::Coord		coord;
 
 	switch (cmd)
 	{
 	case RFC::RECVHANDSHAKE:
 		break;
 	case RFC::RECVMOVE:
-		char buff[8];
+		char buffMove[8];
 		RFC::Move mov;
-
-
-		nb = socket.in().get(buff, 8);
-		mov.coord.posX = *(short int*)(buff);
-		mov.coord.posY = *(short int*)(buff + 2);
-		mov.dir.dirX = *(short int*)(buff + 4);
-		mov.dir.dirY = *(short int*)(buff + 6);
-		//_onMoveEvent(*this, )
-		//tata << i++ << "------------------------------------------" << std::endl;
-		//tata << cmd << " x =" << coord.posX << "\ny =" << coord.posY << "\ndirX =" << dir.dirX << "\ndirY =" << dir.dirY << std::endl;
+		nb = socket.in().get(buffMove, 8);
+		mov.coord.posX = *(short int*)(buffMove);
+		mov.coord.posY = *(short int*)(buffMove + 2);
+		mov.dir.dirX = *(short int*)(buffMove + 4);
+		mov.dir.dirY = *(short int*)(buffMove + 6);
+		_onMoveEvent(*this, mov);
 	case RFC::RECVSHOOT:
+		char buffShoot[10];
+		RFC::Shoot shoot;
+		nb = socket.in().get(buffShoot, 10);
+		shoot.idMuni = *(short int*)(buffShoot);
+		shoot.coord.posX = *(short int*)(buffShoot + 2);
+		shoot.coord.posY = *(short int*)(buffShoot + 4);
+		shoot.dir.dirX = *(short int*)(buffShoot + 6);
+		shoot.dir.dirY = *(short int*)(buffShoot + 8);
+		_onShootEvent(*this, shoot);
 		break;
 	case RFC::RECVCOLLISION:
+		char buffColision[8];
+		RFC::Colision colision;
+		nb = socket.in().get(buffColision, 10);
+		colision.idOnColision1 = *(short int*)(buffColision);
+		colision.idOnColision2 = *(short int*)(buffColision + 2);
+		colision.coord.posX = *(short int*)(buffColision + 4);
+		colision.coord.posY = *(short int*)(buffColision + 6);
+		_onColisionEvent(*this, colision);
 		break;
 	case RFC::RECVHITMONSTER:
 		break;
@@ -38,7 +49,6 @@ void				RFC::recvCmd(RFC::RecvCommand cmd, Network::Socket &socket) {
 	default:
 		break;
 	}
-	//tata.close();
 }
 
 void				RFC::sendStartGame(sint munition1, sint munition2) { }
