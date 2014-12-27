@@ -12,7 +12,7 @@ GameState::~GameState() {}
 
 void	GameState::onConnectEvent(Network::Client &client)
 {
-	RFCClient	*rfc = new RFCClient(client.socket);
+	_rfc = new RFCClient(client.socket);
 	//client.socket.onRecive(::hpl::bind(&GameState::onRecive, this, ::hpl::Placeholder::_1));
 	client.socket.onEnd(::hpl::bind(&GameState::onEnd, this, ::hpl::Placeholder::_1));
 }
@@ -78,8 +78,8 @@ bool						GameState::handleKeyState()
 void						GameState::update(const sf::Time &elapsed)
 {
 	ParticleSystem::update(_world, elapsed);
-	TransformSystem::update(_world, elapsed, _client);
-	CollisionSystem::update(_world, sf::Vector2u(10, 10), _game->getScreenSize(),_client);
+	TransformSystem::update(_world, elapsed, _rfc);
+	CollisionSystem::update(_world, sf::Vector2u(10, 10), _game->getScreenSize(), _rfc);
 	AnimationSystem::update(_world, elapsed);
 	this->updateBackground();
 	this->updateHUD();

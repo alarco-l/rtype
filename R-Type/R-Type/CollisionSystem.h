@@ -1,14 +1,14 @@
 #pragma once
 
 #include "World.h"
-#include "../hpl/Network/Client.h"
+#include "RFCClient.h"
 
 #include <set>
 
 class																CollisionSystem
 {
 public:
-	static void														update(World &world, const sf::Vector2u &precision, const sf::Vector2u &size, const Network::Client *client);
+	static void														update(World &world, const sf::Vector2u &precision, const sf::Vector2u &size, const RFCClient *rfc);
 private:
 	typedef std::vector<std::vector<std::set<unsigned int> > >		collisionGrid;
 

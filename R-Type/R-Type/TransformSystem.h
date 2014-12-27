@@ -1,12 +1,12 @@
 #pragma once
 
 #include "World.h"
-#include "../hpl/Network/Client.h"
+#include "RFCClient.h"
 
 class							TransformSystem
 {
 public:
-	static void					update(World &world, const sf::Time &elapsed, const Network::Client *client);
+	static void					update(World &world, const sf::Time &elapsed, const RFCClient *rfc);
 	TransformSystem();
 	TransformSystem(const TransformSystem &rhs);
 	TransformSystem &operator=(const TransformSystem &rhs);

@@ -6,6 +6,7 @@
 #include "World.h"
 #include "Systems.h"
 #include "Game.h"
+#include "RFCClient.h"
 
 class							AState
 {
@@ -24,5 +25,6 @@ protected:
 	bool						_isBlocking;
 	World						_world;
 	Game						*_game;
+	RFCClient					*_rfc;
 	Network::Client				*_client;
 };
