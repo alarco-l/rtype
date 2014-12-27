@@ -76,13 +76,16 @@ void				Game::run()
 		_spawn2 = true;
 	if (_fireTime.getElapsedTime().asSeconds() > 0.35)
 	{
-		std::cout << _monster.size() << std::endl;
+
 		if (_monster.size() > 0)
 		{
 			id = rand() % _monster.size();
-			fire(id);
+			if (_monster[id]->fire().x > 250)
+			{
+				fire(id);
+				_fireTime.restart();
+			}
 		}
-		_fireTime.restart();
 	}
 }
 
@@ -123,7 +126,7 @@ void				Game::fire(int id)
 	_ressource.loadTexture(_monster[id]->getFire());
 	_world.addRenderComponent(tmp, ComponentFactory::createRenderComponent(_ressource.getTexture(_monster[id]->getFire())));
 	_world.addTransformComponent(tmp, ComponentFactory::createTransformComponent(sf::Vector2f(1021, 728), sf::Vector2f(dir.x, dir.y + 50), sf::Vector2f(0.01f, 0.01f)));
-	_world.addMovementComponent(tmp, ComponentFactory::createMovementComponent(50, sf::Vector2f(-10, 0)));
+	_world.addMovementComponent(tmp, ComponentFactory::createMovementComponent(50, sf::Vector2f(-8, 0)));
 }
 
 World				&Game::getWorld() { return (_world); }
