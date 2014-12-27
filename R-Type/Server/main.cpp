@@ -1,6 +1,6 @@
 #include <SFML/Graphics.hpp>
 
-#include <iostream>
+#include <ostream>
 
 #include "BasicTypes.h"
 #include "World.h"
@@ -12,9 +12,27 @@
 #include "hpl.h"
 #include "Network/Server.h"
 
+#include <fstream>
+
 void	onReceiveEvent2(Network::Socket &socket)
 {
 	::hpl::Logger::out("Receive");
+	char buff[9];
+	short int x;
+	short int y;
+	short int dirX;
+	short int dirY;
+
+	int nb = socket.in().get(buff, 9);
+	std::cout << nb << std::endl;
+	if (nb != 9)
+		return;
+	std::cout << *(short int*)(buff) << std::endl;
+	x = *(short int*)(buff + 2);
+	y = *(short int*)(buff + 4);
+	dirX = *(short int*)(buff + 6);
+	dirY = *(short int*)(buff + 8);
+	std::cout << "x =" << x << "\ny =" << y << "\ndirX =" << dirX << "\ndirY =" << dirY << std::endl;
 }
 
 void	onEndEvent2(Network::Socket const &socket)
