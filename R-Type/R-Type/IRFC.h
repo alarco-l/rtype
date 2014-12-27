@@ -1,8 +1,8 @@
 #pragma once
 
-#include "BasicType.h"
+//#include "BasicType.h"
 
-#include "Network/Client.h"
+//#include "Network/Client.h"
 #define Socket	Network::Socket
 
 class					IRFC
