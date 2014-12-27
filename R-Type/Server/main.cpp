@@ -1,8 +1,5 @@
 #include <SFML/Graphics.hpp>
 
-#include <ostream>
-
-#include "BasicTypes.h"
 #include "World.h"
 #include "Systems.h"
 #include "ComponentFactory.h"
@@ -11,28 +8,55 @@
 
 #include "hpl.h"
 #include "Network/Server.h"
+//#include "IRFC.h"
+#include "RFC.h"
 
 #include <fstream>
+void				recvCmd(RFC::RecvCommand cmd, Network::Socket &socket) {
+	static int i = 0;
+	std::fstream tata("tata.txt", std::fstream::in | std::fstream::app);
+	int nb;
+	IRFC::Dir		dir;
+	IRFC::Coord		coord;
+
+	switch (cmd)
+	{
+	case RFC::RECVHANDSHAKE:
+		break;
+	case RFC::RECVMOVE:
+		char buff[8];
+		RFC::Move mov;
+
+
+		nb = socket.in().get(buff, 8);
+		mov.coord.posX = *(short int*)(buff);
+		mov.coord.posY = *(short int*)(buff + 2);
+		mov.dir.dirX = *(short int*)(buff + 4);
+		mov.dir.dirY = *(short int*)(buff + 6);
+		//_onMoveEvent(*this, )
+		//tata << i++ << "------------------------------------------" << std::endl;
+		//tata << cmd << " x =" << coord.posX << "\ny =" << coord.posY << "\ndirX =" << dir.dirX << "\ndirY =" << dir.dirY << std::endl;
+	case RFC::RECVSHOOT:
+		break;
+	case RFC::RECVCOLLISION:
+		break;
+	case RFC::RECVHITMONSTER:
+		break;
+	case RFC::RECVKILLMONSTER:
+		break;
+	default:
+		break;
+	}
+	tata.close();
+}
 
 void	onReceiveEvent2(Network::Socket &socket)
 {
 	::hpl::Logger::out("Receive");
-	char buff[9];
-	short int x;
-	short int y;
-	short int dirX;
-	short int dirY;
-
-	int nb = socket.in().get(buff, 9);
-	std::cout << nb << std::endl;
-	if (nb != 9)
-		return;
-	std::cout << *(short int*)(buff) << std::endl;
-	x = *(short int*)(buff + 2);
-	y = *(short int*)(buff + 4);
-	dirX = *(short int*)(buff + 6);
-	dirY = *(short int*)(buff + 8);
-	std::cout << "x =" << x << "\ny =" << y << "\ndirX =" << dirX << "\ndirY =" << dirY << std::endl;
+	char buff[1];
+	int nb = socket.in().get(buff, 1);
+	RFC::RecvCommand cmd = (RFC::RecvCommand)*(char *)(buff);
+	recvCmd(cmd, socket);
 }
 
 void	onEndEvent2(Network::Socket const &socket)

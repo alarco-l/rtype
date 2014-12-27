@@ -88,12 +88,14 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="IDlLoader.h" />
     <ClInclude Include="IMonster.h" />
+    <ClInclude Include="IRFC.h" />
     <ClInclude Include="MovementComponent.h" />
     <ClInclude Include="ParticleComponent.h" />
     <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="RenderComponent.h" />
     <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="RFC.h" />
     <ClInclude Include="ScrollComponent.h" />
     <ClInclude Include="SpinComponent.h" />
     <ClInclude Include="Systems.h" />
@@ -113,6 +115,7 @@
     <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="RFC.cpp" />
     <ClCompile Include="TextSystem.cpp" />
     <ClCompile Include="TransformSystem.cpp" />
     <ClCompile Include="World.cpp" />
