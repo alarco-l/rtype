@@ -209,6 +209,7 @@ void								GameSpecificFactory::createTestEnemy(unsigned int *id, World &world)
 	world.addCollisionComponent(id[0], ComponentFactory::createCollisionComponent());
 	world.addInfoComponent(id[0], ComponentFactory::createInfoComponent(100, 100, 1, deathAnimation, sf::seconds(0.1f)));
 	world.addMovementComponent(id[0], ComponentFactory::createMovementComponent(50.0f, sf::Vector2f(0, 0)));
+	world.addWeaponComponent(id[0], ComponentFactory::createWeaponComponent(sf::Time::Zero, id[0], 0));
 }
 
 // MISSILE

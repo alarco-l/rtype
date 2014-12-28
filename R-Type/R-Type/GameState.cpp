@@ -13,7 +13,7 @@ GameState::~GameState() {}
 
 void	GameState::onConnectEvent(Network::Client &client)
 {
-	_rfc = new RFCClient(client.socket, _game->factory, _world);
+	_rfc = new RFCClient(client.socket, _game->factory, _world, _game);
 	//client.socket.onRecive(::hpl::bind(&GameState::onRecive, this, ::hpl::Placeholder::_1));
 	client.socket.onEnd(::hpl::bind(&GameState::onEnd, this, ::hpl::Placeholder::_1));
 }

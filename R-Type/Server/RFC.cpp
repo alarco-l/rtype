@@ -187,13 +187,10 @@ void				RFC::sendMonsterFire(RFC::MonsterShoot shoot) {
 
 	usint tmp = (short int)(shoot.idMonster);
 	_socket->out().write((char *)&tmp, sizeof(short int));
-	tmp = (short int)(shoot.coord.posX);
-	_socket->out().write((char *)&tmp, sizeof(short int));
-	tmp = (short int)(shoot.coord.posY);
-	_socket->out().write((char *)&tmp, sizeof(short int));
-	tmp = (short int)(shoot.dir.dirX);
-	_socket->out().write((char *)&tmp, sizeof(short int));
-	tmp = (short int)(shoot.dir.dirY);
+	_socket->out().write((char *)&shoot.coord.posX, sizeof(shoot.coord.posX));
+	_socket->out().write((char *)&shoot.coord.posY, sizeof(shoot.coord.posY));
+	_socket->out().write((char *)&shoot.dir.dirX, sizeof(shoot.dir.dirX));
+	_socket->out().write((char *)&shoot.dir.dirY, sizeof(shoot.dir.dirY));
 }
 void				RFC::sendMonsterKillPlayer(RFC::MonsterKillPlayer kill) {
 	char c = RFC::SENDMONSTERKILLPLAYER;

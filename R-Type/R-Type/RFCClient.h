@@ -7,6 +7,7 @@
 #include "GameSpecificFactory.h"
 #include "World.h"
 
+class Game;
 
 class RFCClient : public IRFC
 {
@@ -46,9 +47,10 @@ private:
 
 	GameSpecificFactory &_factory;
 	World &_world;
+	Game	*_game;
 
 public:
-	RFCClient(Network::Socket &socket, GameSpecificFactory &factory, World &world);
+	RFCClient(Network::Socket &socket, GameSpecificFactory &factory, World &world, Game *game);
 	~RFCClient();
 	
 	enum SendCommand
@@ -102,3 +104,5 @@ public:
 	void	recvStartGame(const char *);
 	void	recvClientCrash(const char *);
 };
+
+#include "Game.h"
