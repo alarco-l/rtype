@@ -101,6 +101,7 @@ namespace hpl
 
 	ulint	Buffer::read(char *buff, ulint size) const
 	{
+		_locker.lock();
 		ulint			wSize;
 		auto			it = _buffers.begin();
 		ulint			total = 0;
@@ -114,10 +115,12 @@ namespace hpl
 			total += wSize;
 			++it;
 		}
+		_locker.unlock();
 		return (total);
 	}
 	ulint	Buffer::get(char *buff, ulint size)
 	{
+		_locker.lock();
 		ulint			wSize;
 		auto			it = _buffers.begin();
 		ulint			total = 0;
@@ -135,10 +138,12 @@ namespace hpl
 				it = _buffers.erase(it);
 		}
 		_size -= total;
+		_locker.unlock();
 		return (total);
 	}
 	void	Buffer::write(Buffer const &buff)
 	{
+		_locker.lock();
 		ulint			wSize;
 		char			content[256];
 		Buffer			tmp(buff);
@@ -148,9 +153,11 @@ namespace hpl
 			wSize = tmp.get(content, sizeof(content));
 			write(content, wSize);
 		}
+		_locker.unlock();
 	}
 	void	Buffer::write(char const *buff, ulint size)
 	{
+		_locker.lock();
 		ulint			wSize;
 		RotatingBuffer	*current;
 		_size += size;
@@ -163,28 +170,33 @@ namespace hpl
 			size -= wSize;
 			buff += wSize;
 			if (size)
-				_buffers.emplace_back(_bufferSize * pow(2, _buffers.size()));
+				_buffers.emplace_back(_bufferSize * (ulint)std::pow(2, _buffers.size()));
 		}
+		_locker.unlock();
 	}
 
 	ulint	Buffer::size(void) const { return (_size); }
 
 	void	Buffer::clear(void)
 	{
+		_locker.lock();
 		for (auto it = _buffers.begin(); it != _buffers.end(); ++it)
 			it->clear();
 		_size = 0;
+		_locker.unlock();
 	}
 
 	Buffer	&Buffer::operator=(Buffer const &copy)
 	{
 		clear();
+		_locker.lock();
 		for (auto it = copy._buffers.begin(); it != copy._buffers.end(); ++it)
 		{
-			_buffers.emplace_back(_bufferSize);
+			_buffers.emplace_back(_bufferSize * (ulint)std::pow(2, _buffers.size()));
 			_buffers.back() = *it;
 		}
 		_size = copy._size;
 		return (*this);
+		_locker.unlock();
 	}
 }

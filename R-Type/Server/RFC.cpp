@@ -155,7 +155,7 @@ void				RFC::sendMonsterSpawn(RFC::MonsterSpawn monster) {
 }
 
 void				RFC::sendMonsterMove(RFC::MonsterMove move) { 
-	char c = RFC::SENDMOVE;
+	char c = RFC::SENDMONSTERMOVE;
 	_socket->out().write(&c, 1);
 	
 	usint tmp = (short int)(move.idMonster);

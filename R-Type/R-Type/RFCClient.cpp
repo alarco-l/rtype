@@ -296,7 +296,7 @@ void	RFCClient::recvMove(const char *buff) {
 
 	// MOVE OTHER PLAYER
 
-	_world.movementComponents[_rfcToWorldId[idPlayer]]->direction = sf::Vector2f(dirX, dirY);
+	//_world.movementComponents[_rfcToWorldId[idClient]]->direction = sf::Vector2f(dirX, dirY);
 }
 void	RFCClient::recvShoot(const char *buff) {
 	Weapon weapon;

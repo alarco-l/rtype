@@ -73,7 +73,12 @@ bool						GameState::handleKeyState()
 		direction += sf::Vector2f(1, 0);
 
 	_world.movementComponents[_idPlayer[RType::Player::SHIP]]->direction = direction;
-	_rfc->sendMove(_world.transformComponents[_idPlayer[RType::Player::SHIP]]->position, direction);
+	static int nb = 0;
+	if (nb == 0)
+		_rfc->sendMove(_world.transformComponents[_idPlayer[RType::Player::SHIP]]->position, direction);
+	++nb;
+	if (nb > 50)
+		nb = 0;
 
 	// pan pan
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))

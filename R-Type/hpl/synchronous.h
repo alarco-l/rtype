@@ -15,8 +15,8 @@ namespace hpl
 			Locker(void);
 			~Locker(void);
 
-			void	lock(void);
-			void	unlock(void);
+			void	lock(void) const;
+			void	unlock(void) const;
 		};
 
 		class Blocker

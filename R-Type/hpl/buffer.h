@@ -3,6 +3,7 @@
 #include <list>
 
 #include "basictypes.h"
+#include "synchronous.h"
 
 namespace hpl
 {
@@ -60,7 +61,8 @@ namespace hpl
 
 		BufferTank	_buffers;
 
-		ulint		_size;
+		ulint						_size;
+		::hpl::Synchronous::Locker	_locker;
 
 		static const ulint	_bufferSize;
 	};

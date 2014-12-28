@@ -14,13 +14,13 @@ namespace hpl
 		}
 		Locker::~Locker(void) {}
 
-		void	Locker::lock(void)
+		void	Locker::lock(void) const
 		{
-			EnterCriticalSection(&_section);
+			EnterCriticalSection(const_cast<LPCRITICAL_SECTION>(&_section));
 		}
-		void	Locker::unlock(void)
+		void	Locker::unlock(void) const
 		{
-			LeaveCriticalSection(&_section);
+			LeaveCriticalSection(const_cast<LPCRITICAL_SECTION>(&_section));
 		}
 
 		Blocker::Blocker(Locker &locker) : _locker(locker)
