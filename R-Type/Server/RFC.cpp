@@ -11,105 +11,98 @@ void				RFC::recvCmd(Network::Socket &socket) {
 	//std::fstream tata("tata.txt", std::fstream::in | std::fstream::app);
 	while (socket.in().size())
 	{
-		char *buff = new char[socket.in().size()];
-		socket.in().read(buff, socket.in().size());
-		RFC::RecvCommand cmd = (RFC::RecvCommand)buff[0];
+		char	c;
+		socket.in().get(&c, 1);
+		RFC::RecvCommand cmd = (RFC::RecvCommand)c;
 
-		std::cout << (int)cmd << std::endl;
+		//std::cout << (int)cmd << std::endl;
 		switch (cmd)
 		{
 		case RFC::RECVHANDSHAKE:
 			break;
 		case RFC::RECVMOVE:
-			if (socket.in().size() > 8)
+			if (socket.in().size() >= 8)
 			{
 				RFC::Move mov;
-				mov.coord.posX = *(short int*)(buff + 1);
-				mov.coord.posY = *(short int*)(buff + 3);
-				mov.dir.dirX = *(short int*)(buff + 5);
-				mov.dir.dirY = *(short int*)(buff + 7);
-				socket.in().get(buff, 8);
+				char	buff[8];
+				socket.in().get(buff, sizeof(buff));
+				mov.coord.posX = *(short int*)buff;
+				mov.coord.posY = *(short int*)(buff + 2);
+				mov.dir.dirX = *(short int*)(buff + 4);
+				mov.dir.dirY = *(short int*)(buff + 6);
 				if (_onMoveEvent)
 					_onMoveEvent(*this, mov);
 			}
 			else
-			{
-				delete[] buff;
-			}
+				return;
 			break;
 		case RFC::RECVSHOOT:
-			if (socket.in().size() > 10)
+			if (socket.in().size() >= 10)
 			{
 				RFC::Shoot shoot;
-				shoot.idMuni = *(short int*)(buff + 1);
-				shoot.coord.posX = *(short int*)(buff + 3);
-				shoot.coord.posY = *(short int*)(buff + 5);
-				shoot.dir.dirX = *(short int*)(buff + 7);
-				shoot.dir.dirY = *(short int*)(buff + 9);
-				socket.in().get(buff, 10);
+				char	buff[10];
+				socket.in().get(buff, sizeof(buff));
+				shoot.idMuni = *(short int*)(buff);
+				shoot.coord.posX = *(short int*)(buff + 2);
+				shoot.coord.posY = *(short int*)(buff + 4);
+				shoot.dir.dirX = *(short int*)(buff + 6);
+				shoot.dir.dirY = *(short int*)(buff + 8);
 				if (_onShootEvent)
 					_onShootEvent(*this, shoot);
 			}
 			else
-			{
-				delete[] buff;
-			}
+				return;
 			break;
 		case RFC::RECVCOLLISION:
-			if (socket.in().size() > 8)
+			if (socket.in().size() >= 8)
 			{
 				RFC::Colision colision;
-				colision.idOnColision1 = *(short int*)(buff + 1);
-				colision.idOnColision2 = *(short int*)(buff + 3);
-				colision.coord.posX = *(short int*)(buff + 5);
-				colision.coord.posY = *(short int*)(buff + 7);
-				socket.in().get(buff, 8);
+				char	buff[8];
+				socket.in().get(buff, sizeof(buff));
+				colision.idOnColision1 = *(short int*)(buff);
+				colision.idOnColision2 = *(short int*)(buff + 2);
+				colision.coord.posX = *(short int*)(buff + 4);
+				colision.coord.posY = *(short int*)(buff + 6);
 				if (_onColisionEvent)
 					_onColisionEvent(*this, colision);
 			}
 			else
-			{
-				delete[] buff;
-			}
+				return;
 			break;
 		case RFC::RECVHITMONSTER:
-			if (socket.in().size() > 6)
+			if (socket.in().size() >= 6)
 			{
 				RFC::HitMonster hitMonster;
-				hitMonster.idMonster = *(short int*)(buff + 1);
-				hitMonster.coord.posX = *(short int*)(buff + 3);
-				hitMonster.coord.posY = *(short int*)(buff + 5);
-				socket.in().get(buff, 6);
+				char	buff[6];
+				socket.in().get(buff, sizeof(buff));
+				hitMonster.idMonster = *(short int*)(buff);
+				hitMonster.coord.posX = *(short int*)(buff + 2);
+				hitMonster.coord.posY = *(short int*)(buff + 4);
 				if (_onHitEvent)
 					_onHitEvent(*this, hitMonster);
 			}
 			else
-			{
-				delete[] buff;
-			}
+				return;
 			break;
 		case RFC::RECVKILLMONSTER:
-			if (socket.in().size() > 6)
+			if (socket.in().size() >= 6)
 			{
 				RFC::HitMonster killMonster;
-				killMonster.idMonster = *(short int*)(buff + 1);
-				killMonster.coord.posX = *(short int*)(buff + 3);
-				killMonster.coord.posY = *(short int*)(buff + 5);
+				char	buff[6];
+				socket.in().get(buff, sizeof(buff));
+				killMonster.idMonster = *(short int*)(buff);
+				killMonster.coord.posX = *(short int*)(buff + 2);
+				killMonster.coord.posY = *(short int*)(buff + 4);
 				socket.in().get(buff, 6);
 				if (_onKillEvent)
 					_onKillEvent(*this, killMonster);
 			}
 			else
-			{
-				delete[] buff;
-			}
+				return;
 			break;
 		default:
-			socket.in().get(buff, 1);
-			delete[] buff;
 			break;
 		}
-
 	}
 }
 

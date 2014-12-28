@@ -1,5 +1,6 @@
 #include "buffer.h"
 #include "utils.hpp"
+#include <cmath>
 
 namespace hpl
 {
@@ -84,8 +85,8 @@ namespace hpl
 		_deb = copy._deb;
 		_end = copy._end;
 		_lenght = copy._lenght;
-		for (ulint it = _deb; it % _size != _end; ++it)
-			_buff[it] = copy._buff[it];
+		for (ulint it = 0; it < _lenght; ++it)
+			_buff[(_deb + it) % _size] = copy._buff[(_deb + it) % _size];
 		return (*this);
 	}
 
@@ -162,7 +163,7 @@ namespace hpl
 			size -= wSize;
 			buff += wSize;
 			if (size)
-				_buffers.emplace_back(_bufferSize);
+				_buffers.emplace_back(_bufferSize * pow(2, _buffers.size()));
 		}
 	}
 

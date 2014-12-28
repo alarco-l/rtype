@@ -118,9 +118,9 @@ void	RFCClient::recvCmd(Network::Socket &socket) {
 	while (socket.in().size())
 	{
 		std::cout << "get" << std::endl;
-		char *buff = new char[socket.in().size()];
-		socket.in().read(buff, socket.in().size());
-		char cmd = buff[0];
+		char	c;
+		socket.in().get(&c, 1);
+		RecvCommand	cmd = (RecvCommand)c;
 
 		switch (cmd)
 		{
@@ -154,13 +154,14 @@ void	RFCClient::recvCmd(Network::Socket &socket) {
 			//short int or;
 			//short int idMonster;
 
-			if (socket.in().size() > 12)
+			if (socket.in().size() >= 12)
 			{
+				char	buff[12];
+				socket.in().get(buff, sizeof(buff));
 				recvMonsterMove(buff);
-				socket.in().get(buff, 12);
 			}
 			else
-				delete[] buff;
+				return;
 			//recvMonsterMove();
 			break;
 		}
@@ -183,8 +184,6 @@ void	RFCClient::recvCmd(Network::Socket &socket) {
 			recvClientCrash();
 			break;
 		default:
-			socket.in().get(buff, 1);
-			delete[] buff;
 			break;
 		}
 	}
@@ -343,12 +342,12 @@ void	RFCClient::recvMonsterMove(const char *buff) {
 	short int or;
 	short int idMonster;
 
-	idMonster = *(short int*)(buff + 1);
-	x = *(short int*)(buff + 3);
-	y = *(short int*)(buff + 5);
-	dirX = *(short int*)(buff + 7);
-	dirY = *(short int*)(buff + 9);
-	or = *(short int*)(buff + 11);
+	idMonster = *(short int*)(buff);
+	x = *(short int*)(buff + 2);
+	y = *(short int*)(buff + 4);
+	dirX = *(short int*)(buff + 6);
+	dirY = *(short int*)(buff + 8);
+	or = *(short int*)(buff + 10);
 
 	// Move monster in the world && Spawn if it does not exist
 
