@@ -296,7 +296,7 @@ void	RFCClient::recvMove(const char *buff) {
 
 	// MOVE OTHER PLAYER
 
-	//_world.movementComponents[_rfcToWorldId[idClient]]->direction = sf::Vector2f(dirX, dirY);
+	_world.movementComponents[_rfcToWorldId[idClient]]->direction = sf::Vector2f(dirX, dirY);
 }
 void	RFCClient::recvShoot(const char *buff) {
 	Weapon weapon;
@@ -398,12 +398,12 @@ void	RFCClient::recvMonsterSpawn(const char *buff) {
 
 	// Create monster in the world
 
-	unsigned int id[1];	
+	//unsigned int id[1];	
 
-	_factory.createTestEnemy(id, _world);
-	_rfcToWorldId[idMonster] = id[0];
-	_worldToRfcId[id[0]] = idMonster;
-	_world.transformComponents[id[0]]->position = sf::Vector2f(x, y);
+	//_factory.createTestEnemy(id, _world);
+	//_rfcToWorldId[idMonster] = id[0];
+	//_worldToRfcId[id[0]] = idMonster;
+	//_world.transformComponents[id[0]]->position = sf::Vector2f(x, y);
 }
 
 void	RFCClient::recvMonsterMove(const char *buff) {
@@ -421,7 +421,11 @@ void	RFCClient::recvMonsterMove(const char *buff) {
 	dirY = *(float*)(buff + sizeof(unsigned short) + sizeof(float) * 3);
 	or = *(float*)(buff + sizeof(unsigned short) + sizeof(float) * 4);
 
-	// Move monster in the world && Spawn if it does not exist
+	static int nb = 0;
+
+	std::cout << "PASSE " << nb++ << std::endl;
+
+	 //Move monster in the world && Spawn if it does not exist
 	if (_rfcToWorldId.find(idMonster) == _rfcToWorldId.end())
 	{
 		unsigned int id[1];
@@ -447,10 +451,10 @@ void	RFCClient::recvMonsterDestroy(const char *buff) {
 
 	// Destroy monster in the world
 
-	_world.infoComponents[_rfcToWorldId[idMonster]]->dead = true;
+	//_world.infoComponents[_rfcToWorldId[idMonster]]->dead = true;
 
-	_worldToRfcId.erase(_worldToRfcId.find(_rfcToWorldId.find(idMonster)->second));
-	_rfcToWorldId.erase(_rfcToWorldId.find(idMonster));
+	//_worldToRfcId.erase(_worldToRfcId.find(_rfcToWorldId.find(idMonster)->second));
+	//_rfcToWorldId.erase(_rfcToWorldId.find(idMonster));
 }
 
 void	RFCClient::recvMonsterKillPlayer(const char *buff) {
@@ -478,16 +482,16 @@ void	RFCClient::recvMonsterFire(const char *buff) {
 	dirX = *(float*)(buff + sizeof(float) * 2 + 3);
 	dirY = *(float*)(buff + sizeof(float) * 3 + 3);
 
-	if (_rfcToWorldId.find(idMonster) != _rfcToWorldId.end() && _world.weaponComponents[_rfcToWorldId[idMonster]] != NULL)
-	{
-		unsigned int id[1];
-		_factory.createMissileProjectile(id, _rfcToWorldId[idMonster], _world, _game->getScreenSize());
-		_rfcToWorldId[idMonster] = id[0];
-		_worldToRfcId[id[0]] = idMonster;
-		_world.transformComponents[id[0]]->position = sf::Vector2f(x, y);
-		_world.transformComponents[id[0]]->rotation = 180.0f;
+	//if (_rfcToWorldId.find(idMonster) != _rfcToWorldId.end() && _world.weaponComponents[_rfcToWorldId[idMonster]] != NULL)
+	//{
+	//	unsigned int id[1];
+	//	_factory.createMissileProjectile(id, _rfcToWorldId[idMonster], _world, _game->getScreenSize());
+	//	_rfcToWorldId[idMonster] = id[0];
+	//	_worldToRfcId[id[0]] = idMonster;
+	//	_world.transformComponents[id[0]]->position = sf::Vector2f(x, y);
+	//	_world.transformComponents[id[0]]->rotation = 180.0f;
 
-		if (_world.movementComponents.size() > _rfcToWorldId[idMonster] && _world.movementComponents[_rfcToWorldId[idMonster]] != NULL)
-			_world.movementComponents[_rfcToWorldId[idMonster]]->direction = sf::Vector2f(dirX, dirY);
-	}
+	//	if (_world.movementComponents.size() > _rfcToWorldId[idMonster] && _world.movementComponents[_rfcToWorldId[idMonster]] != NULL)
+	//		_world.movementComponents[_rfcToWorldId[idMonster]]->direction = sf::Vector2f(dirX, dirY);
+	//}
 }

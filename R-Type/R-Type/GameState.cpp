@@ -29,7 +29,7 @@ void						GameState::initialize()
 	_game->factory.createGameBackground(_idBackground, _world, _game->getScreenSize());
 	_game->factory.createHUD(_idHud, _world, _game->getScreenSize());
 	_game->factory.createPlayer(_idPlayer, _world);
-	_game->factory.createTestEnemy(id, _world);
+	//_game->factory.createTestEnemy(id, _world);
 }
 
 void						GameState::stop(void)
