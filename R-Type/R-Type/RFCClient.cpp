@@ -201,6 +201,10 @@ void	RFCClient::recvMove() {
 	y = *(short int*)(buff + 4);
 	dirX = *(short int*)(buff + 6);
 	dirY = *(short int*)(buff + 8);
+
+	// MOVE OTHER PLAYER
+
+	_world.movementComponents[_rfcToWorldId[idPlayer]]->direction = sf::Vector2f(dirX, dirY);
 }
 void	RFCClient::recvShoot() {
 	Weapon weapon;
@@ -275,6 +279,35 @@ void	RFCClient::recvStartGame() {
 	_id[PLAYER2] = *(short int*)(buff);
 	_id[PLAYER3] = *(short int*)(buff + 2);
 	_id[PLAYER4] = *(short int*)(buff + 4);
+
+	// Create 3 other players
+
+	unsigned int player2[RType::Player::MAX];
+
+	_factory.createPlayer(player2, _world);
+	_rfcToWorldId[player2[RType::Player::SHIP]] = _id[PLAYER2];
+	_worldToRfcId[_id[PLAYER2]] = player2[RType::Player::SHIP];
+
+	_world.renderComponents[player2[RType::Player::SHIP]]->color = sf::Color(0, 255, 0);
+	_world.transformComponents[player2[RType::Player::SHIP]]->position = sf::Vector2f(0.0f, 250.0f);
+
+	unsigned int player3[RType::Player::MAX];
+
+	_factory.createPlayer(player3, _world);
+	_rfcToWorldId[player3[RType::Player::SHIP]] = _id[PLAYER3];
+	_worldToRfcId[_id[PLAYER3]] = player3[RType::Player::SHIP];
+
+	_world.renderComponents[player3[RType::Player::SHIP]]->color = sf::Color(255, 0, 0);
+	_world.transformComponents[player3[RType::Player::SHIP]]->position = sf::Vector2f(0.0f, 500.0f);
+
+	unsigned int player4[RType::Player::MAX];
+
+	_factory.createPlayer(player4, _world);
+	_rfcToWorldId[player4[RType::Player::SHIP]] = _id[PLAYER4];
+	_worldToRfcId[_id[PLAYER4]] = player4[RType::Player::SHIP];
+
+	_world.renderComponents[player4[RType::Player::SHIP]]->color = sf::Color(255, 255, 0);
+	_world.transformComponents[player4[RType::Player::SHIP]]->position = sf::Vector2f(0.0f, 750.0f);
 }
 
 void RFCClient::recvClientCrash() {
