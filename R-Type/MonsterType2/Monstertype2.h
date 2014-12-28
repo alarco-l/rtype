@@ -13,8 +13,10 @@ public:
 
 	const char					*getTexture() const;
 	const char					*getFire() const;
+	int							getLife() const;
 
 	void						setSpawn(float x, float y);
+	void						setLife(int life);
 private:
 	IMonster::Dir				_dir;
 };

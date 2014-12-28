@@ -5,6 +5,7 @@ MonsterType1::MonsterType1()
 	_texture = "../R-Type/textures/hero.png";
 	_fire = "../R-Type/textures/greenLaserRay.png";
 	_time = 0.f;
+	_life = 50;
 }
 
 MonsterType1::~MonsterType1() {}
@@ -31,11 +32,15 @@ const char				*MonsterType1::getTexture() const { return (_texture.c_str()); }
 
 const char				*MonsterType1::getFire() const { return (_fire.c_str()); }
 
+int						MonsterType1::getLife() const { return (_life); }
+
 void					MonsterType1::setSpawn(float x, float y)
 {
 	_spawn.x = x;
 	_spawn.y = y;
 }
+
+void					MonsterType1::setLife(int life) { _life = life; }
 
 EXPORT IMonster			*newInstance()
 {
