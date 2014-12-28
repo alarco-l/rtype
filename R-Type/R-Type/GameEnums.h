@@ -55,6 +55,17 @@ namespace	RType
 		};
 	};
 
+	namespace	LobbyMenu
+	{
+		enum
+		{
+			BACKGROUND,
+			TEXT,
+			LOAD_ICON,
+			MAX
+		};
+	};
+
 	namespace	PauseMenu
 	{
 		enum

@@ -27,6 +27,24 @@ void								GameSpecificFactory::createMainMenu(unsigned int *id, World &world, 
 	world.addTransformComponent(id[RType::MainMenu::EXIT], ComponentFactory::createTransformComponent(sf::Vector2f(), sf::Vector2f(0.0f, screenSize.y / 3.0f + 150.0f)));
 }
 
+// LOAD MENU
+
+void								GameSpecificFactory::createLoadMenu(unsigned int *id, World &world, const sf::Vector2u &screenSize)
+{
+	id[RType::LobbyMenu::BACKGROUND] = world.createEmptyEntity();
+	world.addRenderComponent(id[RType::LobbyMenu::BACKGROUND], ComponentFactory::createRenderComponent(_resourceManager.getTexture("textures/menu_background.png"), RenderComponent::Plane::HUD));
+	world.addTransformComponent(id[RType::LobbyMenu::BACKGROUND], ComponentFactory::createTransformComponent(sf::Vector2f(screenSize), sf::Vector2f(0.0f, 0.0f)));
+
+	id[RType::LobbyMenu::TEXT] = world.createEmptyEntity();
+	world.addTextComponent(id[RType::LobbyMenu::TEXT], ComponentFactory::createTextComponent("Waiting Gamers ...", _resourceManager.getFont("fonts/BMSPA.ttf"), true, true, 72, sf::Color(255, 255, 255, 150)));
+	world.addTransformComponent(id[RType::LobbyMenu::TEXT], ComponentFactory::createTransformComponent(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, screenSize.y / 3.0f)));
+
+	id[RType::LobbyMenu::LOAD_ICON] = world.createEmptyEntity();
+	world.addSpinComponent(id[RType::LobbyMenu::LOAD_ICON], ComponentFactory::createSpinComponent(50, 1));
+	world.addRenderComponent(id[RType::LobbyMenu::LOAD_ICON], ComponentFactory::createRenderComponent(_resourceManager.getTexture("textures/load_icon.png"), RenderComponent::Plane::HUD));
+	world.addTransformComponent(id[RType::LobbyMenu::LOAD_ICON], ComponentFactory::createTransformComponent(sf::Vector2f(175, 175), sf::Vector2f(screenSize.x - screenSize.x / 2.0f - 87.5f, screenSize.y / 2 + 100.0f)));
+}
+
 // PAUSE MENU
 
 void								GameSpecificFactory::createPauseMenu(unsigned int *id, World &world, const sf::Vector2u &screenSize)
