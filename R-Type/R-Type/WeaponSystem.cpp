@@ -13,14 +13,17 @@ void								WeaponSystem::update(World &world, const sf::Time &elapsed, GameSpec
 			if (weapon->cooldown < sf::Time::Zero)
 				weapon->cooldown = sf::Time::Zero;
 
-			if (weapon->fire && weapon->cooldown == sf::Time::Zero)
+			if (weapon->fire && weapon->cooldown == sf::Time::Zero && world.infoComponents.size() > world.weaponComponents[i]->owner && weapon->projectileType < 2)
 			{
 				unsigned int		id[1]; // pas toujours 1 :(
 
+				//if (weapon->projectileType < 2)
+				//{
 				(factory.*(factory.createProjectile[weapon->projectileType]))(id, i, world, screenSize);
-				world.transformComponents[id[0]]->position = world.transformComponents[i]->position;
-				world.projectileComponents[id[0]]->owner = world.weaponComponents[i]->owner;
-				weapon->cooldown = weapon->maxCooldown;
+					world.transformComponents[id[0]]->position = world.transformComponents[i]->position;
+					world.projectileComponents[id[0]]->owner = world.weaponComponents[i]->owner;
+					weapon->cooldown = weapon->maxCooldown;
+				//}
 			}
 
 			weapon->fire = false;

@@ -2,7 +2,7 @@
 #include "RFCClient.h"
 #include "BasicType.h"
 
-RFCClient::RFCClient(Network::Socket &socket, GameSpecificFactory &factory, World &world) : _factory(factory), _world(world) {
+RFCClient::RFCClient(Network::Socket &socket, GameSpecificFactory &factory, World &world, Game *game) : _factory(factory), _world(world), _game(game) {
 	_socket = &socket;
 	_socket->onRecive(::hpl::bind(&RFCClient::recvCmd, this, ::hpl::Placeholder::_1));
 	_handshate = false;
@@ -214,9 +214,9 @@ void	RFCClient::recvCmd(Network::Socket &socket) {
 				return;
 			break;
 		case RECVMONSTERFIRE:
-			if (socket.in().size() >= 11)
+			if (socket.in().size() >= sizeof(float) * 4 + 3)
 			{
-				char	buff[11];
+				char	buff[sizeof(float) * 4 + 3];
 				socket.in().get(buff, sizeof(buff));
 				recvMonsterFire(buff);
 			}
@@ -465,16 +465,29 @@ void	RFCClient::recvMonsterKillPlayer(const char *buff) {
 
 void	RFCClient::recvMonsterFire(const char *buff) {
 	Weapon weapon;
-	short int x;
-	short int y;
-	short int dirX;
-	short int dirY;
+	float x;
+	float y;
+	float dirX;
+	float dirY;
 	short int idMonster;
 
-	weapon = *(Weapon*)(buff);
-	idMonster = *(short int*)(buff + sizeof(Weapon) + 1);
-	x = *(short int*)(buff + sizeof(Weapon) + 3);
-	y = *(short int*)(buff + sizeof(Weapon) + 5);
-	dirX = *(short int*)(buff + sizeof(Weapon) + 7);
-	dirY = *(short int*)(buff + sizeof(Weapon) + 9);
+	weapon = (Weapon)(*buff);
+	idMonster = *(short int*)(buff + 1);
+	x = *(float*)(buff + 3);
+	y = *(float*)(buff + sizeof(float) + 3);
+	dirX = *(float*)(buff + sizeof(float) * 2 + 3);
+	dirY = *(float*)(buff + sizeof(float) * 3 + 3);
+
+	if (_rfcToWorldId.find(idMonster) != _rfcToWorldId.end() && _world.weaponComponents[_rfcToWorldId[idMonster]] != NULL)
+	{
+		unsigned int id[1];
+		_factory.createMissileProjectile(id, _rfcToWorldId[idMonster], _world, _game->getScreenSize());
+		_rfcToWorldId[idMonster] = id[0];
+		_worldToRfcId[id[0]] = idMonster;
+		_world.transformComponents[id[0]]->position = sf::Vector2f(x, y);
+		_world.transformComponents[id[0]]->rotation = 180.0f;
+
+		if (_world.movementComponents.size() > _rfcToWorldId[idMonster] && _world.movementComponents[_rfcToWorldId[idMonster]] != NULL)
+			_world.movementComponents[_rfcToWorldId[idMonster]]->direction = sf::Vector2f(dirX, dirY);
+	}
 }

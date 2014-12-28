@@ -32,18 +32,17 @@ void				Game::update(::hpl::Clock &time)
 			direction = sf::Vector2f(dir.x, dir.y) - _world.transformComponents[_idMonster[i]]->position;
 			_world.movementComponents[_idMonster[i]]->direction = sf::Vector2f(direction.x, direction.y);
 			if (nb == 0)
+			{
+				RFC::MonsterMove	mm;
+				mm.idMonster = _idMonster[i];
+				mm.coord.posX = dir.x;
+				mm.coord.posY = dir.y;
+				mm.dir.dirX = direction.x;
+				mm.dir.dirY = direction.y;
+				mm.orientation = 180.0;
 				for (std::vector<RFC*>::iterator client = _rfcManager.rfc.begin(); client != _rfcManager.rfc.end(); ++client)
-				{
-					std::cout << "send " << i << std::endl;
-					RFC::MonsterMove	mm;
-					mm.idMonster = _idMonster[i];
-					mm.coord.posX = dir.x;
-					mm.coord.posY = dir.y;
-					mm.dir.dirX = direction.x;
-					mm.dir.dirY = direction.y;
-					mm.orientation = 180.0;
 					(*client)->sendMonsterMove(mm);
-				}
+			}
 		}
 		++i;
 	}
@@ -143,6 +142,15 @@ void				Game::fire(int id)
 	_world.addRenderComponent(tmp, ComponentFactory::createRenderComponent(_ressource.getTexture(_monster[id]->getFire())));
 	_world.addTransformComponent(tmp, ComponentFactory::createTransformComponent(sf::Vector2f(1021, 728), sf::Vector2f(dir.x, dir.y + 50), sf::Vector2f(0.01f, 0.01f)));
 	_world.addMovementComponent(tmp, ComponentFactory::createMovementComponent(50, sf::Vector2f(-8, 0)));
+	RFC::MonsterShoot	mm;
+	mm.idMonster = id;
+	mm.weapon = RFC::Weapon::W1;
+	mm.coord.posX = dir.x;
+	mm.coord.posY = dir.y;
+	mm.dir.dirX = -8;
+	mm.dir.dirY = 0;
+	for (std::vector<RFC*>::iterator client = _rfcManager.rfc.begin(); client != _rfcManager.rfc.end(); ++client)
+		(*client)->sendMonsterFire(mm);
 }
 
 World				&Game::getWorld() { return (_world); }
