@@ -103,7 +103,7 @@ sf::Vector2u								Game::getScreenSize() const
 
 bool										Game::loadTextures()
 {
-	std::string								textures[18] =
+	std::string								textures[19] =
 	{
 		"textures/menu_background.png",
 		"textures/unicolor.png",
@@ -123,9 +123,10 @@ bool										Game::loadTextures()
 		"textures/explosion3.png",
 		"textures/explosion4.png",
 		"textures/explosion5.png",
+		"textures/intercepter.png"
 	};
 
-	for (unsigned int i = 0; i != 18; ++i)
+	for (unsigned int i = 0; i != 19; ++i)
 	{
 		if (!_resourceManager.loadTexture(textures[i]))
 			return (false);

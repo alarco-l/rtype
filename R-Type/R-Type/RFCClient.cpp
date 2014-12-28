@@ -421,10 +421,6 @@ void	RFCClient::recvMonsterMove(const char *buff) {
 	dirY = *(float*)(buff + sizeof(unsigned short) + sizeof(float) * 3);
 	or = *(float*)(buff + sizeof(unsigned short) + sizeof(float) * 4);
 
-	static int nb = 0;
-
-	std::cout << "PASSE " << nb++ << std::endl;
-
 	 //Move monster in the world && Spawn if it does not exist
 	if (_rfcToWorldId.find(idMonster) == _rfcToWorldId.end())
 	{
@@ -433,7 +429,7 @@ void	RFCClient::recvMonsterMove(const char *buff) {
 		_rfcToWorldId[idMonster] = id[0];
 		_worldToRfcId[id[0]] = idMonster;
 		_world.transformComponents[id[0]]->position = sf::Vector2f(x, y);
-		_world.transformComponents[id[0]]->rotation = or;
+		_world.transformComponents[id[0]]->rotation = or - 90.0f;
 	}
 
 	if (_world.movementComponents.size() > _rfcToWorldId[idMonster] && _world.movementComponents[_rfcToWorldId[idMonster]] != NULL)

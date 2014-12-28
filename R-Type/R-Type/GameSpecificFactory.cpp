@@ -204,8 +204,8 @@ void								GameSpecificFactory::createTestEnemy(unsigned int *id, World &world)
 	deathAnimation.push_back(_resourceManager.getTexture("textures/explosion5.png"));
 
 	id[0] = world.createEmptyEntity();
-	world.addRenderComponent(id[0], ComponentFactory::createRenderComponent(_resourceManager.getTexture("textures/hero.png")));
-	world.addTransformComponent(id[0], ComponentFactory::createTransformComponent(sf::Vector2f(1021, 728), sf::Vector2f(500.0f, 500.0f), sf::Vector2f(0.15f, 0.15f), 180));
+	world.addRenderComponent(id[0], ComponentFactory::createRenderComponent(_resourceManager.getTexture("textures/intercepter.png")));
+	world.addTransformComponent(id[0], ComponentFactory::createTransformComponent(sf::Vector2f(1021, 728), sf::Vector2f(500.0f, 500.0f), sf::Vector2f(0.15f, 0.15f), 0.0f));
 	world.addCollisionComponent(id[0], ComponentFactory::createCollisionComponent());
 	world.addInfoComponent(id[0], ComponentFactory::createInfoComponent(100, 100, 1, deathAnimation, sf::seconds(0.1f)));
 	world.addMovementComponent(id[0], ComponentFactory::createMovementComponent(50.0f, sf::Vector2f(0, 0)));
