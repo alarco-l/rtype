@@ -69,26 +69,72 @@ namespace Network
 				}
 				instance._manager._locker.unlock();
 
-				std::memcpy(&fdRead, &_fdRead, sizeof(fd_set));
-				std::memcpy(&fdWrite, &_fdWrite, sizeof(fd_set));
+				//std::memcpy(&fdRead, &_fdRead, sizeof(fd_set));
+				//std::memcpy(&fdWrite, &_fdWrite, sizeof(fd_set));
+				fdRead = _fdRead;
+				fdWrite = _fdWrite;
 				_mutex.unlock();
 				timeVal.tv_sec = 1;
 				ret = select(FD_SETSIZE, &fdRead, &fdWrite, NULL, &timeVal);
 				_mutex.lock();
 				if (!_running)
 					break;
-				if (ret)
+				switch (ret)
 				{
+				case -1:
+					::hpl::Process::sleep(::hpl::Time::Millisecond(100));
+					break;
+				case 0:
+				{
+					SocketTank::iterator it = _clients.begin();
+					while (it != _clients.end())
+					{
+						if (it->second->connected())
+						{
+							if (it->second->out().size())
+								if (it->second->type() == Socket::udpClient)
+									it->second->send();
+								else
+									FD_SET(it->second->native(), &_fdWrite);
+							++it;
+						}
+					}
+					::hpl::Process::sleep(::hpl::Time::Millisecond(100));
+				}
+					break;
+				default:
 					for (SocketTank::iterator it = _ports.begin(); it != _ports.end(); ++it)
 						if (FD_ISSET(it->second->native(), &fdRead))
 						{
-							size = sizeof(cli_addr);
-							std::memset((void*)&cli_addr, 0, sizeof(cli_addr));
-							if ((socket = accept(it->second->native(), (struct sockaddr *)&cli_addr, &size)) == (ulint)-1)
-								throw (std::runtime_error("Network: accept fail"));
-							_clients[socket] = new Socket(socket, Socket::Type::Client);
-							FD_SET(socket, &_fdRead);
-							_onConnectEvent[_socketToCallback[it->second->native()]](*this, *_clients[socket]);
+							if (it->second->type() == Socket::Type::udpListen)
+							{
+								char				mess[512];
+								size = sizeof(cli_addr);
+								int					nbchar = recvfrom(it->second->native(), mess, sizeof(mess), 0, (struct sockaddr *)&cli_addr, &size);
+								SocketTank::iterator cli;
+								if ((cli = _clients.find(cli_addr.sin_port)) != _clients.end())
+								{
+									::hpl::Buffer	buff(mess, nbchar);
+									cli->second->recive(buff);
+								}
+								else
+								{
+									_clients[cli_addr.sin_port] = new Socket(it->second->native(), Socket::Type::udpClient, cli_addr);
+									::hpl::Buffer	buff(mess, nbchar);
+									_onConnectEvent[_socketToCallback[it->second->native()]](*this, *_clients[cli_addr.sin_port]);
+									_clients[cli_addr.sin_port]->recive(buff);
+								}
+							}
+							else
+							{
+								size = sizeof(cli_addr);
+								std::memset((void*)&cli_addr, 0, sizeof(cli_addr));
+								if ((socket = accept(it->second->native(), (struct sockaddr *)&cli_addr, &size)) == (ulint)-1)
+									throw (std::runtime_error("Network: accept fail"));
+								_clients[socket] = new Socket(socket, Socket::Type::Client);
+								FD_SET(socket, &_fdRead);
+								_onConnectEvent[_socketToCallback[it->second->native()]](*this, *_clients[socket]);
+							}
 						}
 					SocketTank::iterator it = _clients.begin();
 					while (it != _clients.end())
@@ -113,7 +159,10 @@ namespace Network
 								FD_CLR(it->second->native(), &_fdWrite);
 							}
 							if (it->second->out().size())
-								FD_SET(it->second->native(), &_fdWrite);
+								if (it->second->type() == Socket::udpClient)
+									it->second->send();
+								else
+									FD_SET(it->second->native(), &_fdWrite);
 							++it;
 						}
 						else
@@ -123,8 +172,8 @@ namespace Network
 							it = _clients.erase(it);
 						}
 					}
-					instance._manager._locker.lock();
 				}
+				instance._manager._locker.lock();
 			}
 			_mutex.unlock();
 			instance._manager._locker.unlock();

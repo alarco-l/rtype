@@ -17,9 +17,14 @@ namespace Network
 #endif // !__LINUX__
 	}
 
-  Socket::Socket(ulint socket, Socket::Type type) : _socket(socket), _type(type), _connected(socket != (ulint)-1), _protocol(NULL)
+	Socket::Socket(ulint socket, Socket::Type type) : _socket(socket), _type(type), _connected(socket != (ulint)-1), _protocol(NULL)
 	{
 		this->useProtocol<Protocol::None>();
+	}
+	Socket::Socket(ulint socket, Socket::Type type, struct sockaddr_in &cli_addr) : _socket(socket), _type(type), _connected(socket != (ulint)-1), _protocol(NULL)
+	{
+		std::memcpy(&_cli_addr, &cli_addr, sizeof(cli_addr));
+		this->useProtocol<Protocol::udp>();
 	}
 	Socket::~Socket(void)
 	{
@@ -31,9 +36,17 @@ namespace Network
 		}
 	}
 	
-	ulint			Socket::native(void) const { return (_socket); }
+	ulint			Socket::native(void) const { return (_type != udpClient ? _socket : _cli_addr.sin_port); }
 	Socket::Type	Socket::type(void) const { return (_type); }
 
+	void	Socket::recive(::hpl::Buffer &buffer)
+	{
+		_mutex.lock();
+		_readStream.write(buffer);
+		if (_onReciveEvent)
+			_onReciveEvent(*this);
+		_mutex.unlock();
+	}
 	void	Socket::recive(void)
 	{
 		_mutex.lock();
@@ -45,12 +58,15 @@ namespace Network
 		switch (size)
 		{
 		case (ulint)-1:
+			if (_cli_addr.sin_port != _socket)
+				break;
 		case 0:
 			close();
 			break;
 		default:
 			_readStream.write(buff, size);
-			_onReciveEvent(*this);
+			if (_onReciveEvent)
+				_onReciveEvent(*this);
 		}
 		_mutex.unlock();
 	}

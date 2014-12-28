@@ -56,7 +56,7 @@ void	onServerStart(Network::Server &server)
 {
 	::hpl::Logger::out("Starting server");
 	server.onConnect(::hpl::bind(&onConnectEvent, ::hpl::Placeholder::_1, ::hpl::Placeholder::_2));
-	server.listen<Network::tcp::ip4>(2222, ::hpl::bind(&onListenEvent, ::hpl::Placeholder::_1));
+	server.listen<Network::udp::ip4>(2222, ::hpl::bind(&onListenEvent, ::hpl::Placeholder::_1));
 }
 
 int		main(int argc, char *argv[], char *env[])

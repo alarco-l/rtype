@@ -46,6 +46,7 @@ namespace hpl
 		ulint	read(char *buff, ulint size) const;
 		ulint	get(char *buff, ulint size);
 		void	write(char const *buff, ulint size);
+		void	write(Buffer const &);
 
 		ulint	size(void) const;
 

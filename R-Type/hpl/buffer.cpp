@@ -135,6 +135,18 @@ namespace hpl
 		_size -= total;
 		return (total);
 	}
+	void	Buffer::write(Buffer const &buff)
+	{
+		ulint			wSize;
+		char			content[256];
+		Buffer			tmp(buff);
+
+		while (tmp.size())
+		{
+			wSize = tmp.get(content, sizeof(content));
+			write(content, wSize);
+		}
+	}
 	void	Buffer::write(char const *buff, ulint size)
 	{
 		ulint			wSize;

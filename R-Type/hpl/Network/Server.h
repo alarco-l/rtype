@@ -44,24 +44,14 @@ namespace Network
 			sockaddr_in	addr;
 			ulint	socket;
 
+			std::memset(&addr, 0, sizeof(addr));
 			addr.sin_family = AF_INET;
 			addr.sin_port = htons(port);
 			addr.sin_addr.s_addr = htonl(INADDR_ANY);
 			
-			int proType;
-			int protocol;
-
-			switch (type)
-			{
-			case Network::tcp_ip4:
-				proType = SOCK_STREAM;
-				protocol = IPPROTO_TCP;
-				break;
-			case Network::udp_ip4:
-				proType = SOCK_DGRAM;
-				protocol = IPPROTO_UDP;
-				break;
-			}
+			int proType = (type & 0x1 ? SOCK_DGRAM : SOCK_STREAM);
+			int protocol = (type & 0x1 ? IPPROTO_UDP : IPPROTO_TCP);
+			_protocol = type;
 
 			if ((socket = ::socket(AF_INET, proType, protocol)) == (ulint)-1)
 				throw (std::runtime_error("Network: socket fail"));;
@@ -70,7 +60,7 @@ namespace Network
 			::listen(socket, 5);
 
 			FD_SET(socket, &_fdRead);
-			_ports[port] = new Socket(socket, Socket::Type::Listen);
+			_ports[port] = new Socket(socket, (type & 0x1 ? Socket::Type::udpListen : Socket::Type::Listen));
 			_socketToCallback[socket] = port;
 			_onConnectEvent[port] = onConnectEvent;
 			onListenEvent(*this);
@@ -108,5 +98,6 @@ namespace Network
 
 		SocketTank		_ports;
 		SocketTank		_clients;
+		int				_protocol;
 	};
 }
