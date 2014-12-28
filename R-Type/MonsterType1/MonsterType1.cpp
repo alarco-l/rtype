@@ -16,7 +16,7 @@ IMonster::Dir			MonsterType1::update()
 	int					R = 75;
 	int					d = 75;
 
-	_time += 0.03f;
+	_time += 0.02f * 0.02f * 80;
 	dir.x = 1200 - (1200 - _spawn.x) - ((R * _time) - (d * sin((_time))));
 	dir.y = ((R - d * cos(_time))) + _spawn.y;
 	_dir = dir;

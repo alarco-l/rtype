@@ -20,7 +20,7 @@ void										HealthSystem::update(World &world, const sf::Time &elapsed, GameSp
 			info->damageReceived = 0;
 
 			if (info->life <= 0)
-				info->dead = true;
+				info->dead = false;
 		}
 	}
 }

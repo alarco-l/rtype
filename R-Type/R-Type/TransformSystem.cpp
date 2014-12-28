@@ -41,11 +41,11 @@ bool							TransformSystem::applyMovement(const unsigned int id, World &world, c
 			movement /= length;
 		movement *= mov->velocity * elapsed.asSeconds();
 		xform->position += movement;
-		if (xform->position.x <= -500.0f || xform->position.x >= screenSize.x + 500.0f)
-		{
-			world.destroyEntity(id);
-			return (false);
-		}
+		//if (xform->position.x <= -500.0f || xform->position.x >= screenSize.x + 500.0f)
+		//{
+		//	world.destroyEntity(id);
+		//	return (false);
+		//}
 
 		updateChildren(id, world, movement);
 	}
