@@ -17,7 +17,6 @@ int		main(int argc, char *argv[], char *env[])
 	sf::RenderWindow window(sf::VideoMode(1280, 720), "R-Type");
 	Game			game;
 	sf::Clock		clock;
-	RFCManager		*rfcManager = new RFCManager();
 	std::srand(static_cast<unsigned int>(std::time(NULL)));
 	try {
 		game.init();

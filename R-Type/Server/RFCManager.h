@@ -17,7 +17,9 @@ public:
 	void		onEndEvent(Network::Server const&);
 	void		onListenEvent(Network::Server &server);
 	void		onServerStart(Network::Server &server);
+
+	std::vector<RFC *>	rfc;
+
 private:
-	//std::vector<RFC *>			_rfc;
 	Network::Server		*_server;
 };

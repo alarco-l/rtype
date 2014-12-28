@@ -112,8 +112,10 @@ void	RFCClient::sendKillMonster(unsigned int idMonster, const sf::Vector2f &posM
 		_socket->out().write((char *)&tmp, sizeof(short int));
 	}
 }
-
+#include <iostream>
 void	RFCClient::recvCmd(Network::Socket &socket) {
+	std::cout << "get" << std::endl;
+
 	char cmd;
 	_socket->in().get(&cmd, 1);
 	switch (cmd)

@@ -111,7 +111,7 @@ public:
 	RFC(Network::Socket &socket);
 	~RFC();
 
-	void					recvCmd(RecvCommand cmd, Network::Socket &socket);
+	void					recvCmd(Network::Socket &socket);
 
 	void					sendStartGame(sint munition1, sint munition2);
 	void					sendClientCrash(sint idClient);

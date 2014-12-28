@@ -1,12 +1,17 @@
 #include "RFC.h"
 
-RFC::RFC(Network::Socket &socket) : _hasHandshake(false), _socket(&socket) {}
+RFC::RFC(Network::Socket &socket) : _hasHandshake(false), _socket(&socket)
+{
+	_socket->onRecive(::hpl::bind(&RFC::recvCmd, this, ::hpl::Placeholder::_1));
+}
 RFC::~RFC() {}
-
-void				RFC::recvCmd(RFC::RecvCommand cmd, Network::Socket &socket) {
+#include <iostream>
+void				RFC::recvCmd(Network::Socket &socket) {
 	//static int i = 0;
 	//std::fstream tata("tata.txt", std::fstream::in | std::fstream::app);
-	int nb;
+	char buff;
+	int nb = socket.in().get(&buff, 1);
+	RFC::RecvCommand cmd = (RFC::RecvCommand)buff;
 
 	switch (cmd)
 	{
@@ -20,7 +25,8 @@ void				RFC::recvCmd(RFC::RecvCommand cmd, Network::Socket &socket) {
 		mov.coord.posY = *(short int*)(buffMove + 2);
 		mov.dir.dirX = *(short int*)(buffMove + 4);
 		mov.dir.dirY = *(short int*)(buffMove + 6);
-		_onMoveEvent(*this, mov);
+		if (_onMoveEvent)
+			_onMoveEvent(*this, mov);
 	case RFC::RECVSHOOT:
 		char buffShoot[10];
 		RFC::Shoot shoot;
@@ -30,7 +36,8 @@ void				RFC::recvCmd(RFC::RecvCommand cmd, Network::Socket &socket) {
 		shoot.coord.posY = *(short int*)(buffShoot + 4);
 		shoot.dir.dirX = *(short int*)(buffShoot + 6);
 		shoot.dir.dirY = *(short int*)(buffShoot + 8);
-		_onShootEvent(*this, shoot);
+		if (_onShootEvent)
+			_onShootEvent(*this, shoot);
 		break;
 	case RFC::RECVCOLLISION:
 		char buffColision[8];
@@ -40,7 +47,8 @@ void				RFC::recvCmd(RFC::RecvCommand cmd, Network::Socket &socket) {
 		colision.idOnColision2 = *(short int*)(buffColision + 2);
 		colision.coord.posX = *(short int*)(buffColision + 4);
 		colision.coord.posY = *(short int*)(buffColision + 6);
-		_onColisionEvent(*this, colision);
+		if (_onColisionEvent)
+			_onColisionEvent(*this, colision);
 		break;
 	case RFC::RECVHITMONSTER:
 		char buffHitMonster[6];
@@ -49,7 +57,8 @@ void				RFC::recvCmd(RFC::RecvCommand cmd, Network::Socket &socket) {
 		hitMonster.idMonster = *(short int*)(buffHitMonster);
 		hitMonster.coord.posX = *(short int*)(buffHitMonster + 2);
 		hitMonster.coord.posY = *(short int*)(buffHitMonster + 4);
-		_onHitEvent(*this, hitMonster);
+		if (_onHitEvent)
+			_onHitEvent(*this, hitMonster);
 		break;
 	case RFC::RECVKILLMONSTER:
 		char buffKillMonster[6];
@@ -58,7 +67,8 @@ void				RFC::recvCmd(RFC::RecvCommand cmd, Network::Socket &socket) {
 		killMonster.idMonster = *(short int*)(buffKillMonster);
 		killMonster.coord.posX = *(short int*)(buffKillMonster + 2);
 		killMonster.coord.posY = *(short int*)(buffKillMonster + 4);
-		_onKillEvent(*this, killMonster);
+		if (_onKillEvent)
+			_onKillEvent(*this, killMonster);
 		break;
 	default:
 		break;

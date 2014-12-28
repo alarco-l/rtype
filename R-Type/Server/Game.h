@@ -15,6 +15,7 @@
 #include "IMonster.h"
 #include "hpl.h"
 #include "clock.h"
+#include "RFCManager.h"
 
 class							Game
 {
@@ -40,4 +41,5 @@ private:
 	sf::Clock					_fireTime;
 	bool						_spawn1;
 	bool						_spawn2;
+	RFCManager					_rfcManager;
 };
