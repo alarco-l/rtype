@@ -18,7 +18,9 @@ void									DeathSystem::update(World &world)
 					anim->restart = false;
 					anim->currentAnimation = anim->animations.begin();
 					anim->maxLifetime = info->maxLifetime;
+					anim->lifetime = sf::Time::Zero;
 					world.removeCollisionComponent(i);
+					world.removeMovementComponent(i);
 				}
 				else if (anim->currentAnimation == anim->animations.end())
 					world.destroyEntity(i);

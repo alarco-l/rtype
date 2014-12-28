@@ -44,6 +44,7 @@ public:
 		const sf::Vector2f &direction = sf::Vector2f(-1.0f, 0.0f));
 
 	static ProjectileComponent	*createProjectileComponent(const unsigned int damage,
+		bool persistent,
 		const unsigned int owner);
 
 	static WeaponComponent		*createWeaponComponent(const sf::Time &maxCooldown,

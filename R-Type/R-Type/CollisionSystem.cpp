@@ -38,7 +38,7 @@ void									CollisionSystem::update(World &world, const sf::Vector2u &precision
 						if (collide(bounds, target))
 						{
 							// collision happens here
-							//resolveCollision(i, *it2, world);
+							resolveCollision(i, *it2, world);
 						}
 					}
 				}
@@ -61,12 +61,14 @@ void									CollisionSystem::resolveCollision(const unsigned int self, const un
 		{
 			targetInfo->damageReceived = selfProj->damage;
 			world.infoComponents[selfProj->owner]->score += 10;
-			selfInfo->dead = true;
+			if (!selfProj->persistent)
+				selfInfo->dead = true;
 		}
-		else if (selfInfo && !targetInfo)
+		else if (selfInfo && !targetInfo && !selfProj->persistent)
 			selfInfo->dead = true;
-		else if (!selfInfo && !targetInfo)
+		else if (!selfInfo && !targetInfo && !selfProj->persistent)
 			world.destroyEntity(self);
+
 	}
 	else if (targetProj) // target is projectile
 	{
@@ -74,11 +76,12 @@ void									CollisionSystem::resolveCollision(const unsigned int self, const un
 		{
 			selfInfo->damageReceived = targetProj->damage;
 			world.infoComponents[targetProj->owner]->score += 10;
-			targetInfo->dead = true;
+			if (!targetProj->persistent)
+				targetInfo->dead = true;
 		}
-		else if (targetInfo && !selfInfo)
+		else if (targetInfo && !selfInfo && !targetProj->persistent)
 			targetInfo->dead = true;
-		else if (!targetInfo && selfInfo)
+		else if (!targetInfo && selfInfo && !targetProj->persistent)
 			world.destroyEntity(target);
 	}
 }

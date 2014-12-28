@@ -128,6 +128,6 @@ void							TransformSystem::computeTransform(const unsigned int id, World &world
 
 	xform->transform = sf::Transform::Identity;
 	xform->transform.translate(xform->position);
-	xform->transform.rotate(xform->rotation, sf::Vector2f(xform->size.x / 2, xform->size.y / 2));
 	xform->transform.scale(xform->scale);
+	xform->transform.rotate(xform->rotation, sf::Vector2f(xform->size.x / 2, xform->size.y / 2));
 }

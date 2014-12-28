@@ -129,11 +129,12 @@ ScrollComponent					*ComponentFactory::createScrollComponent(const float speed, 
 	return (scroll);
 }
 
-ProjectileComponent				*ComponentFactory::createProjectileComponent(const unsigned int damage, const unsigned int owner)
+ProjectileComponent				*ComponentFactory::createProjectileComponent(const unsigned int damage, bool persistent, const unsigned int owner)
 {
 	ProjectileComponent			*proj = new ProjectileComponent();
 
 	proj->damage = damage;
+	proj->persistent = persistent;
 	proj->owner = owner;
 
 	return (proj);
