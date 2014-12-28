@@ -14,6 +14,7 @@ public:
 	// MENUS
 
 	void									createMainMenu(unsigned int *id, World &world, const sf::Vector2u &screenSize);
+	void									createLoadMenu(unsigned int *id, World &world, const sf::Vector2u &screenSize);
 	void									createPauseMenu(unsigned int *id, World &world, const sf::Vector2u &screenSize);
 	void									createEndMenu(unsigned int *id, World &world, const sf::Vector2u &screenSize, const std::string &result);
 
