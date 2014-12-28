@@ -62,8 +62,6 @@ copy /Y $(SolutionDIr)SFML-2.1\lib\sfml-graphics-d-2.dll $(OutDir)
 copy /Y $(SolutionDIr)SFML-2.1\lib\sfml-network-d-2.dll $(OutDir)
 copy /Y $(SolutionDIr)SFML-2.1\lib\sfml-system-d-2.dll $(OutDir)
 copy /Y $(SolutionDIr)SFML-2.1\lib\sfml-window-d-2.dll $(OutDir)
-xcopy /s /y $(ProjectDir)\textures $(OutDir)
-xcopy /s /y $(ProjectDir)\fonts $(OutDir)
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -88,10 +86,7 @@ xcopy /s /y $(ProjectDir)\fonts $(OutDir)
 copy /Y $(SolutionDIr)SFML-2.1\lib\sfml-graphics-2.dll $(OutDir)
 copy /Y $(SolutionDIr)SFML-2.1\lib\sfml-network-2.dll $(OutDir)
 copy /Y $(SolutionDIr)SFML-2.1\lib\sfml-system-2.dll $(OutDir)
-copy /Y $(SolutionDIr)SFML-2.1\lib\sfml-window-2.dll $(OutDir)
-xcopy /s /y $(ProjectDir)\textures $(OutDir)
-xcopy /s /y $(ProjectDir)\fonts $(OutDir)
-</Command>
+copy /Y $(SolutionDIr)SFML-2.1\lib\sfml-window-2.dll $(OutDir)</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>

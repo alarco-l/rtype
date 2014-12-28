@@ -421,8 +421,6 @@ void	RFCClient::recvMonsterMove(const char *buff) {
 
 	static int nb = 0;
 
-	std::cout << "PASSE " << nb++ << std::endl;
-
 	 //Move monster in the world && Spawn if it does not exist
 	if (_rfcToWorldId.find(idMonster) == _rfcToWorldId.end())
 	{
