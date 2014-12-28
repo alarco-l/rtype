@@ -13,6 +13,8 @@
 
 #include "DlLoader.hpp"
 #include "IMonster.h"
+#include "hpl.h"
+#include "clock.h"
 
 class							Game
 {
