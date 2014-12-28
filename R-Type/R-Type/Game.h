@@ -5,6 +5,8 @@
 #include <SFML/Window/Event.hpp>
 
 #include "ResourceManager.h"
+#include "GameSpecificFactory.h"
+#include "GameEnums.h"
 
 class							AState;
 
@@ -20,6 +22,8 @@ public:
 	void						pushState(AState *state);
 	void						popState();
 	sf::Vector2u				getScreenSize() const;
+
+	GameSpecificFactory			factory;
 private:
 	Game(const Game &rhs);
 	Game &operator=(const Game &rhs);

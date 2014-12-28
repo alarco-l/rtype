@@ -2,33 +2,17 @@
 
 void									ParticleSystem::update(World &world, const sf::Time &elapsed)
 {
-	for (unsigned int i = 0; i != world.entityCount; ++i)
+	for (unsigned int i = 0; i < world.entityCount; ++i)
 	{
 		ParticleComponent				*particle = world.particleComponents[i];
 		RenderComponent					*render = world.renderComponents[i];
 
 		if (particle)
 		{
-			MovementComponent			*emitterMov = world.movementComponents[particle->emitterId];
-
 			particle->lifetime -= elapsed;
 			if (particle->lifetime <= sf::Time::Zero)
 				resetParticle(world, i);
 			//TODO : respawn = false -> delete emitter and particles
-
-			// a voir si ca rends mieux
-			if (emitterMov)
-			{
-				TransformComponent		*xform = world.transformComponents[i];
-				sf::Vector2f			direction;
-				float					length;
-
-				direction = emitterMov->direction;
-				length = sqrt(direction.x * direction.x + direction.y * direction.y);
-				if (length != 0.0f)
-					direction /= length;
-				xform->position += direction * (emitterMov->velocity * 0.75f) * elapsed.asSeconds();
-			}
 
 			if (render)
 			{

@@ -1,11 +1,10 @@
 #include "RenderSystem.h"
-#include <iostream>
 
 void								RenderSystem::update(sf::RenderWindow *window, World &world)
 {
 	std::vector<RenderComponent *>	drawOrder;
 
-	for (unsigned int i = 0; i != world.entityCount; ++i)
+	for (unsigned int i = 0; i < world.entityCount; ++i)
 	{
 		RenderComponent				*render = world.renderComponents[i];
 		TransformComponent			*xform = world.transformComponents[i];

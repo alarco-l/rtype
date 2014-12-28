@@ -1,6 +1,6 @@
 #pragma once
 
-#include <vector>
+#include <set>
 
 #include <SFML/System/Vector2.hpp>
 #include <SFML/System/Time.hpp>
@@ -13,5 +13,5 @@ struct									EmitterComponent
 	sf::Vector2f						velocityInterval;
 	sf::Vector2f						scaleInterval;
 	// intervalle de rotation ?
-	std::vector<unsigned int>			particleId;
+	std::set<unsigned int>				particleId;
 };

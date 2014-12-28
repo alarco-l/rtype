@@ -2,7 +2,7 @@
 
 void							TextSystem::update(sf::RenderWindow *window, World &world)
 {
-	for (unsigned int i = 0; i != world.entityCount; ++i)
+	for (unsigned int i = 0; i < world.entityCount; ++i)
 	{
 		TextComponent			*txt = world.textComponents[i];
 		TransformComponent		*xform = world.transformComponents[i];
@@ -15,7 +15,7 @@ void							TextSystem::update(sf::RenderWindow *window, World &world)
 			text.setColor(txt->color);
 			text.setString(txt->string);
 			text.setCharacterSize(txt->size);
-			
+
 			if (txt->highlighted)
 			{
 				text.scale(1.2f, 1.2f);

@@ -6,3 +6,7 @@
 #include "AnimationSystem.h"
 #include "TextSystem.h"
 #include "CollisionSystem.h"
+#include "WeaponSystem.h"
+#include "HealthSystem.h"
+#include "TimerSystem.h"
+#include "DeathSystem.h"

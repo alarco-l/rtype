@@ -5,7 +5,7 @@
 #include "GUIState.h"
 
 
-Game::Game() : _window(NULL)
+Game::Game() : _window(NULL), factory(_resourceManager)
 {
 }
 
@@ -46,6 +46,7 @@ void										Game::run()
 			if (!state->handleKeyEvent(event))
 				break;
 		}
+
 		state->handleKeyState();
 		elapsed = _clock.restart();
 		_window->clear();
@@ -80,7 +81,7 @@ void										Game::exit()
 
 void										Game::pushState(AState *state)
 {
-	state->initialize(_resourceManager);
+	state->initialize();
 	_states.push_back(state);
 }
 
@@ -97,7 +98,7 @@ sf::Vector2u								Game::getScreenSize() const
 
 bool										Game::loadTextures()
 {
-	std::string								textures[10] =
+	std::string								textures[18] =
 	{
 		"textures/menu_background.png",
 		"textures/unicolor.png",
@@ -109,9 +110,17 @@ bool										Game::loadTextures()
 		"textures/background.png",
 		"textures/fireMotor.png",
 		"textures/background_reversed.png",
+		"textures/missile.png",
+		"textures/greenLaserRay.png",
+		"textures/explosion0.png",
+		"textures/explosion1.png",
+		"textures/explosion2.png",
+		"textures/explosion3.png",
+		"textures/explosion4.png",
+		"textures/explosion5.png",
 	};
 
-	for (unsigned int i = 0; i != 10; ++i)
+	for (unsigned int i = 0; i != 18; ++i)
 	{
 		if (!_resourceManager.loadTexture(textures[i]))
 			return (false);

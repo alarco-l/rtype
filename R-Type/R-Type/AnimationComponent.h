@@ -6,7 +6,8 @@
 struct														AnimationComponent
 {
 	sf::Time												maxLifetime;
-	sf::Time												lifetime;	
+	sf::Time												lifetime;
 	std::vector<const sf::Texture * const>					animations;
 	std::vector<const sf::Texture * const>::const_iterator	currentAnimation;
+	bool													restart;
 };

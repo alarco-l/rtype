@@ -81,6 +81,21 @@
     <ClCompile Include="RFCClient.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GameSpecificFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DeathSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="TimerSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponSystem.cpp">
+      <Filter>Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TransformSystem.h">
@@ -181,6 +196,45 @@
     </ClInclude>
     <ClInclude Include="Convert.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ChildrenComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GrowComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="InfoComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectileComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="TimerComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ParentComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEnums.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSpecificFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DeathSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="TimerSystem.h">
+      <Filter>Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponSystem.h">
+      <Filter>Systems</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

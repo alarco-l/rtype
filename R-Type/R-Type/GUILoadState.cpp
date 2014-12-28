@@ -11,9 +11,10 @@ GUILoadState::~GUILoadState()
 {
 }
 
-void						GUILoadState::initialize(ResourceManager &resourceManager)
+//REPLACE THIS WITH GAMESPECIFICFACTORY
+void						GUILoadState::initialize()
 {
-	sf::Vector2u			screenSize = _game->getScreenSize();
+	/*sf::Vector2u			screenSize = _game->getScreenSize();
 
 	_id[TITLE] = _world.createEmptyEntity();
 	_world.addTextComponent(_id[TITLE], ComponentFactory::createTextComponent("R-TYPE", resourceManager.getFont("fonts/SPACEBAR.ttf"), true, false, 120, sf::Color(13, 205, 248, 255)));
@@ -30,7 +31,7 @@ void						GUILoadState::initialize(ResourceManager &resourceManager)
 	_id[IMG] = _world.createEmptyEntity();
 	_world.addSpinComponent(_id[IMG], ComponentFactory::createSpinComponent(50, 1));
 	_world.addRenderComponent(_id[IMG], ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/load_icon.png"), RenderComponent::Plane::HUD));
-	_world.addTransformComponent(_id[IMG], ComponentFactory::createTransformComponent(sf::Vector2f(175, 175), sf::Vector2f(screenSize.x - screenSize.x / 2.0f - 87.5f, screenSize.y/2 + 100.0f)));
+	_world.addTransformComponent(_id[IMG], ComponentFactory::createTransformComponent(sf::Vector2f(175, 175), sf::Vector2f(screenSize.x - screenSize.x / 2.0f - 87.5f, screenSize.y/2 + 100.0f)));*/
 }
 
 bool						GUILoadState::handleKeyState()

@@ -8,7 +8,7 @@ public:
 	GUILoadState(Game *game);
 	~GUILoadState();
 
-	void						initialize(ResourceManager &resourceManager);
+	void						initialize();
 	bool						handleKeyEvent(const sf::Event &event);
 	bool						handleKeyState();
 private:

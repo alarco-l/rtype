@@ -8,19 +8,13 @@ public:
 	GUIPauseState(Game *game);
 	~GUIPauseState();
 
-	void						initialize(ResourceManager &resourceManager);
+	void						initialize();
 	void						stop(void);
 	bool						handleKeyEvent(const sf::Event &event);
 	bool						handleKeyState();
 
 private:
-	enum Element
-	{
-		CONTINUE,
-		EXIT,
-		MAX
-	};
 
 	unsigned int				_state;
-	unsigned int				_id[2];
+	unsigned int				_id[RType::PauseMenu::MAX];
 };

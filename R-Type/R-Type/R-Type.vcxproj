@@ -99,12 +99,15 @@ copy /Y $(SolutionDIr)SFML-2.1\lib\sfml-window-2.dll $(OutDir)
     <ClCompile Include="AState.cpp" />
     <ClCompile Include="CollisionSystem.cpp" />
     <ClCompile Include="ComponentFactory.cpp" />
+    <ClCompile Include="DeathSystem.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameSpecificFactory.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="GUIEndState.cpp" />
     <ClCompile Include="GUILoadState.cpp" />
     <ClCompile Include="GUIPauseState.cpp" />
     <ClCompile Include="GUIState.cpp" />
+    <ClCompile Include="HealthSystem.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
@@ -115,7 +118,9 @@ copy /Y $(SolutionDIr)SFML-2.1\lib\sfml-window-2.dll $(OutDir)
     </ClCompile>
     <ClCompile Include="RFCClient.cpp" />
     <ClCompile Include="TextSystem.cpp" />
+    <ClCompile Include="TimerSystem.cpp" />
     <ClCompile Include="TransformSystem.cpp" />
+    <ClCompile Include="WeaponSystem.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -123,23 +128,32 @@ copy /Y $(SolutionDIr)SFML-2.1\lib\sfml-window-2.dll $(OutDir)
     <ClInclude Include="AnimationSystem.h" />
     <ClInclude Include="AState.h" />
     <ClInclude Include="BasicType.h" />
+    <ClInclude Include="ChildrenComponent.h" />
     <ClInclude Include="CollisionComponent.h" />
     <ClInclude Include="CollisionSystem.h" />
     <ClInclude Include="ComponentFactory.h" />
     <ClInclude Include="Components.h" />
     <ClInclude Include="Convert.hpp" />
+    <ClInclude Include="DeathSystem.h" />
     <ClInclude Include="EmitterComponent.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameEnums.h" />
+    <ClInclude Include="GameSpecificFactory.h" />
     <ClInclude Include="GameState.h" />
+    <ClInclude Include="GrowComponent.h" />
     <ClInclude Include="GUIEndState.h" />
     <ClInclude Include="GUILoadState.h" />
     <ClInclude Include="GUIPauseState.h" />
     <ClInclude Include="GUIState.h" />
+    <ClInclude Include="HealthSystem.h" />
+    <ClInclude Include="InfoComponent.h" />
     <ClInclude Include="IRFC.h" />
     <ClInclude Include="IRFCClient.h" />
     <ClInclude Include="MovementComponent.h" />
+    <ClInclude Include="ParentComponent.h" />
     <ClInclude Include="ParticleComponent.h" />
     <ClInclude Include="ParticleSystem.h" />
+    <ClInclude Include="ProjectileComponent.h" />
     <ClInclude Include="RenderComponent.h" />
     <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="RFC.h">
@@ -151,8 +165,12 @@ copy /Y $(SolutionDIr)SFML-2.1\lib\sfml-window-2.dll $(OutDir)
     <ClInclude Include="Systems.h" />
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="TextSystem.h" />
+    <ClInclude Include="TimerComponent.h" />
+    <ClInclude Include="TimerSystem.h" />
     <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="TransformSystem.h" />
+    <ClInclude Include="WeaponComponent.h" />
+    <ClInclude Include="WeaponSystem.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>
   <ItemGroup>

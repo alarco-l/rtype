@@ -1,20 +1,21 @@
 #pragma once
 
 #include "World.h"
-#include "RFCClient.h"
 
 #include <set>
 
 class																CollisionSystem
 {
 public:
-	static void														update(World &world, const sf::Vector2u &precision, const sf::Vector2u &size, const RFCClient *rfc);
+	static void														update(World &world, const sf::Vector2u &precision, const sf::Vector2u &size);
 private:
 	typedef std::vector<std::vector<std::set<unsigned int> > >		collisionGrid;
 
 	CollisionSystem();
 	CollisionSystem(const CollisionSystem &rhs);
 	CollisionSystem &operator=(const CollisionSystem &rhs);
+
+	static void														resolveCollision(const unsigned int self, const unsigned int target, World &world);
 
 	static std::vector<sf::Vector2f>								getEntityBounds(const sf::Transform &transform, const sf::Vector2f &size);
 	static void														projectAxis(const std::vector<sf::Vector2f> &points, const sf::Vector2f &axis, float &min, float &max);

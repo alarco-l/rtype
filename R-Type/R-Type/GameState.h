@@ -10,55 +10,22 @@ public:
 	GameState(Game *game);
 	~GameState();
 
-	void						initialize(ResourceManager &resourceManager);
+	void						initialize();
 	void						stop(void);
 	bool						handleKeyEvent(const sf::Event &event);
 	bool						handleKeyState();
 	void						update(const sf::Time &elapsed);
 	
 private:
-	enum Hud
-	{
-		LIFETEXT,
-		SHIELDTEXT,
-		LIFEBAR,
-		SHIELDBAR,
-		BOSSLIFEBAR,
-		SCORE,
-		WEAPON1,
-		WEAPON2,
-		WEAPON3,
-		MAX
-	};
-
-	enum PlayerPart
-	{
-		SHIP,
-		MOTORUP,
-		MOTORDOWN,
-		MAXPART
-	};
-
-	void						initializeHUD(ResourceManager &resourceManager);
-	void						initializePlayer(ResourceManager &resourceManager);
-	void						initializeBackground(ResourceManager &resourceManager);
 
 	void						onConnectEvent(Network::Client &client);
 	void						onRecive(Network::Socket &socket);
 	void						onEnd(Network::Socket const &socket);
 
-	void						updateHUD();
 	void						updateBackground();
 
-
-	void						updateLife();
-	void						updateLifeBoss();
-	void						updateShield();
-	void						updateAmo();
-	void						updateScore();
-
 	int							_idBoss;
-	int							_idPlayer[MAXPART];
-	unsigned int				_idHud[MAX];
-	unsigned int				_idBackground[2];
+	unsigned int				_idPlayer[RType::Player::MAX];
+	unsigned int				_idHud[RType::HUD::MAX];
+	unsigned int				_idBackground[RType::GameBackground::MAX];
 };

@@ -8,19 +8,13 @@ public:
 	GUIState(Game *game);
 	~GUIState();
 
-	void						initialize(ResourceManager &resourceManager);
+	void						initialize();
 	void						stop(void);
 	bool						handleKeyEvent(const sf::Event &event);
 	bool						handleKeyState();
 
 private:
-	enum Element
-	{
-		CONNECT,
-		EXIT,
-		MAX
-	};
 
 	unsigned int				_state;
-	unsigned int				_id[2];
+	unsigned int				_id[RType::MainMenu::MAX];
 };

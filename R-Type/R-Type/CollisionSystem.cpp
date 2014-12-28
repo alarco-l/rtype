@@ -1,8 +1,7 @@
 #include "CollisionSystem.h"
-#include <iostream>
 #include <algorithm>
 
-void									CollisionSystem::update(World &world, const sf::Vector2u &precision, const sf::Vector2u &size, const RFCClient *rfc)
+void									CollisionSystem::update(World &world, const sf::Vector2u &precision, const sf::Vector2u &size)
 {
 	collisionGrid						grid;
 	sf::Vector2u						cellSize = sf::Vector2u(size.x / precision.x, size.y / precision.y);
@@ -11,7 +10,7 @@ void									CollisionSystem::update(World &world, const sf::Vector2u &precision
 	for (unsigned int i = 0; i != precision.x; ++i)
 		grid[i].resize(precision.y);
 
-	for (unsigned int i = 0; i != world.entityCount; ++i)
+	for (unsigned int i = 0; i < world.entityCount; ++i)
 	{
 		CollisionComponent				*col;
 		TransformComponent				*xform;
@@ -21,12 +20,11 @@ void									CollisionSystem::update(World &world, const sf::Vector2u &precision
 
 		if (col && xform)
 		{
-			// add entities one by one to the collision grid
 			std::vector<sf::Vector2f>	bounds = getEntityBounds(xform->transform, xform->size); // bounds of entity in global space after transforms
 			sf::FloatRect				aabb = xform->transform.transformRect(sf::FloatRect(sf::Vector2f(0.0f, 0.0f), xform->size)); // axis aligned bounding box for entity
 			std::vector<sf::Vector2u>	cells; // cells in which the entity is contained
 
-			cells = addEntityToGrid(grid, cellSize, aabb, i);
+			cells = addEntityToGrid(grid, cellSize, aabb, i); // add entities one by one to the collision grid
 
 			//collision inside the cells in which the entity is contained
 			for (std::vector<sf::Vector2u>::iterator it = cells.begin(); it != cells.end(); ++it)
@@ -40,12 +38,48 @@ void									CollisionSystem::update(World &world, const sf::Vector2u &precision
 						if (collide(bounds, target))
 						{
 							// collision happens here
+							//resolveCollision(i, *it2, world);
 						}
 					}
 				}
 			}
 		}
 
+	}
+}
+
+void									CollisionSystem::resolveCollision(const unsigned int self, const unsigned int target, World &world)
+{
+	ProjectileComponent					*selfProj = world.projectileComponents[self];
+	InfoComponent						*selfInfo = world.infoComponents[self];
+	InfoComponent						*targetInfo = world.infoComponents[target];
+	ProjectileComponent					*targetProj = world.projectileComponents[target];
+
+	if (selfProj) // self is projectile
+	{
+		if (targetInfo && selfInfo && selfInfo->team != targetInfo->team)
+		{
+			targetInfo->damageReceived = selfProj->damage;
+			world.infoComponents[selfProj->owner]->score += 10;
+			selfInfo->dead = true;
+		}
+		else if (selfInfo && !targetInfo)
+			selfInfo->dead = true;
+		else if (!selfInfo && !targetInfo)
+			world.destroyEntity(self);
+	}
+	else if (targetProj) // target is projectile
+	{
+		if (targetInfo && selfInfo && selfInfo->team != targetInfo->team)
+		{
+			selfInfo->damageReceived = targetProj->damage;
+			world.infoComponents[targetProj->owner]->score += 10;
+			targetInfo->dead = true;
+		}
+		else if (targetInfo && !selfInfo)
+			targetInfo->dead = true;
+		else if (!targetInfo && selfInfo)
+			world.destroyEntity(target);
 	}
 }
 
@@ -108,9 +142,12 @@ bool									CollisionSystem::collide(const std::vector<sf::Vector2f> &self, con
 	axes[2] = sf::Vector2f(target[0].x - target[3].x, target[0].y - target[3].y);
 	axes[3] = sf::Vector2f(target[0].x - target[1].x, target[0].y - target[1].y);
 
-	for (int i = 0; i<4; i++)
+	for (unsigned int i = 0; i < 4; ++i)
 	{
-		float minSelf, maxSelf, minTarget, maxTarget;
+		float minSelf;
+		float maxSelf;
+		float minTarget;
+		float maxTarget;
 
 		projectAxis(self, axes[i], minSelf, maxSelf);
 		projectAxis(target, axes[i], minTarget, maxTarget);

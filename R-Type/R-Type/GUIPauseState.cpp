@@ -4,29 +4,16 @@
 GUIPauseState::GUIPauseState(Game *game) : AState(game)
 {
 	_isBlocking = false;
-	_state = Element::CONTINUE;
+	_state = RType::PauseMenu::CONTINUE;
 }
 
 GUIPauseState::~GUIPauseState()
 {
 }
 
-void						GUIPauseState::initialize(ResourceManager &resourceManager)
+void						GUIPauseState::initialize()
 {
-	unsigned int			filter;
-	sf::Vector2u			screenSize = _game->getScreenSize();
-
-	filter = _world.createEmptyEntity();
-	_world.addRenderComponent(filter, ComponentFactory::createRenderComponent(resourceManager.getTexture("textures/unicolor.png"), RenderComponent::Plane::HUD, sf::Color(0, 0, 0, 150)));
-	_world.addTransformComponent(filter, ComponentFactory::createTransformComponent(sf::Vector2f(screenSize), sf::Vector2f(0.0f, 0.0f)));
-
-	_id[CONTINUE] = _world.createEmptyEntity();
-	_world.addTextComponent(_id[CONTINUE], ComponentFactory::createTextComponent("Continue", resourceManager.getFont("fonts/SPACEBAR.ttf"), true, true, 80, sf::Color(255, 255, 255, 150)));
-	_world.addTransformComponent(_id[CONTINUE], ComponentFactory::createTransformComponent(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, screenSize.y / 3.0f)));
-
-	_id[EXIT] = _world.createEmptyEntity();
-	_world.addTextComponent(_id[EXIT], ComponentFactory::createTextComponent("Quit", resourceManager.getFont("fonts/SPACEBAR.ttf"), true, false, 80, sf::Color(255, 255, 255, 150)));
-	_world.addTransformComponent(_id[EXIT], ComponentFactory::createTransformComponent(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.0f, screenSize.y / 3.0f + 150.0f)));
+	_game->factory.createPauseMenu(_id, _world, _game->getScreenSize());
 }
 
 void						GUIPauseState::stop(void) {}
@@ -47,14 +34,14 @@ bool						GUIPauseState::handleKeyEvent(const sf::Event &event)
 		{
 		case sf::Keyboard::Up:
 			if ((_state--) == 0)
-				_state = Element::EXIT;
+				_state = RType::PauseMenu::EXIT;
 			_world.textComponents[_id[_state]]->highlighted = true;
 			_world.textComponents[_id[prev]]->highlighted = false;
 			return(true);
 
 		case sf::Keyboard::Down:
-			if ((++_state) == Element::MAX)
-				_state = Element::CONTINUE;
+			if ((++_state) == RType::PauseMenu::MAX)
+				_state = RType::PauseMenu::CONTINUE;
 			_world.textComponents[_id[_state]]->highlighted = true;
 			_world.textComponents[_id[prev]]->highlighted = false;
 			return(true);
@@ -64,7 +51,7 @@ bool						GUIPauseState::handleKeyEvent(const sf::Event &event)
 			return (false);
 
 		case sf::Keyboard::Return:
-			if (_state == Element::CONTINUE)
+			if (_state == RType::PauseMenu::CONTINUE)
 			{
 				_game->popState();
 				return (false);

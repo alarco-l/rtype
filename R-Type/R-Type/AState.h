@@ -14,7 +14,7 @@ public:
 	AState(Game *game);
 	~AState();
 
-	virtual void				initialize(ResourceManager &resourceManager) = 0;
+	virtual void				initialize() = 0;
 	virtual void				stop(void) = 0;
 	virtual void				update(const sf::Time &elapsed);
 	virtual void				draw(sf::RenderWindow *window);
