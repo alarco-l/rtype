@@ -1,5 +1,6 @@
 # include <cstring>
 #include "RFCClient.h"
+#include "BasicType.h"
 
 RFCClient::RFCClient(Network::Socket &socket) {
 	_socket = &socket;
@@ -28,7 +29,8 @@ void	RFCClient::sendHandshake(unsigned int idClient) // 6bytes
 {
 	if (_socket->connected() == true) {
 		_socket->out().write("1000", 4);
-		_socket->out().write((char *)&idClient, sizeof(short int));
+		usint tmp = (short int)(idClient);
+		_socket->out().write((char *)&tmp, sizeof(short int));
 	}
 }
 
@@ -37,10 +39,14 @@ void	RFCClient::sendMove(const sf::Vector2f &pos, const sf::Vector2f &direction)
 	if (_socket->connected() == true) {
 		char c = RFCClient::SENDMOVE;
 		_socket->out().write(&c,1);
-		_socket->out().write((char *)&(pos.x), sizeof(short int));
-		_socket->out().write((char *)&(pos.y), sizeof(short int));
-		_socket->out().write((char *)&(direction.x), sizeof(short int));
-		_socket->out().write((char *)&(direction.y), sizeof(short int));
+		usint tmp = (short int)(pos.x);
+		_socket->out().write((char *)&tmp, sizeof(short int));
+		tmp = (short int)(pos.y);
+		_socket->out().write((char *)&tmp, sizeof(short int));
+		tmp = (short int)(direction.x);
+		_socket->out().write((char *)&tmp, sizeof(short int));
+		tmp = (short int)(direction.y);
+		_socket->out().write((char *)&tmp, sizeof(short int));
 	}
 }
 
@@ -51,11 +57,16 @@ void	RFCClient::sendShoot(RFCClient::Weapon weapon, unsigned int idAmmo, const s
 		_socket->out().write(&c, 1);
 		c = weapon;
 		_socket->out().write(&c, 1);
-		_socket->out().write((char *)&(idAmmo), sizeof(short int));
-		_socket->out().write((char *)&(pos.x), sizeof(short int));
-		_socket->out().write((char *)&(pos.y), sizeof(short int));
-		_socket->out().write((char *)&(direction.x), sizeof(short int));
-		_socket->out().write((char *)&(direction.y), sizeof(short int));
+		usint tmp = (short int)(idAmmo);
+		_socket->out().write((char *)&tmp, sizeof(short int));
+		tmp = (short int)(pos.x);
+		_socket->out().write((char *)&tmp, sizeof(short int));
+		tmp = (short int)(pos.y);
+		_socket->out().write((char *)&tmp, sizeof(short int));
+		tmp = (short int)(direction.x);
+		_socket->out().write((char *)&tmp, sizeof(short int));
+		tmp = (short int)(direction.y);
+		_socket->out().write((char *)&tmp, sizeof(short int));
 	}
 }
 
@@ -64,10 +75,14 @@ void	RFCClient::sendCollision(unsigned int idClient, unsigned int idMonster, con
 	if (_socket->connected() == true) {
 		char c = RFCClient::SENDCOLLISION;
 		_socket->out().write(&c, 1);
-		_socket->out().write((char *)&(idClient), sizeof(short int));
-		_socket->out().write((char *)&(idMonster), sizeof(short int));
-		_socket->out().write((char *)&(pos.x), sizeof(short int));
-		_socket->out().write((char *)&(pos.y), sizeof(short int));
+		usint tmp = (short int)(idClient);
+		_socket->out().write((char *)&tmp, sizeof(short int));
+		tmp = (short int)(idMonster);
+		_socket->out().write((char *)&tmp, sizeof(short int));
+		tmp = (short int)(pos.x);
+		_socket->out().write((char *)&tmp, sizeof(short int));
+		tmp = (short int)(pos.y);
+		_socket->out().write((char *)&tmp, sizeof(short int));
 	}
 }
 
@@ -76,9 +91,12 @@ void	RFCClient::sendHitMonster(unsigned int idMonster, const sf::Vector2f &posMo
 	if (_socket->connected() == true) {
 		char c = RFCClient::SENDHITMONSTER;
 		_socket->out().write(&c, 1);
-		_socket->out().write((char *)&(idMonster), sizeof(short int));
-		_socket->out().write((char *)&(posMonster.x), sizeof(short int));
-		_socket->out().write((char *)&(posMonster.y), sizeof(short int));
+		usint tmp = (short int)(idMonster);
+		_socket->out().write((char *)&tmp, sizeof(short int));
+		tmp = (short int)(posMonster.x);
+		_socket->out().write((char *)&tmp, sizeof(short int));
+		tmp = (short int)(posMonster.y);
+		_socket->out().write((char *)&tmp, sizeof(short int));
 	}
 }
 
@@ -87,9 +105,12 @@ void	RFCClient::sendKillMonster(unsigned int idMonster, const sf::Vector2f &posM
 	if (_socket->connected() == true) {
 		char c = RFCClient::SENDKILLMONSTER;
 		_socket->out().write(&c, 1);
-		_socket->out().write((char *)&(idMonster), sizeof(short int));
-		_socket->out().write((char *)&(posMonster.x), sizeof(short int));
-		_socket->out().write((char *)&(posMonster.y), sizeof(short int));
+		usint tmp = (short int)(idMonster);
+		_socket->out().write((char *)&tmp, sizeof(short int));
+		tmp = (short int)(posMonster.x);
+		_socket->out().write((char *)&tmp, sizeof(short int));
+		tmp = (short int)(posMonster.y);
+		_socket->out().write((char *)&tmp, sizeof(short int));
 	}
 }
 
@@ -131,6 +152,9 @@ void	RFCClient::recvCmd(Network::Socket &socket) {
 	case RECVMONSTERKILLPLAYER:
 		recvMonsterKillPlayer();
 		break;
+	case RECVMUNITIONS:
+		recvMunitions();
+		break;
 	case RECVSTARTGAME:
 		recvStartGame();
 		break;
@@ -144,12 +168,22 @@ void	RFCClient::recvCmd(Network::Socket &socket) {
 
 void	RFCClient::recvHandshake() {
 	char buff[3];
-	_socket->in().get(buff, 3);
-	if (strlen(buff) != 3)
+	int nb = _socket->in().get(buff, 3);
+	if (nb != 3)
 		return;
 	_isConnect = *(bool*)(buff);
 	_id[PLAYER1] = *(short int*)(buff + 1);
 }
+
+void	RFCClient::recvMunitions() {
+	char buff[2];
+	short int nbMunitions;
+	int nb = _socket->in().get(buff, 2);
+	if (nb != 2)
+		return;
+	nbMunitions = *(short int*)(buff);
+}
+
 void	RFCClient::recvMove() {
 	char buff[10];
 	short int idPlayer;
@@ -158,8 +192,8 @@ void	RFCClient::recvMove() {
 	short int dirX;
 	short int dirY;
 	
-	_socket->in().get(buff, 10);
-	if (strlen(buff) != 10)
+	int nb = _socket->in().get(buff, 10);
+	if (nb != 10)
 		return;
 	idPlayer = *(short int*)(buff);
 	x = *(short int*)(buff + 2);
@@ -176,8 +210,8 @@ void	RFCClient::recvShoot() {
 	short int idMun;
 	char buff[11];
 
-	_socket->in().get(buff, 11);
-	if (strlen(buff) != 3)
+	int nb = _socket->in().get(buff, 11);
+	if (nb != 11)
 		return;
 	weapon = *(Weapon*)(buff);
 	x = *(short int*)(buff + sizeof(Weapon));
@@ -194,8 +228,8 @@ void	RFCClient::recvCollision() {
 	short int idMonster;
 	char buff[8];
 
-	_socket->in().get(buff, 8);
-	if (strlen(buff) != 3)
+	int nb = _socket->in().get(buff, 8);
+	if (nb != 8)
 		return;
 	idClient = *(short int*)(buff);
 	idMonster = *(short int*)(buff + 2);
@@ -209,8 +243,8 @@ void	RFCClient::recvHitMonster() {
 	short int idMonster;
 	char buff[6];
 	
-	_socket->in().get(buff, 6);
-	if (strlen(buff) != 6)
+	int nb = _socket->in().get(buff, 6);
+	if (nb != 6)
 		return;
 	idMonster = *(short int*)(buff);
 	x = *(short int*)(buff + 2);
@@ -223,8 +257,8 @@ void	RFCClient::recvKillMonster() {
 	short int idMonster;
 	char buff[6];
 
-	_socket->in().get(buff, 6);
-	if (strlen(buff) != 6)
+	int nb = _socket->in().get(buff, 6);
+	if (nb != 6)
 		return;
 	idMonster = *(short int*)(buff);
 	x = *(short int*)(buff + 2);
@@ -234,7 +268,7 @@ void	RFCClient::recvKillMonster() {
 void	RFCClient::recvStartGame() {
 	char buff[6];
 
-	_socket->in().get(buff, 6);
+	int nb = _socket->in().get(buff, 6);
 	if (strlen(buff) != 6)
 		return;
 	_id[PLAYER2] = *(short int*)(buff);
@@ -245,8 +279,8 @@ void	RFCClient::recvStartGame() {
 void RFCClient::recvClientCrash() {
 	char buff[2];
 
-	_socket->in().get(buff, 2);
-	if (strlen(buff) != 2)
+	int nb = _socket->in().get(buff, 2);
+	if (nb != 2)
 		return;
 	_idClientCrash = *(short int*)(buff);
 }
@@ -258,8 +292,8 @@ void	RFCClient::recvMonsterSpawn() {
 	Monster monster;
 	char buff[6];
 
-	_socket->in().get(buff, 6);
-	if (strlen(buff) != 6)
+	int nb = _socket->in().get(buff, 6);
+	if (nb != 6)
 		return;
 	monster = *(Monster*)(buff);
 	idMonster = *(short int*)(buff + sizeof(Monster));
@@ -276,8 +310,8 @@ void	RFCClient::recvMonsterMove() {
 	short int idMonster;
 	char buff[12];
 
-	_socket->in().get(buff, 12);
-	if (strlen(buff) != 12)
+	int nb = _socket->in().get(buff, 12);
+	if (nb != 12)
 		return;
 	idMonster = *(short int*)(buff);
 	x = *(short int*)(buff + 2);
@@ -293,8 +327,8 @@ void	RFCClient::recvMonsterDestroy() {
 	short int idMonster;
 	char buff[6];
 
-	_socket->in().get(buff, 6);
-	if (strlen(buff) != 6)
+	int nb = _socket->in().get(buff, 6);
+	if (nb != 6)
 		return;
 	idMonster = *(short int*)(buff);
 	x = *(short int*)(buff + 2);
@@ -307,8 +341,8 @@ void	RFCClient::recvMonsterKillPlayer() {
 	short int idClient;
 	char buff[6];
 
-	_socket->in().get(buff, 6);
-	if (strlen(buff) != 6)
+	int nb = _socket->in().get(buff, 6);
+	if (nb != 6)
 		return;
 	idClient = *(short int*)(buff);
 	x = *(short int*)(buff + 2);
@@ -324,8 +358,8 @@ void	RFCClient::recvMonsterFire() {
 	short int idMonster;
 	char buff[11];
 
-	_socket->in().get(buff, 11);
-	if (strlen(buff) != 11)
+	int nb = _socket->in().get(buff, 11);
+	if (nb != 11)
 		return;
 	weapon = *(Weapon*)(buff);
 	idMonster = *(short int*)(buff + sizeof(Weapon) + 1);

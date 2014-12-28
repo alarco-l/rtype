@@ -1,4 +1,5 @@
 #include "TransformSystem.h"
+#include <iostream>
 
 void							TransformSystem::update(World &world, const sf::Time &elapsed, RFCClient *rfc)
 {
@@ -15,6 +16,7 @@ void							TransformSystem::update(World &world, const sf::Time &elapsed, RFCCli
 				applyScroll(xform, scroll, elapsed);
 			if (mov) {
 				applyMovement(xform, mov, elapsed);
+				std::cout << xform->position.x << " - " << xform->position.y << std::endl;
 				rfc->sendMove(xform->position, mov->direction);
 			}
 			if (spin)

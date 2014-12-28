@@ -4,7 +4,6 @@
 
 #include "IRFC.h"
 #include "function.hpp"
-#define Callback	::hpl::CallBack
 
 class						RFC : public IRFC
 {
@@ -18,7 +17,23 @@ public:
 		RECVHITMONSTER,
 		RECVKILLMONSTER
 	};
-
+	enum SendCommand
+	{
+		SENDHANDSHAKE,
+		SENDMOVE,
+		SENDSHOOT,
+		SENDCOLLISION,
+		SENDHITMONSTER,
+		SENDKILLMONSTER,
+		SENDMONSTERSPAWN,
+		SENDMONSTERMOVE,
+		SENDMONSTERDESTROY,
+		SENDMONSTERFIRE,
+		SENDMONSTERKILLPLAYER,
+		SENDMUNITIONS,
+		SENDSTARTGAME = 20,
+		SENDCLIENTCRASH
+	};
 	enum					Monster
 	{
 		M1,
@@ -93,8 +108,10 @@ public:
 		Coord				coord;
 	};
 
-	RFC();
+	RFC(Network::Socket &socket);
 	~RFC();
+
+	void					recvCmd(RecvCommand cmd, Network::Socket &socket);
 
 	void					sendStartGame(sint munition1, sint munition2);
 	void					sendClientCrash(sint idClient);
@@ -105,26 +122,26 @@ public:
 	void					sendMonsterKillPlayer(RFC::MonsterKillPlayer);
 	void					sendNewMunition(sint munition);
 
-	void					onHandShake(Callback<RFC&> onHandShakeEvent);
-	void					onMove(Callback<RFC&, RFC::Move const &> onMoveEvent);
-	void					onShoot(Callback<RFC&, RFC::Shoot const &> onShootEvent);
-	void					onColision(Callback<RFC&, RFC::Colision const &> onColisionEvent);
-	void					onHit(Callback<RFC&, RFC::HitMonster const &> onHitEvent);
-	void					onKill(Callback<RFC&, RFC::HitMonster const &> onKillEvent);
+	void					onHandShake(::hpl::CallBack<RFC&> onHandShakeEvent);
+	void					onMove(::hpl::CallBack<RFC&, RFC::Move const &> onMoveEvent);
+	void					onShoot(::hpl::CallBack<RFC&, RFC::Shoot const &> onShootEvent);
+	void					onColision(::hpl::CallBack<RFC&, RFC::Colision const &> onColisionEvent);
+	void					onHit(::hpl::CallBack<RFC&, RFC::HitMonster const &> onHitEvent);
+	void					onKill(::hpl::CallBack<RFC&, RFC::HitMonster const &> onKillEvent);
 
-	void					setSocket(Socket &socket);
+	//void					setSocket(Socket &socket);
 private:
-	void					getData(Socket &socket);
+	//void					getData(Socket &socket);
 
 	bool					_hasHandshake;
 	std::vector<sint>		_idClient;
 
-	Socket					*_socket;
+	Network::Socket			*_socket;
 
-	Callback<RFC&>								_onHandShakeEvent;
-	Callback<RFC&, RFC::Move const &>			_onMoveEvent;
-	Callback<RFC&, RFC::Shoot const &>			_onShootEvent;
-	Callback<RFC&, RFC::Colision const &>		_onColisionEvent;
-	Callback<RFC&, RFC::HitMonster const &>		_onHitEvent;
-	Callback<RFC&, RFC::HitMonster const &>		_onKillEvent;
+	::hpl::CallBack<RFC&>								_onHandShakeEvent;
+	::hpl::CallBack<RFC&, RFC::Move const &>			_onMoveEvent;
+	::hpl::CallBack<RFC&, RFC::Shoot const &>			_onShootEvent;
+	::hpl::CallBack<RFC&, RFC::Colision const &>		_onColisionEvent;
+	::hpl::CallBack<RFC&, RFC::HitMonster const &>		_onHitEvent;
+	::hpl::CallBack<RFC&, RFC::HitMonster const &>		_onKillEvent;
 };
