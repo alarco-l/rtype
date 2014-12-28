@@ -16,20 +16,31 @@ void				Game::init()
 	_dlLoader->loadDLL("MonsterType1", "monsterType1");
 	_dlLoader->loadDLL("MonsterType2", "monsterType2");
 }
-
+#include <fstream>
 void				Game::update(::hpl::Clock &time)
 {
 	IMonster::Dir	dir;
 	sf::Vector2f	direction;
+	float			t;
 	int				i = 0;
 	static int nb = 0;
+	std::ofstream file("fichier.txt", std::ios_base::app);
 
 	for (std::vector<IMonster *>::iterator it = _monster.begin(); it != _monster.end(); ++it)
 	{
 		dir = (*it)->update();
 		if (_world.transformComponents[_idMonster[i]] != NULL && _world.movementComponents[_idMonster[i]] != NULL)
 		{
-			direction = sf::Vector2f(dir.x, dir.y) - _world.transformComponents[_idMonster[i]]->position;
+			t = time.getElapsedTime().asFloat();
+			if (t == 0)
+				t = 0.02f;
+			direction.x = dir.x - _monsterDir[i].x;
+			direction.y = dir.y - _monsterDir[i].y;
+//			file << direction.x << "  " << direction.y << std::endl;
+			_monsterDir[i].x += direction.x * t * 80;
+			_monsterDir[i].y += direction.y * t * 80;
+			//direction = sf::Vector2f(dir.x, dir.y) - _world.transformComponents[_idMonster[i]]->position;
+			//file << direction.x << "  " << direction.y << std::endl << std::endl;
 			_world.movementComponents[_idMonster[i]]->direction = sf::Vector2f(direction.x, direction.y);
 			if (nb == 0)
 				for (std::vector<RFC*>::iterator client = _rfcManager.rfc.begin(); client != _rfcManager.rfc.end(); ++client)
@@ -58,7 +69,8 @@ void				Game::deleteMonster(int id)
 	{
 		_monster.erase(_monster.begin() + id);
 		_idMonster.erase(_idMonster.begin() + id);
-		_world.renderComponents[_idMonster[id]] = NULL;
+		_monsterDir.erase(_monsterDir.begin() + id);
+//		_world.renderComponents[_idMonster[id]] = NULL;
 	}
 }
 
@@ -108,11 +120,14 @@ void				Game::run(::hpl::Clock &time)
 void				Game::spawnMonster(std::string const &name)
 {
 	IMonster		*instance = NULL;
-	uint			id;
+	IMonster::Dir	dir;
+	uint			id = 0;
 	float			x, y = 0;
 
 	x = static_cast<float>(rand() % 200 + 1000);
 	y = static_cast<float>(rand() % 500 + 10);
+	dir.x = x;
+	dir.y = y;
 	try {
 		instance = _dlLoader->getInstance<IMonster>(name);
 	}
@@ -130,6 +145,7 @@ void				Game::spawnMonster(std::string const &name)
 	_world.addTransformComponent(id, ComponentFactory::createTransformComponent(sf::Vector2f(1021, 728), sf::Vector2f(x, y), sf::Vector2f(0.05f, 0.20f)));
 	_world.addMovementComponent(id, ComponentFactory::createMovementComponent(50, sf::Vector2f(0, 0)));
 	_idMonster.push_back(id);
+	_monsterDir.push_back(dir);
 }
 
 void				Game::fire(int id)

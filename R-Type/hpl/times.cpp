@@ -35,6 +35,7 @@ namespace hpl
 
 	llint	Time::millisecond(void) const { return (_content.sec * 1000 + _content.mili); }
 	llint	Time::second(void) const { return (_content.sec + _content.mili / 1000); }
+	float	Time::asFloat() const { return ((float)_content.sec + (float)_content.mili / 1000); }
 
 	Time	&Time::operator=(Time const &other) { _content.sec = other._content.sec; _content.mili = other._content.mili; return (*this); }
 	Time	Time::operator-(Time const &other) { return (Time(Content(_content.sec - other._content.sec, _content.mili - other._content.mili))); }

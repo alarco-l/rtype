@@ -31,6 +31,7 @@ namespace hpl
 
 		llint	millisecond(void) const;
 		llint	second(void) const;
+		float	asFloat() const;
 
 		Time	&operator=(Time const &time);
 

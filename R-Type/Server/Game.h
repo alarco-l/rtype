@@ -34,6 +34,7 @@ public:
 private:
 	std::vector<IMonster *>		_monster;
 	std::vector<uint>			_idMonster;
+	std::vector<IMonster::Dir>	_monsterDir;
 	DlLoader					*_dlLoader;
 	World						_world;
 	ResourceManager				_ressource;
