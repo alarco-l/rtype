@@ -100,6 +100,7 @@
     <ClCompile Include="logger.cpp" />
     <ClCompile Include="Network\Client.cpp" />
     <ClCompile Include="Network\Protocol\None.cpp" />
+    <ClCompile Include="Network\Protocol\udp.cpp" />
     <ClCompile Include="Network\Server.cpp" />
     <ClCompile Include="Network\Socket.cpp" />
     <ClCompile Include="process.cpp">
