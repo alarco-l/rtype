@@ -2,7 +2,7 @@
 #include "RFCClient.h"
 #include "BasicType.h"
 
-RFCClient::RFCClient(Network::Socket &socket) {
+RFCClient::RFCClient(Network::Socket &socket, GameSpecificFactory &factory, World &world) : _factory(factory), _world(world) {
 	_socket = &socket;
 	_socket->onRecive(::hpl::bind(&RFCClient::recvCmd, this, ::hpl::Placeholder::_1));
 	_handshate = false;
@@ -300,6 +300,16 @@ void	RFCClient::recvMonsterSpawn() {
 	idMonster = *(short int*)(buff + sizeof(Monster));
 	x = *(short int*)(buff + sizeof(Monster) + 2);
 	y = *(short int*)(buff + sizeof(Monster) + 4);
+
+
+	// Create monster in the world
+
+	unsigned int id[1];	
+
+	_factory.createTestEnemy(id, _world);
+	_rfcToWorldId[idMonster] = id[0];
+	_worldToRfcId[id[0]] = idMonster;
+	_world.transformComponents[id[0]]->position = sf::Vector2f(x, y);
 }
 
 void	RFCClient::recvMonsterMove() {
@@ -320,6 +330,20 @@ void	RFCClient::recvMonsterMove() {
 	dirX = *(short int*)(buff + 6);
 	dirY = *(short int*)(buff + 8);
 	or = *(short int*)(buff + 10);
+
+	// Move monster in the world && Spawn if it does not exist
+
+	if (_rfcToWorldId.find(idMonster) == _rfcToWorldId.end())
+	{
+		unsigned int id[1];
+
+		_factory.createTestEnemy(id, _world);
+		_rfcToWorldId[idMonster] = id[0];
+		_worldToRfcId[id[0]] = idMonster;
+		_world.transformComponents[id[0]]->position = sf::Vector2f(x, y);
+		_world.transformComponents[id[0]]->rotation = or;
+	}
+	_world.movementComponents[_rfcToWorldId[idMonster]]->direction = sf::Vector2f(dirX, dirY);
 }
 
 void	RFCClient::recvMonsterDestroy() {
@@ -334,6 +358,13 @@ void	RFCClient::recvMonsterDestroy() {
 	idMonster = *(short int*)(buff);
 	x = *(short int*)(buff + 2);
 	y = *(short int*)(buff + 4);
+
+	// Destroy monster in the world
+
+	_world.infoComponents[_rfcToWorldId[idMonster]]->dead = true;
+
+	_worldToRfcId.erase(_worldToRfcId.find(_rfcToWorldId.find(idMonster)->second));
+	_rfcToWorldId.erase(_rfcToWorldId.find(idMonster));
 }
 
 void	RFCClient::recvMonsterKillPlayer() {
