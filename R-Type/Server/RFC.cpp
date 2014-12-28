@@ -5,7 +5,7 @@ RFC::RFC(Network::Socket &socket) : _hasHandshake(false), _socket(&socket)
 	_socket->onRecive(::hpl::bind(&RFC::recvCmd, this, ::hpl::Placeholder::_1));
 }
 RFC::~RFC() {}
-#include <iostream>
+
 void				RFC::recvCmd(Network::Socket &socket) {
 	//static int i = 0;
 	//std::fstream tata("tata.txt", std::fstream::in | std::fstream::app);
@@ -15,7 +15,6 @@ void				RFC::recvCmd(Network::Socket &socket) {
 		socket.in().get(&c, 1);
 		RFC::RecvCommand cmd = (RFC::RecvCommand)c;
 
-		//std::cout << (int)cmd << std::endl;
 		switch (cmd)
 		{
 		case RFC::RECVHANDSHAKE:
