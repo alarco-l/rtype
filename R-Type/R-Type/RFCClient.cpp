@@ -114,56 +114,84 @@ void	RFCClient::sendKillMonster(unsigned int idMonster, const sf::Vector2f &posM
 }
 #include <iostream>
 void	RFCClient::recvCmd(Network::Socket &socket) {
-	std::cout << "get" << std::endl;
-
-	char cmd;
-	_socket->in().get(&cmd, 1);
-	switch (cmd)
+	std::cout << "TOTO" << std::endl;
+	while (socket.in().size())
 	{
-	case RECVMOVE:
-		recvMove();
-		break;
-	case RECVSHOOT:
-		recvShoot();
-		break;
-	case RECVCOLLISION:
-		recvCollision();
-		break;
-	case RECVHITMONSTER:
-		recvHitMonster();
-		break;
-	case RECVKILLMONSTER:
-		recvKillMonster();
-		break;
-	case RECVHANDSHAKE:
-		recvKillMonster();
-		break;
-	case RECVMONSTERSPAWN:
-		recvMonsterSpawn();
-		break;
-	case RECVMONSTERMOVE:
-		recvMonsterMove();
-		break;
-	case RECVMONSTERDESTROY:
-		recvMonsterDestroy();
-		break;
-	case RECVMONSTERFIRE:
-		recvMonsterFire();
-		break;
-	case RECVMONSTERKILLPLAYER:
-		recvMonsterKillPlayer();
-		break;
-	case RECVMUNITIONS:
-		recvMunitions();
-		break;
-	case RECVSTARTGAME:
-		recvStartGame();
-		break;
-	case RECVCLIENTCRASH:
-		recvClientCrash();
-		break;
-	default:
-		break;
+		std::cout << "get" << std::endl;
+		char *buff = new char[socket.in().size()];
+		socket.in().read(buff, socket.in().size());
+		char cmd = buff[0];
+
+		switch (cmd)
+		{
+		case RECVMOVE:
+			recvMove();
+			break;
+		case RECVSHOOT:
+			recvShoot();
+			break;
+		case RECVCOLLISION:
+			recvCollision();
+			break;
+		case RECVHITMONSTER:
+			recvHitMonster();
+			break;
+		case RECVKILLMONSTER:
+			recvKillMonster();
+			break;
+		case RECVHANDSHAKE:
+			recvKillMonster();
+			break;
+		case RECVMONSTERSPAWN:
+			recvMonsterSpawn();
+			break;
+		case RECVMONSTERMOVE:
+		{
+			short int x;
+			short int y;
+			short int dirX;
+			short int dirY;
+			short int or;
+			short int idMonster;
+
+			if (socket.in().size() > 12)
+			{
+				idMonster = *(short int*)(buff + 1);
+				x = *(short int*)(buff + 3);
+				y = *(short int*)(buff + 5);
+				dirX = *(short int*)(buff + 7);
+				dirY = *(short int*)(buff + 9);
+				or = *(short int*)(buff + 11);
+				socket.in().get(buff, 12);
+			}
+			else
+				delete[] buff;
+			//recvMonsterMove();
+			break;
+		}
+		case RECVMONSTERDESTROY:
+			recvMonsterDestroy();
+			break;
+		case RECVMONSTERFIRE:
+			recvMonsterFire();
+			break;
+		case RECVMONSTERKILLPLAYER:
+			recvMonsterKillPlayer();
+			break;
+		case RECVMUNITIONS:
+			recvMunitions();
+			break;
+		case RECVSTARTGAME:
+			recvStartGame();
+			break;
+		case RECVCLIENTCRASH:
+			recvClientCrash();
+			break;
+		default:
+			socket.in().get(buff, 1);
+			delete[] buff;
+			break;
+		}
 	}
 }
 
