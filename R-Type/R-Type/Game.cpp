@@ -5,7 +5,7 @@
 #include "GUIState.h"
 
 
-Game::Game() : _window(NULL), factory(_resourceManager)
+Game::Game() : _window(NULL), factory(_resourceManager), _rfc(NULL)
 {
 }
 

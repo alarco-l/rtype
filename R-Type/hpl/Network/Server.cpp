@@ -110,7 +110,9 @@ namespace Network
 							{
 								char				mess[512];
 								size = sizeof(cli_addr);
-								int					nbchar = recvfrom(it->second->native(), mess, sizeof(mess), 0, (struct sockaddr *)&cli_addr, &size);
+								int					nbchar;
+								if ((nbchar = recvfrom(it->second->native(), mess, sizeof(mess), 0, (struct sockaddr *)&cli_addr, &size)) == -1)
+									continue;
 								SocketTank::iterator cli;
 								if ((cli = _clients.find(cli_addr.sin_port)) != _clients.end())
 								{

@@ -56,6 +56,6 @@ void	RFCManager::onServerStart(Network::Server &server)
 {
 	::hpl::Logger::out("Starting server");
 	_server->onConnect(::hpl::bind(&RFCManager::onConnectEvent,this, ::hpl::Placeholder::_1, ::hpl::Placeholder::_2));
-	_server->listen<Network::tcp::ip4>(2222, ::hpl::bind(&RFCManager::onListenEvent,this, ::hpl::Placeholder::_1));
+	_server->listen<Network::udp::ip4>(2222, ::hpl::bind(&RFCManager::onListenEvent,this, ::hpl::Placeholder::_1));
 }
 

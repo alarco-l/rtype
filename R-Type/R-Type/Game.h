@@ -7,6 +7,7 @@
 #include "ResourceManager.h"
 #include "GameSpecificFactory.h"
 #include "GameEnums.h"
+#include "RFCClient.h"
 
 class							AState;
 
@@ -24,6 +25,8 @@ public:
 	sf::Vector2u				getScreenSize() const;
 
 	GameSpecificFactory			factory;
+
+	RFCClient					**_rfc;
 private:
 	Game(const Game &rhs);
 	Game &operator=(const Game &rhs);

@@ -5,6 +5,7 @@
 
 GameState::GameState(Game *game) : AState(game)
 {
+	game->_rfc = &_rfc;
 	_isBlocking = true;
 }
 
@@ -22,7 +23,7 @@ void	GameState::onEnd(Network::Socket const &socket) {}
 
 void						GameState::initialize()
 {
-	//_client = Network::Client::connect<Network::udp::ip4>(Network::Client::Config("127.0.0.1", 2222), ::hpl::bind(&GameState::onConnectEvent, this, ::hpl::Placeholder::_1));
+	_client = Network::Client::connect<Network::udp::ip4>(Network::Client::Config("127.0.0.1", 2222), ::hpl::bind(&GameState::onConnectEvent, this, ::hpl::Placeholder::_1));
 	_game->factory.createGameBackground(_idBackground, _world, _game->getScreenSize());
 	_game->factory.createHUD(_idHud, _world, _game->getScreenSize());
 	_game->factory.createPlayer(_idPlayer, _world);
@@ -69,6 +70,7 @@ bool						GameState::handleKeyState()
 		direction += sf::Vector2f(1, 0);
 
 	_world.movementComponents[_idPlayer[RType::Player::SHIP]]->direction = direction;
+	_rfc->sendMove(_world.transformComponents[_idPlayer[RType::Player::SHIP]]->position, direction);
 
 	// pan pan
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))

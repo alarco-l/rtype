@@ -7,6 +7,7 @@
 #include "Game.h"
 
 #include "RFC.h"
+#include "hpl.h"
 
 #include <fstream>
 #include "RFCManager.h"

@@ -1,6 +1,6 @@
 #include "AState.h"
 
-AState::AState(Game *game) : _game(game)
+AState::AState(Game *game) : _game(game), _rfc(NULL)
 {
 }
 
