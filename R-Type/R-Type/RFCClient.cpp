@@ -147,21 +147,16 @@ void	RFCClient::recvCmd(Network::Socket &socket) {
 			break;
 		case RECVMONSTERMOVE:
 		{
-			short int x;
-			short int y;
-			short int dirX;
-			short int dirY;
-			short int or;
-			short int idMonster;
+			//short int x;
+			//short int y;
+			//short int dirX;
+			//short int dirY;
+			//short int or;
+			//short int idMonster;
 
 			if (socket.in().size() > 12)
 			{
-				idMonster = *(short int*)(buff + 1);
-				x = *(short int*)(buff + 3);
-				y = *(short int*)(buff + 5);
-				dirX = *(short int*)(buff + 7);
-				dirY = *(short int*)(buff + 9);
-				or = *(short int*)(buff + 11);
+				recvMonsterMove(buff);
 				socket.in().get(buff, 12);
 			}
 			else
@@ -340,24 +335,20 @@ void	RFCClient::recvMonsterSpawn() {
 	_world.transformComponents[id[0]]->position = sf::Vector2f(x, y);
 }
 
-void	RFCClient::recvMonsterMove() {
+void	RFCClient::recvMonsterMove(const char *buff) {
 	short int x;
 	short int y;
 	short int dirX;
 	short int dirY;
 	short int or;
 	short int idMonster;
-	char buff[12];
 
-	int nb = _socket->in().get(buff, 12);
-	if (nb != 12)
-		return;
-	idMonster = *(short int*)(buff);
-	x = *(short int*)(buff + 2);
-	y = *(short int*)(buff + 4);
-	dirX = *(short int*)(buff + 6);
-	dirY = *(short int*)(buff + 8);
-	or = *(short int*)(buff + 10);
+	idMonster = *(short int*)(buff + 1);
+	x = *(short int*)(buff + 3);
+	y = *(short int*)(buff + 5);
+	dirX = *(short int*)(buff + 7);
+	dirY = *(short int*)(buff + 9);
+	or = *(short int*)(buff + 11);
 
 	// Move monster in the world && Spawn if it does not exist
 

@@ -95,7 +95,7 @@ public:
 	void	recvHitMonster();  
 	void	recvKillMonster();
 	void	recvMonsterSpawn();
-	void	recvMonsterMove();
+	void	recvMonsterMove(const char *buff);
 	void	recvMonsterDestroy();
 	void	recvMonsterKillPlayer();
 	void	recvMonsterFire();
