@@ -13,7 +13,6 @@ RFCClient::RFCClient(Network::Socket &socket) {
 	_id[PLAYER4] = 0;
 }
 
-
 //void		RFCClient::setSocket(Socket &socket) {
 //	_socket = socket;
 //}

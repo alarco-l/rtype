@@ -3,7 +3,7 @@
 #include "Game.h"
 #include "GameState.h"
 #include "GUIState.h"
-
+#include "clock.h"
 
 Game::Game() : _window(NULL), factory(_resourceManager), _rfc(NULL)
 {
@@ -29,6 +29,7 @@ bool										Game::initialize(const sf::Vector2u &size, const std::string &titl
 
 void										Game::run()
 {
+	::hpl::Clock							clock;
 	sf::Event								event;
 	sf::Time								elapsed;
 	std::vector<AState *>::reverse_iterator	rit;
@@ -37,6 +38,7 @@ void										Game::run()
 
 	while (_window->isOpen())
 	{
+		clock.reset();
 		if (_states.empty())
 			return;
 
@@ -67,6 +69,9 @@ void										Game::run()
 		}
 
 		_window->display();
+		::hpl::Time time = ::hpl::Time::Millisecond(20) - clock.getElapsedTime();
+		if (time.millisecond() > 0)
+			::hpl::Process::sleep(time);
 	}
 }
 

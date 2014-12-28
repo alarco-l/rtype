@@ -26,8 +26,10 @@ int		main(int argc, char *argv[], char *env[])
 	{
 		std::cerr << e.what() << std::endl;
 	}
+	::hpl::Clock	frameRate;
 	while (window.isOpen())
 	{
+		frameRate.reset();
 		sf::Time time = clock.restart();
 		sf::Event event;
 		while (window.pollEvent(event))
@@ -40,6 +42,9 @@ int		main(int argc, char *argv[], char *env[])
 		window.clear();
 		RenderSystem::update(&window, game.getWorld());
 		window.display();
+		::hpl::Time t = ::hpl::Time::Millisecond(20) - frameRate.getElapsedTime();
+		if (t.millisecond() > 0)
+			::hpl::Process::sleep(t);
 	}
 	return(0);
 }
