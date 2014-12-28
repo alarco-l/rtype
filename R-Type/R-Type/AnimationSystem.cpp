@@ -19,7 +19,8 @@ void						AnimationSystem::update(World &world, const sf::Time &elapsed)
 				if (anim->restart && anim->currentAnimation == anim->animations.end())
 					anim->currentAnimation = anim->animations.begin();
 
-				render->texture = *anim->currentAnimation;
+				if (anim->currentAnimation != anim->animations.end())
+					render->texture = *anim->currentAnimation;
 			}
 		}
 	}

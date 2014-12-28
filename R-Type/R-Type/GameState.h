@@ -23,6 +23,7 @@ private:
 	void						onEnd(Network::Socket const &socket);
 
 	void						updateBackground();
+	void						updateHUD();
 
 	int							_idBoss;
 	unsigned int				_idPlayer[RType::Player::MAX];

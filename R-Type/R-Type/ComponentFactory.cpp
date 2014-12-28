@@ -178,6 +178,8 @@ InfoComponent					*ComponentFactory::createInfoComponent(const unsigned int life
 
 	info->life = life;
 	info->shield = shield;
+	info->maxLife = life;
+	info->maxShield = shield;
 	info->team = team;
 	info->score = 0;
 	info->damageReceived = 0;

@@ -135,7 +135,7 @@ void								GameSpecificFactory::createHUD(unsigned int *id, World &world, const
 	world.addTransformComponent(id[RType::HUD::WEAPON_3], ComponentFactory::createTransformComponent(sf::Vector2f(50, 50), sf::Vector2f(screenSize.x - screenSize.x / 7.0f - 70, screenSize.y - 70.0f)));
 
 	id[RType::HUD::SCORE] = world.createEmptyEntity();
-	world.addTextComponent(id[RType::HUD::SCORE], ComponentFactory::createTextComponent("Score : 1000000", _resourceManager.getFont("fonts/BMSPA.ttf"), true, false, 18, sf::Color(255, 255, 255, 255)));
+	world.addTextComponent(id[RType::HUD::SCORE], ComponentFactory::createTextComponent("Score : 0", _resourceManager.getFont("fonts/BMSPA.ttf"), true, false, 18, sf::Color(255, 255, 255, 255)));
 	world.addTransformComponent(id[RType::HUD::SCORE], ComponentFactory::createTransformComponent(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0, 15.0f)));
 }
 

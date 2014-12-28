@@ -31,7 +31,7 @@ void						GameState::initialize()
 
 void						GameState::stop(void)
 {
-	//_client->socket.close();
+	_client->socket.close();
 }
 
 bool						GameState::handleKeyEvent(const sf::Event &event)
@@ -93,6 +93,7 @@ void						GameState::update(const sf::Time &elapsed)
 	AnimationSystem::update(_world, elapsed);
 	DeathSystem::update(_world);
 	this->updateBackground();
+	this->updateHUD();
 
 	// Si vous voulez savoir ce que ça fait, commentez le et essayez d'appuyer sur echap et de bouger en meme temps ingame
 	_world.movementComponents[_idPlayer[RType::Player::SHIP]]->direction = sf::Vector2f(0.0f, 0.0f);
@@ -106,4 +107,19 @@ void						GameState::updateBackground()
 
 	if (_world.transformComponents[_idBackground[RType::GameBackground::REVERSED]]->position.x + _world.transformComponents[_idBackground[RType::GameBackground::REVERSED]]->size.x <= 0.0f)
 		_world.transformComponents[_idBackground[RType::GameBackground::REVERSED]]->position.x = _world.transformComponents[_idBackground[RType::GameBackground::REVERSED]]->size.x;
+}
+
+void						GameState::updateHUD()
+{
+	InfoComponent			*info = _world.infoComponents[_idPlayer[RType::Player::SHIP]];
+	sf::Vector2f			size = sf::Vector2f(200, 10);
+	float					ratio;
+	
+	_world.textComponents[_idHud[RType::HUD::SCORE]]->string = "Score : " + std::to_string(info->score);
+
+	ratio = (static_cast<float>(info->life) / static_cast<float>(info->maxLife));
+	_world.transformComponents[_idHud[RType::HUD::LIFEBAR]]->size = size * ratio;
+
+	ratio = (static_cast<float>(info->shield) / static_cast<float>(info->maxShield));
+	_world.transformComponents[_idHud[RType::HUD::SHIELDBAR]]->size = size * ratio;
 }

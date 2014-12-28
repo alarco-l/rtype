@@ -7,6 +7,8 @@ struct										InfoComponent
 {
 	unsigned int							life;
 	unsigned int							shield;
+	unsigned int							maxLife;
+	unsigned int							maxShield;
 	unsigned int							score;
 	unsigned int							team;
 	unsigned int							damageReceived;
