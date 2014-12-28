@@ -17,7 +17,18 @@ public:
 		RECVHITMONSTER,
 		RECVKILLMONSTER
 	};
-
+	enum SendCommand
+	{
+		SENDHANDSHAKE,
+		SENDMOVE,
+		SENDSHOOT,
+		SENDCOLLISION,
+		SENDHITMONSTER,
+		SENDKILLMONSTER,
+		SENDMONSTERSPAWN,
+		SENDSTARTGAME = 20,
+		SENDCLIENTCRASH
+	};
 	enum					Monster
 	{
 		M1,
@@ -120,7 +131,7 @@ private:
 	bool					_hasHandshake;
 	std::vector<sint>		_idClient;
 
-	Network::Socket					*_socket;
+	Network::Socket			*_socket;
 
 	::hpl::CallBack<RFC&>								_onHandShakeEvent;
 	::hpl::CallBack<RFC&, RFC::Move const &>			_onMoveEvent;

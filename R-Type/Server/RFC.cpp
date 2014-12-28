@@ -35,7 +35,7 @@ void				RFC::recvCmd(RFC::RecvCommand cmd, Network::Socket &socket) {
 	case RFC::RECVCOLLISION:
 		char buffColision[8];
 		RFC::Colision colision;
-		nb = socket.in().get(buffColision, 10);
+		nb = socket.in().get(buffColision, 8);
 		colision.idOnColision1 = *(short int*)(buffColision);
 		colision.idOnColision2 = *(short int*)(buffColision + 2);
 		colision.coord.posX = *(short int*)(buffColision + 4);
@@ -43,18 +43,94 @@ void				RFC::recvCmd(RFC::RecvCommand cmd, Network::Socket &socket) {
 		_onColisionEvent(*this, colision);
 		break;
 	case RFC::RECVHITMONSTER:
+		char buffHitMonster[6];
+		RFC::HitMonster hitMonster;
+		nb = socket.in().get(buffHitMonster, 6);
+		hitMonster.idMonster = *(short int*)(buffHitMonster);
+		hitMonster.coord.posX = *(short int*)(buffHitMonster + 2);
+		hitMonster.coord.posY = *(short int*)(buffHitMonster + 4);
+		_onHitEvent(*this, hitMonster);
 		break;
 	case RFC::RECVKILLMONSTER:
+		char buffKillMonster[6];
+		RFC::HitMonster killMonster;
+		nb = socket.in().get(buffKillMonster, 6);
+		killMonster.idMonster = *(short int*)(buffKillMonster);
+		killMonster.coord.posX = *(short int*)(buffKillMonster + 2);
+		killMonster.coord.posY = *(short int*)(buffKillMonster + 4);
+		_onKillEvent(*this, killMonster);
 		break;
 	default:
 		break;
 	}
 }
 
-void				RFC::sendStartGame(sint munition1, sint munition2) { }
-void				RFC::sendClientCrash(sint idClient) { }
-void				RFC::sendMonsterSpawn(RFC::MonsterSpawn) { }
-void				RFC::sendMonsterMove(RFC::MonsterMove) { }
+void				RFC::sendStartGame(sint munition1, sint munition2) {
+	char c = RFC::SENDSTARTGAME;
+	_socket->out().write(&c, 1);
+
+	usint tmp = (short int)(_idClient[0]);
+	_socket->out().write((char *)&tmp, sizeof(short int));
+
+	tmp = (short int)(_idClient[1]);
+	_socket->out().write((char *)&tmp, sizeof(short int));
+
+	tmp = (short int)(_idClient[2]);
+	_socket->out().write((char *)&tmp, sizeof(short int));
+
+	tmp = (short int)(_idClient[3]);
+	_socket->out().write((char *)&tmp, sizeof(short int));
+
+	tmp = (short int)(RFC::W1);
+	_socket->out().write((char *)&tmp, sizeof(short int));
+
+	tmp = (short int)(RFC::W2);
+	_socket->out().write((char *)&tmp, sizeof(short int));
+}
+void				RFC::sendClientCrash(sint idClient) {
+	char c = RFC::SENDSTARTGAME;
+	_socket->out().write(&c, 1);
+
+	usint tmp = (short int)(_idClient[0]);
+	_socket->out().write((char *)&tmp, sizeof(short int));
+}
+
+void				RFC::sendMonsterSpawn(RFC::MonsterSpawn monster) {
+	char c = RFC::SENDMONSTERSPAWN;
+	_socket->out().write(&c, 1);
+
+	c = monster.type;
+	_socket->out().write(&c, 1);
+
+	usint tmp = (short int)(monster.idMonster);
+	_socket->out().write((char *)&tmp, sizeof(short int));
+
+	tmp = (short int)(monster.coord.posX);
+	_socket->out().write((char *)&tmp, sizeof(short int));
+
+	tmp = (short int)(monster.coord.posY);
+	_socket->out().write((char *)&tmp, sizeof(short int));
+
+}
+
+void				RFC::sendMonsterMove(RFC::MonsterMove move) { 
+	char c = RFC::SENDMOVE;
+	_socket->out().write(&c, 1);
+	
+	usint tmp = (short int)(move.idMonster);
+	_socket->out().write((char *)&tmp, sizeof(short int));
+	tmp = (short int)(move.coord.posX);
+	_socket->out().write((char *)&tmp, sizeof(short int));
+	tmp = (short int)(move.coord.posY);
+	_socket->out().write((char *)&tmp, sizeof(short int));
+	tmp = (short int)(move.dir.dirX);
+	_socket->out().write((char *)&tmp, sizeof(short int));
+	tmp = (short int)(move.dir.dirY);
+	_socket->out().write((char *)&tmp, sizeof(short int));
+	tmp = (short int)(move.orientation);
+	_socket->out().write((char *)&tmp, sizeof(short int));
+}
+
 void				RFC::sendMonsterDestroy(RFC::HitMonster) { }
 void				RFC::sendMonsterFire(RFC::MonsterShoot) { }
 void				RFC::sendMonsterKillPlayer(RFC::MonsterKillPlayer) { }
