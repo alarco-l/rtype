@@ -152,6 +152,9 @@ void	RFCClient::recvCmd(Network::Socket &socket) {
 	case RECVMONSTERKILLPLAYER:
 		recvMonsterKillPlayer();
 		break;
+	case RECVMUNITIONS:
+		recvMunitions();
+		break;
 	case RECVSTARTGAME:
 		recvStartGame();
 		break;
@@ -171,6 +174,16 @@ void	RFCClient::recvHandshake() {
 	_isConnect = *(bool*)(buff);
 	_id[PLAYER1] = *(short int*)(buff + 1);
 }
+
+void	RFCClient::recvMunitions() {
+	char buff[2];
+	short int nbMunitions;
+	int nb = _socket->in().get(buff, 2);
+	if (nb != 2)
+		return;
+	nbMunitions = *(short int*)(buff);
+}
+
 void	RFCClient::recvMove() {
 	char buff[10];
 	short int idPlayer;

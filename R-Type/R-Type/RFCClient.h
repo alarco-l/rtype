@@ -65,11 +65,11 @@ public:
 		RECVMONSTERDESTROY,
 		RECVMONSTERFIRE,
 		RECVMONSTERKILLPLAYER,
+		RECVMUNITIONS,
 		RECVSTARTGAME = 20,
 		RECVCLIENTCRASH
 	};
 
-	//void	sendHandshate(unsigned int idClient = 0); //6bytes
 	void	sendHandshake(unsigned int idClient = 0); //6bytes
 	void	sendMove(const sf::Vector2f &pos, const sf::Vector2f &direction); // 9bytes
 	void	sendShoot(Weapon weapon, unsigned int idAmmo, const sf::Vector2f &pos, const sf::Vector2f &direction); // 12bytes
@@ -79,8 +79,9 @@ public:
 
 	void	recvCmd(Network::Socket &socket);
 	void	recvHandshake(); 
-	void	recvMove();  
-	void	recvShoot();  
+	void	recvMove();
+	void	recvMunitions();
+	void	recvShoot();
 	void	recvCollision();  
 	void	recvHitMonster();  
 	void	recvKillMonster();

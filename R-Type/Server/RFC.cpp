@@ -131,10 +131,52 @@ void				RFC::sendMonsterMove(RFC::MonsterMove move) {
 	_socket->out().write((char *)&tmp, sizeof(short int));
 }
 
-void				RFC::sendMonsterDestroy(RFC::HitMonster) { }
-void				RFC::sendMonsterFire(RFC::MonsterShoot) { }
-void				RFC::sendMonsterKillPlayer(RFC::MonsterKillPlayer) { }
-void				RFC::sendNewMunition(sint munition) { }
+void				RFC::sendMonsterDestroy(RFC::HitMonster hitMonster) {
+	char c = RFC::SENDMONSTERDESTROY;
+	_socket->out().write(&c, 1);
+
+	usint tmp = (short int)(hitMonster.idMonster);
+	_socket->out().write((char *)&tmp, sizeof(short int));
+	tmp = (short int)(hitMonster.coord.posX);
+	_socket->out().write((char *)&tmp, sizeof(short int));
+	tmp = (short int)(hitMonster.coord.posY);
+}
+
+void				RFC::sendMonsterFire(RFC::MonsterShoot shoot) {
+	char c = RFC::SENDMONSTERFIRE;
+	_socket->out().write(&c, 1);
+
+	c = shoot.weapon;
+	_socket->out().write(&c, 1);
+
+	usint tmp = (short int)(shoot.idMonster);
+	_socket->out().write((char *)&tmp, sizeof(short int));
+	tmp = (short int)(shoot.coord.posX);
+	_socket->out().write((char *)&tmp, sizeof(short int));
+	tmp = (short int)(shoot.coord.posY);
+	_socket->out().write((char *)&tmp, sizeof(short int));
+	tmp = (short int)(shoot.dir.dirX);
+	_socket->out().write((char *)&tmp, sizeof(short int));
+	tmp = (short int)(shoot.dir.dirY);
+}
+void				RFC::sendMonsterKillPlayer(RFC::MonsterKillPlayer kill) {
+	char c = RFC::SENDMONSTERKILLPLAYER;
+	_socket->out().write(&c, 1);
+
+	usint tmp = (short int)(kill.idClient);
+	_socket->out().write((char *)&tmp, sizeof(short int));
+	tmp = (short int)(kill.coord.posX);
+	_socket->out().write((char *)&tmp, sizeof(short int));
+	tmp = (short int)(kill.coord.posY);
+}
+
+void				RFC::sendNewMunition(sint munition) {
+	char c = RFC::SENDMUNITIONS;
+	_socket->out().write(&c, 1);
+
+	usint tmp = (short int)(munition);
+	_socket->out().write((char *)&tmp, sizeof(short int));
+}
 
 void				RFC::onHandShake(::hpl::CallBack<RFC&> onHandShakeEvent) { _onHandShakeEvent = onHandShakeEvent; }
 void				RFC::onMove(::hpl::CallBack<RFC&, RFC::Move const &> onMoveEvent) { _onMoveEvent = onMoveEvent; }
