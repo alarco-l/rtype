@@ -160,16 +160,11 @@ void				RFC::sendMonsterMove(RFC::MonsterMove move) {
 	
 	usint tmp = (short int)(move.idMonster);
 	_socket->out().write((char *)&tmp, sizeof(short int));
-	tmp = (short int)(move.coord.posX);
-	_socket->out().write((char *)&tmp, sizeof(short int));
-	tmp = (short int)(move.coord.posY);
-	_socket->out().write((char *)&tmp, sizeof(short int));
-	tmp = (short int)(move.dir.dirX);
-	_socket->out().write((char *)&tmp, sizeof(short int));
-	tmp = (short int)(move.dir.dirY);
-	_socket->out().write((char *)&tmp, sizeof(short int));
-	tmp = (short int)(move.orientation);
-	_socket->out().write((char *)&tmp, sizeof(short int));
+	_socket->out().write((char *)&move.coord.posX, sizeof(move.coord.posX));
+	_socket->out().write((char *)&move.coord.posY, sizeof(move.coord.posY));
+	_socket->out().write((char *)&move.dir.dirX, sizeof(move.dir.dirX));
+	_socket->out().write((char *)&move.dir.dirY, sizeof(move.dir.dirY));
+	_socket->out().write((char *)&move.orientation, sizeof(move.orientation));
 }
 
 void				RFC::sendMonsterDestroy(RFC::HitMonster hitMonster) {

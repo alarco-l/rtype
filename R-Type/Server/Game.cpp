@@ -37,18 +37,18 @@ void				Game::update(::hpl::Clock &time)
 					std::cout << "send " << i << std::endl;
 					RFC::MonsterMove	mm;
 					mm.idMonster = _idMonster[i];
-					mm.coord.posX = (sint)dir.x;
-					mm.coord.posY = (sint)dir.y;
-					mm.dir.dirX = (sint)direction.x;
-					mm.dir.dirY = (sint)direction.y;
-					mm.orientation = -1;
+					mm.coord.posX = dir.x;
+					mm.coord.posY = dir.y;
+					mm.dir.dirX = direction.x;
+					mm.dir.dirY = direction.y;
+					mm.orientation = 90.0;
 					(*client)->sendMonsterMove(mm);
 				}
 		}
 		++i;
 	}
 	++nb;
-	if (nb == 50)
+	if (nb == 30)
 		nb = 0;
 }
 

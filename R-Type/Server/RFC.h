@@ -91,7 +91,7 @@ public:
 		sint				idMonster;
 		Coord				coord;
 		Dir					dir;
-		sint				orientation;
+		float				orientation;
 	};
 
 	struct					MonsterShoot

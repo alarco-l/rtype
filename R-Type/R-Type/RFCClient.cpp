@@ -194,9 +194,9 @@ void	RFCClient::recvCmd(Network::Socket &socket) {
 				return;
 			break;
 		case RECVMONSTERMOVE:
-			if (socket.in().size() >= 6)
+			if (socket.in().size() >= sizeof(float) * 5 + 2)
 			{
-				char	buff[6];
+				char	buff[sizeof(float) * 5 + 2];
 				socket.in().get(buff, sizeof(buff));
 				recvMonsterMove(buff);
 			}
@@ -407,19 +407,19 @@ void	RFCClient::recvMonsterSpawn(const char *buff) {
 }
 
 void	RFCClient::recvMonsterMove(const char *buff) {
-	short int x;
-	short int y;
-	short int dirX;
-	short int dirY;
-	short int or;
-	short int idMonster;
+	float x;
+	float y;
+	float dirX;
+	float dirY;
+	float or;
+	unsigned short idMonster;
 
-	idMonster = *(short int*)(buff);
-	x = *(short int*)(buff + 2);
-	y = *(short int*)(buff + 4);
-	dirX = *(short int*)(buff + 6);
-	dirY = *(short int*)(buff + 8);
-	or = *(short int*)(buff + 10);
+	idMonster = *(unsigned short*)(buff);
+	x = *(float*)(buff + sizeof(unsigned short));
+	y = *(float*)(buff + sizeof(unsigned short) + sizeof(float));
+	dirX = *(float*)(buff + sizeof(unsigned short) + sizeof(float) * 2);
+	dirY = *(float*)(buff + sizeof(unsigned short) + sizeof(float) * 3);
+	or = *(float*)(buff + sizeof(unsigned short) + sizeof(float) * 4);
 
 	// Move monster in the world && Spawn if it does not exist
 
@@ -433,6 +433,8 @@ void	RFCClient::recvMonsterMove(const char *buff) {
 		_world.transformComponents[id[0]]->position = sf::Vector2f(x, y);
 		_world.transformComponents[id[0]]->rotation = or;
 	}
+
+	//Ici y a de la grosse merde sur l'id
 	_world.movementComponents[_rfcToWorldId[idMonster]]->direction = sf::Vector2f(dirX, dirY);
 }
 

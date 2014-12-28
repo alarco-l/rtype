@@ -10,14 +10,14 @@ public:
 
 	struct					Coord
 	{
-		sint				posX;
-		sint				posY;
+		float				posX;
+		float				posY;
 	};
 
 	struct					Dir
 	{
-		sint				dirX;
-		sint				dirY;
+		float				dirX;
+		float				dirY;
 	};
 
 	virtual				~IRFC() {}
