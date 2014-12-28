@@ -129,7 +129,6 @@ void				Game::spawnMonster(std::string const &name)
 
 void				Game::fire(int id)
 {
-	uint			tmp;
 	IMonster::Dir	dir;
 
 	dir = _monster[id]->fire();
