@@ -15,7 +15,6 @@ void	RFCManager::onReceiveEvent2(Network::Socket &socket)
 	char buff[1];
 	int nb = socket.in().get(buff, 1);
 	RFC::RecvCommand cmd = (RFC::RecvCommand)*(char *)(buff);
-	//_rfc->recvCmd(cmd, socket);
 }
 
 void	RFCManager::onEndEvent2(Network::Socket const &socket)

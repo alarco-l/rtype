@@ -3,13 +3,9 @@
 #include <vector>
 #include <stdexcept>
 #include <iostream>
+#include <ctime>
 
 #include "BasicTypes.h"
-
-#include "World.h"
-#include "Systems.h"
-#include "ComponentFactory.h"
-#include "ResourceManager.h"
 
 #include "DlLoader.hpp"
 #include "IMonster.h"
@@ -30,14 +26,11 @@ public:
 	void						deleteMonster(int id);
 	void						fire(int id);
 
-	World						&getWorld();
 private:
 	std::vector<IMonster *>		_monster;
 	std::vector<uint>			_idMonster;
 	std::vector<IMonster::Dir>	_monsterDir;
 	DlLoader					*_dlLoader;
-	World						_world;
-	ResourceManager				_ressource;
 	::hpl::Clock				_frameRate;
 	::hpl::Clock				_fireTime;
 	bool						_spawn1;
