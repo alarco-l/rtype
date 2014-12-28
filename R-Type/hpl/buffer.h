@@ -33,6 +33,7 @@ namespace hpl
 			ulint	_deb;
 			ulint	_end;
 			ulint	_size;
+			ulint	_lenght;
 
 			char	*_buff;
 		};

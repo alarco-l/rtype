@@ -5,11 +5,11 @@ namespace hpl
 {
 	const ulint	Buffer::_bufferSize = 256;
 
-	Buffer::RotatingBuffer::RotatingBuffer(ulint size) : _deb(0), _end(0), _size(size), _buff(NULL)
+	Buffer::RotatingBuffer::RotatingBuffer(ulint size) : _deb(0), _end(0), _size(size), _buff(NULL), _lenght(0)
 	{
 		_buff = new char[size];
 	}
-	Buffer::RotatingBuffer::RotatingBuffer(RotatingBuffer const &copy) : _buff(NULL)
+	Buffer::RotatingBuffer::RotatingBuffer(RotatingBuffer const &copy) : _buff(NULL), _lenght(0)
 	{
 		*this = copy;
 	}
@@ -49,9 +49,7 @@ namespace hpl
 
 	ulint	Buffer::RotatingBuffer::size(void) const
 	{
-		if (_end < _deb)
-			return (_end - _deb + _size);
-		return (_end - _deb);
+		return (_lenght);
 	}
 	ulint	Buffer::RotatingBuffer::sizeMax(void) const { return (_size); }
 
@@ -59,6 +57,7 @@ namespace hpl
 	{
 		_buff[_end] = c;
 		_end = (_end + 1) % _size;
+		++_lenght;
 	}
 
 	char	Buffer::RotatingBuffer::readChar(ulint it) const
@@ -70,10 +69,11 @@ namespace hpl
 	{
 		char	c = _buff[_deb];
 		_deb = (_deb + 1) % _size;
+		--_lenght;
 		return (c);
 	}
 
-	void	Buffer::RotatingBuffer::clear(void) { _deb = _end; }
+	void	Buffer::RotatingBuffer::clear(void) { _deb = _end; _lenght = 0; }
 
 	Buffer::RotatingBuffer	&Buffer::RotatingBuffer::operator=(Buffer::RotatingBuffer const &copy)
 	{
@@ -83,6 +83,7 @@ namespace hpl
 		_buff = new char[_size];
 		_deb = copy._deb;
 		_end = copy._end;
+		_lenght = copy._lenght;
 		for (ulint it = _deb; it % _size != _end; ++it)
 			_buff[it] = copy._buff[it];
 		return (*this);

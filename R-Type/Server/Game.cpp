@@ -22,6 +22,7 @@ void				Game::update(::hpl::Clock &time)
 	IMonster::Dir	dir;
 	sf::Vector2f	direction;
 	int				i = 0;
+	static int nb = 0;
 
 	for (std::vector<IMonster *>::iterator it = _monster.begin(); it != _monster.end(); ++it)
 	{
@@ -30,21 +31,25 @@ void				Game::update(::hpl::Clock &time)
 		{
 			direction = sf::Vector2f(dir.x, dir.y) - _world.transformComponents[_idMonster[i]]->position;
 			_world.movementComponents[_idMonster[i]]->direction = sf::Vector2f(direction.x, direction.y);
-			for (std::vector<RFC*>::iterator client = _rfcManager.rfc.begin(); client != _rfcManager.rfc.end(); ++client)
-			{
-				std::cout << "send" << std::endl;
-				RFC::MonsterMove	mm;
-				mm.idMonster = _idMonster[i];
-				mm.coord.posX = (sint)dir.x;
-				mm.coord.posY = (sint)dir.y;
-				mm.dir.dirX = (sint)direction.x;
-				mm.dir.dirY = (sint)direction.y;
-				mm.orientation = -1;
-				(*client)->sendMonsterMove(mm);
-			}
+			if (nb == 0)
+				for (std::vector<RFC*>::iterator client = _rfcManager.rfc.begin(); client != _rfcManager.rfc.end(); ++client)
+				{
+					std::cout << "send " << i << std::endl;
+					RFC::MonsterMove	mm;
+					mm.idMonster = _idMonster[i];
+					mm.coord.posX = (sint)dir.x;
+					mm.coord.posY = (sint)dir.y;
+					mm.dir.dirX = (sint)direction.x;
+					mm.dir.dirY = (sint)direction.y;
+					mm.orientation = -1;
+					(*client)->sendMonsterMove(mm);
+				}
 		}
 		++i;
 	}
+	++nb;
+	if (nb == 50)
+		nb = 0;
 }
 
 void				Game::deleteMonster(int id)
