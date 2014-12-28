@@ -66,6 +66,7 @@
   <ItemGroup>
     <ClInclude Include="basictypes.h" />
     <ClInclude Include="buffer.h" />
+    <ClInclude Include="clock.h" />
     <ClInclude Include="container.h" />
     <ClInclude Include="exceptions.h" />
     <ClInclude Include="exit.h" />
@@ -90,6 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="buffer.cpp" />
+    <ClCompile Include="clock.cpp" />
     <ClCompile Include="exit.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </ExcludedFromBuild>

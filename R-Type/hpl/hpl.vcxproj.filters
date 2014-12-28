@@ -84,6 +84,9 @@
     <ClInclude Include="Network\Protocol\Type.h">
       <Filter>Header Files\Network</Filter>
     </ClInclude>
+    <ClInclude Include="clock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="thread.cpp">
@@ -124,6 +127,9 @@
     </ClCompile>
     <ClCompile Include="Network\Protocol\udp.cpp">
       <Filter>Source Files\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="clock.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
