@@ -5,6 +5,10 @@
 namespace Network
 {
 
+	Client::Client(ulint socket, ::hpl::CallBack<Client &> onConnectEvent, sockaddr_in &sockaddr) : socket(socket, Socket::Type::Connection, sockaddr)
+	{
+		onConnectEvent(*this);
+	}
 	Client::Client(ulint socket, ::hpl::CallBack<Client &> onConnectEvent) : socket(socket, Socket::Type::Connection)
 	{
 		onConnectEvent(*this);
@@ -36,32 +40,19 @@ namespace Network
 	Client::Manager	*Client::Manager::getInstance(void) { return (_instance); }
 	Client::Manager	*Client::Manager::_instance = new Client::Manager;
 
-	ulint			Client::Manager::connect(Client::Config &config, int protocol)
+	ulint			Client::Manager::connect(Client::Config &config, int protocol, sockaddr_in &addr)
 	{
 		ulint		socket;
-		sockaddr_in	sin;
 
-		int	proType;
-		int	proto;
-
-		switch (protocol)
-		{
-		case Network::tcp_ip4:
-			proType = SOCK_STREAM;
-			proto = IPPROTO_TCP;
-			break;
-		case Network::udp_ip4:
-			proType = SOCK_DGRAM;
-			proto = IPPROTO_UDP;
-			break;
-		}
+		int proType = (protocol & 0x1 ? SOCK_DGRAM : SOCK_STREAM);
+		int proto = (protocol & 0x1 ? IPPROTO_UDP : IPPROTO_TCP);
 
 		if ((socket = ::socket(AF_INET, proType, proto)) == (ulint)-1)
 			throw (std::runtime_error("Network: socket fail"));
-		sin.sin_addr.s_addr = inet_addr(config.addr.c_str());
-		sin.sin_family = AF_INET;
-		sin.sin_port = htons(config.port);
-		if (::connect(socket, (sockaddr *)&sin, sizeof(sin)))
+		addr.sin_addr.s_addr = inet_addr(config.addr.c_str());
+		addr.sin_family = AF_INET;
+		addr.sin_port = htons(config.port);
+		if (::connect(socket, (sockaddr *)&addr, sizeof(addr)))
 			throw (std::runtime_error("Network: connect fail"));
 		return (socket);
 	}
@@ -74,7 +65,6 @@ namespace Network
 			FD_ZERO(&_fdRead);
 			FD_ZERO(&_fdWrite);
 			FD_SET(client.socket.native(), &_fdRead);
-			FD_SET(client.socket.native(), &_fdWrite);
 			_sockets[client.socket.native()] = &client;
 			::hpl::Process::service(::hpl::bind(&Client::Manager::start, this, ::hpl::Placeholder::_1));
 		}
@@ -116,10 +106,13 @@ namespace Network
 				}
 			}
 			instance._manager._locker.unlock();
-			std::memcpy(&fdRead, &_fdRead, sizeof(fd_set));
-			std::memcpy(&fdWrite, &_fdWrite, sizeof(fd_set));
+			//std::memcpy(&fdRead, &_fdRead, sizeof(fd_set));
+			//std::memcpy(&fdWrite, &_fdWrite, sizeof(fd_set));
+			fdRead = _fdRead;
+			fdWrite = _fdWrite;
 			_mutex.unlock();
 			timeVal.tv_usec = 500;
+			timeVal.tv_sec = 1;
 			ret = select(FD_SETSIZE, &fdRead, &fdWrite, NULL, &timeVal);
 			if (_sockets.empty())
 				break;

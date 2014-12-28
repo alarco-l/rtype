@@ -31,13 +31,29 @@ namespace Network
 			None(void);
 			~None(void);
 
-			void	init(Socket const &socket);
+			void	init(Socket const &socket, struct sockaddr_in&);
 
 			ulint	recive(char *buff, ulint size);
 			ulint	send(char const *buff, ulint size);
 
 		private:
 			ulint	_socket;
+		};
+
+		class udp : public Prototype
+		{
+		public:
+			udp(void);
+			~udp(void);
+
+			void	init(Socket const &socket, struct sockaddr_in&);
+
+			ulint	recive(char *buff, ulint size);
+			ulint	send(char const *buff, ulint size);
+
+		private:
+			ulint				_socket;
+			struct sockaddr_in	_cli_addr;
 		};
 	}
 
@@ -49,12 +65,15 @@ namespace Network
 		{
 			Listen,
 			Connection,
-			Client
+			Client,
+			udpListen,
+			udpClient
 		};
 
 		static int	close(ulint socket);
 
 		Socket(::ulint socket, Socket::Type type);
+		Socket(::ulint socket, Socket::Type type, struct sockaddr_in&);
 		~Socket(void);
 
 		ulint			native(void) const;
@@ -72,10 +91,11 @@ namespace Network
 			if (this->_protocol)
 				delete _protocol;
 			_protocol = new protocol;
-			_protocol->init(*this);
+			_protocol->init(*this, _cli_addr);
 			_mutex.unlock();
 		}
 
+		void	recive(::hpl::Buffer &buff);
 		void	recive(void);
 		void	send(void);
 
@@ -88,8 +108,8 @@ namespace Network
 		void	close(void);
 		bool	connected(void);
 
-	private:
 		ulint			_socket;
+	private:
 		Socket::Type	_type;
 
 		bool	_connected;
@@ -105,8 +125,9 @@ namespace Network
 
 		::hpl::Synchronous::Locker		_mutex;
 		
-	Socket(Socket const &copy) : _protocol(NULL) {(void)copy;}
+		struct sockaddr_in				_cli_addr;
+
+		Socket(Socket const &copy) : _protocol(NULL) {(void)copy;}
 		Socket	&operator=(Socket const &copy) { (void)copy; return (*this); }
 	};
 }
-

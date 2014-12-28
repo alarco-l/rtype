@@ -26,13 +26,19 @@ namespace Network
 
 	protected:
 		Client(ulint socket, ::hpl::CallBack<Client &> onConnectEvent);
+		Client(ulint socket, ::hpl::CallBack<Client &> onConnectEvent, sockaddr_in &);
 
 	public:
 		~Client(void);
 
 		template <int protocol> static Client	*connect(Client::Config &config, ::hpl::CallBack<Client &> onConnectEvent)
 		{
-			Client		*client = new Client(Client::Manager::getInstance()->connect(config, protocol), onConnectEvent);
+			sockaddr_in	addr;
+			Client		*client;
+			if (protocol & 0x1)
+				client = new Client(Client::Manager::getInstance()->connect(config, protocol, addr), onConnectEvent, addr);
+			else
+				client = new Client(Client::Manager::getInstance()->connect(config, protocol, addr), onConnectEvent);
 			Client::Manager::getInstance()->manage(*client);
 			return (client);
 		}
@@ -52,7 +58,7 @@ namespace Network
 		public:
 			static Manager	*getInstance(void);
 
-			ulint			connect(Config &config, int protocol);
+			ulint			connect(Config &config, int protocol, sockaddr_in&);
 
 			void			manage(Client &client);
 			void			forget(Client &client);
