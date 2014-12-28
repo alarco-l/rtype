@@ -21,7 +21,6 @@ void										HealthSystem::update(World &world, const sf::Time &elapsed, GameSp
 
 			if (info->life <= 0)
 				info->dead = true;
-
 		}
 	}
 }

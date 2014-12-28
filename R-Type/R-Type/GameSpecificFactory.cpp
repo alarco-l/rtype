@@ -158,7 +158,7 @@ void								GameSpecificFactory::createPlayer(unsigned int *id, World &world)
 	world.addRenderComponent(id[RType::Player::SHIP], ComponentFactory::createRenderComponent(_resourceManager.getTexture("textures/hero.png"), RenderComponent::Plane::DEFAULT));
 	world.addTransformComponent(id[RType::Player::SHIP], ComponentFactory::createTransformComponent(sf::Vector2f(1021, 748), sf::Vector2f(0, 0), sf::Vector2f(0.15f, 0.15f)));
 	world.addMovementComponent(id[RType::Player::SHIP], ComponentFactory::createMovementComponent(500, sf::Vector2f()));
-	world.addInfoComponent(id[RType::Player::SHIP], ComponentFactory::createInfoComponent(500, 200, 0, deathAnimation, sf::seconds(0.2f)));
+	world.addInfoComponent(id[RType::Player::SHIP], ComponentFactory::createInfoComponent(500, 200, 0, deathAnimation, sf::seconds(0.1f)));
 
 	id[RType::Player::ENGINE_1] = world.createParticleEffect(25, true, _resourceManager.getTexture("textures/fireMotor.png"), sf::Vector2f(-18, 0), sf::Vector2f(0.3f, 0.3f));
 	world.addParentComponent(id[RType::Player::ENGINE_1], ComponentFactory::createParentComponent(id[RType::Player::SHIP]));
@@ -190,6 +190,26 @@ void								GameSpecificFactory::createPlayer(unsigned int *id, World &world)
 	world.addChildrenComponent(id[RType::Player::SHIP], ComponentFactory::createChildrenComponent(parts));
 }
 
+// TEST ENEMY
+
+void								GameSpecificFactory::createTestEnemy(unsigned int *id, World &world)
+{
+	std::vector<const sf::Texture * const> deathAnimation;
+
+	deathAnimation.push_back(_resourceManager.getTexture("textures/explosion0.png"));
+	deathAnimation.push_back(_resourceManager.getTexture("textures/explosion1.png"));
+	deathAnimation.push_back(_resourceManager.getTexture("textures/explosion2.png"));
+	deathAnimation.push_back(_resourceManager.getTexture("textures/explosion3.png"));
+	deathAnimation.push_back(_resourceManager.getTexture("textures/explosion4.png"));
+	deathAnimation.push_back(_resourceManager.getTexture("textures/explosion5.png"));
+
+	id[0] = world.createEmptyEntity();
+	world.addRenderComponent(id[0], ComponentFactory::createRenderComponent(_resourceManager.getTexture("textures/hero.png")));
+	world.addTransformComponent(id[0], ComponentFactory::createTransformComponent(sf::Vector2f(1021, 728), sf::Vector2f(500.0f, 500.0f), sf::Vector2f(0.15f, 0.15f), 180));
+	world.addCollisionComponent(id[0], ComponentFactory::createCollisionComponent());
+	world.addInfoComponent(id[0], ComponentFactory::createInfoComponent(100, 100, 1, deathAnimation, sf::seconds(0.1f)));
+}
+
 // MISSILE
 
 void								GameSpecificFactory::createMissileProjectile(unsigned int *id, const unsigned int weapon, World &world, const sf::Vector2u &screenSize)
@@ -210,9 +230,10 @@ void								GameSpecificFactory::createMissileProjectile(unsigned int *id, const
 	world.addRenderComponent(id[0], ComponentFactory::createRenderComponent(_resourceManager.getTexture("textures/missile.png"), RenderComponent::FX));
 	world.addTransformComponent(id[0], ComponentFactory::createTransformComponent(sf::Vector2f(40, 125), sf::Vector2f(0.0f, 0.0f), sf::Vector2f(0.35f, 0.35f), 90.0f));
 	world.addMovementComponent(id[0], ComponentFactory::createMovementComponent(700, sf::Vector2f(1.0f, 0.0f)));
-	world.addProjectileComponent(id[0], ComponentFactory::createProjectileComponent(20, owner));
+	world.addProjectileComponent(id[0], ComponentFactory::createProjectileComponent(20, false, owner));
 	world.addInfoComponent(id[0], ComponentFactory::createInfoComponent(1, 0, team, deathAnimation, sf::seconds(0.1f)));
 	world.addAnimationComponent(id[0], ComponentFactory::createAnimationComponent(std::vector<const sf::Texture * const>(), sf::seconds(1)));
+	world.addCollisionComponent(id[0], ComponentFactory::createCollisionComponent());
 }
 
 void								GameSpecificFactory::createLaserProjectile(unsigned int *id, const unsigned int weapon, World &world, const sf::Vector2u &screenSize)
@@ -232,12 +253,13 @@ void								GameSpecificFactory::createLaserProjectile(unsigned int *id, const u
 	id[0] = world.createEmptyEntity();
 	world.addRenderComponent(id[0], ComponentFactory::createRenderComponent(_resourceManager.getTexture("textures/greenLaserRay.png"), RenderComponent::FX));
 	world.addTransformComponent(id[0], ComponentFactory::createTransformComponent(sf::Vector2f(1, 74), sf::Vector2f(0.0f, 0.0f)));
-	world.addProjectileComponent(id[0], ComponentFactory::createProjectileComponent(20, owner));
+	world.addProjectileComponent(id[0], ComponentFactory::createProjectileComponent(20, true, owner));
 	world.addGrowComponent(id[0], ComponentFactory::createGrowComponent(sf::Vector2f(1.0f, 0.0f), 2000, sf::Vector2f(screenSize)));
 	world.addParentComponent(id[0], ComponentFactory::createParentComponent(weapon));
 	world.addTimerComponent(id[0], ComponentFactory::createTimerComponent(sf::seconds(3)));
 	world.addInfoComponent(id[0], ComponentFactory::createInfoComponent(1, 0, team, deathAnimation, sf::seconds(0.1f)));
 	world.addAnimationComponent(id[0], ComponentFactory::createAnimationComponent(std::vector<const sf::Texture * const>(), sf::seconds(1)));
+	world.addCollisionComponent(id[0], ComponentFactory::createCollisionComponent());
 
 	world.childrenComponents[weapon]->id.insert(id[0]);
 }
