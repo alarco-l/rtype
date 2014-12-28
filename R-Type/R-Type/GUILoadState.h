@@ -11,16 +11,8 @@ public:
 	void						initialize();
 	bool						handleKeyEvent(const sf::Event &event);
 	bool						handleKeyState();
-private:
-	enum Element
-	{
-		BACKGROUND,
-		TITLE,
-		TEXT,
-		IMG,
-		MAX
-	};
 
-	unsigned int				_state;
-	unsigned int				_id[MAX];
+private:
+
+	unsigned int				_id[RType::LobbyMenu::MAX];
 };
