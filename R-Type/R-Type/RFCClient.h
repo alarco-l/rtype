@@ -3,6 +3,9 @@
 # include "IRFC.h"
 # include "Network/Client.h"
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <map>
+#include "GameSpecificFactory.h"
+#include "World.h"
 
 
 class RFCClient : public IRFC
@@ -38,8 +41,14 @@ private:
 	//RecvCommand _recvCmd;
 	Network::Socket	*_socket;
 
+	std::map<unsigned int, unsigned int> _rfcToWorldId;
+	std::map<unsigned int, unsigned int> _worldToRfcId;
+
+	GameSpecificFactory &_factory;
+	World &_world;
+
 public:
-	RFCClient(Network::Socket &socket);
+	RFCClient(Network::Socket &socket, GameSpecificFactory &factory, World &world);
 	~RFCClient();
 	
 	enum SendCommand
