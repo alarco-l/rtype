@@ -23,8 +23,8 @@ public:
 	~Game();
 
 	void						init();
-	void						run();
-	void						update();
+	void						run(::hpl::Clock &);
+	void						update(::hpl::Clock &);
 	void						spawnMonster(std::string const &);
 	void						deleteMonster(int id);
 	void						fire(int id);

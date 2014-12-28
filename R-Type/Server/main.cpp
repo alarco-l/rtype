@@ -37,7 +37,7 @@ int		main(int argc, char *argv[], char *env[])
 			if (event.type == sf::Event::Closed)
 				window.close();
 		}
-		game.run();
+		game.run(frameRate);
 		TransformSystem::update(game.getWorld(), time);
 		window.clear();
 		RenderSystem::update(&window, game.getWorld());

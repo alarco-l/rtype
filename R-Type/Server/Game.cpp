@@ -17,7 +17,7 @@ void				Game::init()
 	_dlLoader->loadDLL("MonsterType2", "monsterType2");
 }
 
-void				Game::update()
+void				Game::update(::hpl::Clock &time)
 {
 	IMonster::Dir	dir;
 	sf::Vector2f	direction;
@@ -45,11 +45,11 @@ void				Game::deleteMonster(int id)
 	}
 }
 
-void				Game::run()
+void				Game::run(::hpl::Clock &time)
 {
 	uint			id;
 
-	update();
+	update(time);
 	for (unsigned i = 0; i < _monster.size(); ++i)
 	{
 		deleteMonster(i);
@@ -76,7 +76,6 @@ void				Game::run()
 		_spawn2 = true;
 	if (_fireTime.getElapsedTime().asSeconds() > 0.35)
 	{
-
 		if (_monster.size() > 0)
 		{
 			id = rand() % _monster.size();
