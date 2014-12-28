@@ -21,13 +21,16 @@ public:
 
 	virtual const char			*getTexture() const = 0;
 	virtual const char			*getFire() const = 0;
+	virtual int					getLife() const = 0;
 
 	virtual void				setSpawn(float x, float y) = 0;
+	virtual void				setLife(int life) = 0;
 protected:
 	std::string					_texture;
 	std::string					_fire;
 	float						_time;
 	Dir							_spawn;
+	int							_life;
 };
 
 EXPORT DLL IMonster				*newInstance();

@@ -31,11 +31,15 @@ const char				*MonsterType2::getTexture() const { return (_texture.c_str()); }
 
 const char				*MonsterType2::getFire() const { return (_fire.c_str()); }
 
+int						MonsterType2::getLife() const { return (_life); }
+
 void					MonsterType2::setSpawn(float x, float y)
 {
 	_spawn.x = x;
 	_spawn.y = y;
 }
+
+void					MonsterType2::setLife(int life) { _life = life; }
 
 EXPORT IMonster			*newInstance()
 {

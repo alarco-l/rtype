@@ -95,8 +95,8 @@ void				Game::spawnMonster(std::string const &name)
 	uint			id;
 	float			x, y = 0;
 
-	x = rand() % 200 + 1000;
-	y = rand() % 500 + 10;
+	x = static_cast<float>(rand() % 200 + 1000);
+	y = static_cast<float>(rand() % 500 + 10);
 	try {
 		instance = _dlLoader->getInstance<IMonster>(name);
 	}
