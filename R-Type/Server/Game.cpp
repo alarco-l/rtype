@@ -41,7 +41,7 @@ void				Game::update(::hpl::Clock &time)
 					mm.coord.posY = dir.y;
 					mm.dir.dirX = direction.x;
 					mm.dir.dirY = direction.y;
-					mm.orientation = 90.0;
+					mm.orientation = 180.0;
 					(*client)->sendMonsterMove(mm);
 				}
 		}

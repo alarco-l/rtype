@@ -422,11 +422,9 @@ void	RFCClient::recvMonsterMove(const char *buff) {
 	or = *(float*)(buff + sizeof(unsigned short) + sizeof(float) * 4);
 
 	// Move monster in the world && Spawn if it does not exist
-
 	if (_rfcToWorldId.find(idMonster) == _rfcToWorldId.end())
 	{
 		unsigned int id[1];
-
 		_factory.createTestEnemy(id, _world);
 		_rfcToWorldId[idMonster] = id[0];
 		_worldToRfcId[id[0]] = idMonster;
@@ -434,8 +432,8 @@ void	RFCClient::recvMonsterMove(const char *buff) {
 		_world.transformComponents[id[0]]->rotation = or;
 	}
 
-	//Ici y a de la grosse merde sur l'id
-	_world.movementComponents[_rfcToWorldId[idMonster]]->direction = sf::Vector2f(dirX, dirY);
+	if (_world.movementComponents.size() > _rfcToWorldId[idMonster] && _world.movementComponents[_rfcToWorldId[idMonster]] != NULL)
+		_world.movementComponents[_rfcToWorldId[idMonster]]->direction = sf::Vector2f(dirX, dirY);
 }
 
 void	RFCClient::recvMonsterDestroy(const char *buff) {

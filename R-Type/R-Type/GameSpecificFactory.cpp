@@ -175,12 +175,12 @@ void								GameSpecificFactory::createPlayer(unsigned int *id, World &world)
 	id[RType::Player::WEAPON_1] = world.createEmptyEntity();
 	world.addTransformComponent(id[RType::Player::WEAPON_1], ComponentFactory::createTransformComponent(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(20.0f, 8.0f)));
 	world.addParentComponent(id[RType::Player::WEAPON_1], ComponentFactory::createParentComponent(id[RType::Player::SHIP]));
-	world.addWeaponComponent(id[RType::Player::WEAPON_1], ComponentFactory::createWeaponComponent(sf::seconds(1.0f), id[RType::Player::SHIP], RType::Projectile::MISSILE));
+	world.addWeaponComponent(id[RType::Player::WEAPON_1], ComponentFactory::createWeaponComponent(sf::seconds(0.2f), id[RType::Player::SHIP], RType::Projectile::MISSILE));
 
 	id[RType::Player::WEAPON_2] = world.createEmptyEntity();
 	world.addTransformComponent(id[RType::Player::WEAPON_2], ComponentFactory::createTransformComponent(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(20.0f, 8.0f)));
 	world.addParentComponent(id[RType::Player::WEAPON_2], ComponentFactory::createParentComponent(id[RType::Player::SHIP]));
-	world.addWeaponComponent(id[RType::Player::WEAPON_2], ComponentFactory::createWeaponComponent(sf::seconds(10.0f), id[RType::Player::SHIP], RType::Projectile::LASER));
+	world.addWeaponComponent(id[RType::Player::WEAPON_2], ComponentFactory::createWeaponComponent(sf::seconds(20.0f), id[RType::Player::SHIP], RType::Projectile::LASER));
 	world.addChildrenComponent(id[RType::Player::WEAPON_2], ComponentFactory::createChildrenComponent(std::set<unsigned int>()));
 
 	parts.insert(id[RType::Player::ENGINE_1]);
@@ -208,6 +208,7 @@ void								GameSpecificFactory::createTestEnemy(unsigned int *id, World &world)
 	world.addTransformComponent(id[0], ComponentFactory::createTransformComponent(sf::Vector2f(1021, 728), sf::Vector2f(500.0f, 500.0f), sf::Vector2f(0.15f, 0.15f), 180));
 	world.addCollisionComponent(id[0], ComponentFactory::createCollisionComponent());
 	world.addInfoComponent(id[0], ComponentFactory::createInfoComponent(100, 100, 1, deathAnimation, sf::seconds(0.1f)));
+	world.addMovementComponent(id[0], ComponentFactory::createMovementComponent(50.0f, sf::Vector2f(0, 0)));
 }
 
 // MISSILE
