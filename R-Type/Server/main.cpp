@@ -8,7 +8,6 @@
 int		main(int argc, char *argv[], char *env[])
 {
 	Game			game;
-	sf::Clock		clock;
 	std::srand(static_cast<unsigned int>(std::time(NULL)));
 	try {
 		game.init();

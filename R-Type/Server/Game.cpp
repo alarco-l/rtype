@@ -20,7 +20,7 @@ void				Game::init()
 void				Game::update(::hpl::Clock &time)
 {
 	IMonster::Dir	dir;
-	sf::Vector2f	direction;
+	IMonster::Dir	direction;
 	float			t;
 	int				i = 0;
 	static int nb = 0;
@@ -143,5 +143,3 @@ void				Game::fire(int id)
 	for (std::vector<RFC*>::iterator client = _rfcManager.rfc.begin(); client != _rfcManager.rfc.end(); ++client)
 		(*client)->sendMonsterFire(mm);
 }
-
-World				&Game::getWorld() { return (_world); }
