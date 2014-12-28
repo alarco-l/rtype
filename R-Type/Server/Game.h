@@ -37,8 +37,8 @@ private:
 	DlLoader					*_dlLoader;
 	World						_world;
 	ResourceManager				_ressource;
-	sf::Clock					_time;
-	sf::Clock					_fireTime;
+	::hpl::Clock				_frameRate;
+	::hpl::Clock				_fireTime;
 	bool						_spawn1;
 	bool						_spawn2;
 	RFCManager					_rfcManager;
