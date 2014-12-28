@@ -40,7 +40,7 @@ bool						GUIPauseState::handleKeyEvent(const sf::Event &event)
 			return(true);
 
 		case sf::Keyboard::Down:
-			if ((++_state) == RType::PauseMenu::MAX)
+			if ((++_state) == RType::PauseMenu::EXIT + 1)
 				_state = RType::PauseMenu::CONTINUE;
 			_world.textComponents[_id[_state]]->highlighted = true;
 			_world.textComponents[_id[prev]]->highlighted = false;

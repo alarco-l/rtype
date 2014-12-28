@@ -40,7 +40,7 @@ bool						GUIState::handleKeyEvent(const sf::Event &event)
 			return(true);
 
 		case sf::Keyboard::Down:
-			if ((++_state) == RType::MainMenu::MAX)
+			if ((++_state) == RType::MainMenu::EXIT + 1)
 				_state = RType::MainMenu::CONNECT;
 			_world.textComponents[_id[_state]]->highlighted = true;
 			_world.textComponents[_id[prev]]->highlighted = false;
