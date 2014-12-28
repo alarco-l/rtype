@@ -3,8 +3,8 @@
 Game::Game()
 {
 	_dlLoader = new DlLoader(".");
-	_time.restart();
-	_fireTime.restart();
+	_frameRate.reset();
+	_fireTime.reset();
 	_spawn1 = true;
 	_spawn2 = true;
 }
@@ -71,7 +71,7 @@ void				Game::run(::hpl::Clock &time)
 	{
 		deleteMonster(i);
 	}
-	if ((int)_time.getElapsedTime().asSeconds() % 3)
+	if (_frameRate.getElapsedTime().second() % 4)
 	{
 		if (_spawn1)
 		{
@@ -81,7 +81,7 @@ void				Game::run(::hpl::Clock &time)
 	}
 	else
 		_spawn1 = true;
-	if ((int)_time.getElapsedTime().asSeconds() % 5)
+	if (_frameRate.getElapsedTime().second() % 7)
 	{
 		if (_spawn2)
 		{
@@ -91,7 +91,7 @@ void				Game::run(::hpl::Clock &time)
 	}
 	else
 		_spawn2 = true;
-	if (_fireTime.getElapsedTime().asSeconds() > 0.35)
+	if (_fireTime.getElapsedTime().millisecond() > 350)
 	{
 		if (_monster.size() > 0)
 		{
@@ -99,7 +99,7 @@ void				Game::run(::hpl::Clock &time)
 			if (_monster[id]->fire().x > 250)
 			{
 				fire(id);
-				_fireTime.restart();
+				_fireTime.reset();
 			}
 		}
 	}

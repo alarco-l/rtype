@@ -9,69 +9,100 @@ RFC::~RFC() {}
 void				RFC::recvCmd(Network::Socket &socket) {
 	//static int i = 0;
 	//std::fstream tata("tata.txt", std::fstream::in | std::fstream::app);
-	char buff;
-	int nb = socket.in().get(&buff, 1);
-	RFC::RecvCommand cmd = (RFC::RecvCommand)buff;
-
-	switch (cmd)
+	while (socket.in().size())
 	{
-	case RFC::RECVHANDSHAKE:
-		break;
-	case RFC::RECVMOVE:
-		char buffMove[8];
-		RFC::Move mov;
-		nb = socket.in().get(buffMove, 8);
-		mov.coord.posX = *(short int*)(buffMove);
-		mov.coord.posY = *(short int*)(buffMove + 2);
-		mov.dir.dirX = *(short int*)(buffMove + 4);
-		mov.dir.dirY = *(short int*)(buffMove + 6);
-		if (_onMoveEvent)
-			_onMoveEvent(*this, mov);
-	case RFC::RECVSHOOT:
-		char buffShoot[10];
-		RFC::Shoot shoot;
-		nb = socket.in().get(buffShoot, 10);
-		shoot.idMuni = *(short int*)(buffShoot);
-		shoot.coord.posX = *(short int*)(buffShoot + 2);
-		shoot.coord.posY = *(short int*)(buffShoot + 4);
-		shoot.dir.dirX = *(short int*)(buffShoot + 6);
-		shoot.dir.dirY = *(short int*)(buffShoot + 8);
-		if (_onShootEvent)
-			_onShootEvent(*this, shoot);
-		break;
-	case RFC::RECVCOLLISION:
-		char buffColision[8];
-		RFC::Colision colision;
-		nb = socket.in().get(buffColision, 8);
-		colision.idOnColision1 = *(short int*)(buffColision);
-		colision.idOnColision2 = *(short int*)(buffColision + 2);
-		colision.coord.posX = *(short int*)(buffColision + 4);
-		colision.coord.posY = *(short int*)(buffColision + 6);
-		if (_onColisionEvent)
-			_onColisionEvent(*this, colision);
-		break;
-	case RFC::RECVHITMONSTER:
-		char buffHitMonster[6];
-		RFC::HitMonster hitMonster;
-		nb = socket.in().get(buffHitMonster, 6);
-		hitMonster.idMonster = *(short int*)(buffHitMonster);
-		hitMonster.coord.posX = *(short int*)(buffHitMonster + 2);
-		hitMonster.coord.posY = *(short int*)(buffHitMonster + 4);
-		if (_onHitEvent)
-			_onHitEvent(*this, hitMonster);
-		break;
-	case RFC::RECVKILLMONSTER:
-		char buffKillMonster[6];
-		RFC::HitMonster killMonster;
-		nb = socket.in().get(buffKillMonster, 6);
-		killMonster.idMonster = *(short int*)(buffKillMonster);
-		killMonster.coord.posX = *(short int*)(buffKillMonster + 2);
-		killMonster.coord.posY = *(short int*)(buffKillMonster + 4);
-		if (_onKillEvent)
-			_onKillEvent(*this, killMonster);
-		break;
-	default:
-		break;
+		char	c;
+		socket.in().get(&c, 1);
+		RFC::RecvCommand cmd = (RFC::RecvCommand)c;
+
+		//std::cout << (int)cmd << std::endl;
+		switch (cmd)
+		{
+		case RFC::RECVHANDSHAKE:
+			break;
+		case RFC::RECVMOVE:
+			if (socket.in().size() >= 8)
+			{
+				RFC::Move mov;
+				char	buff[8];
+				socket.in().get(buff, sizeof(buff));
+				mov.coord.posX = *(short int*)buff;
+				mov.coord.posY = *(short int*)(buff + 2);
+				mov.dir.dirX = *(short int*)(buff + 4);
+				mov.dir.dirY = *(short int*)(buff + 6);
+				if (_onMoveEvent)
+					_onMoveEvent(*this, mov);
+			}
+			else
+				return;
+			break;
+		case RFC::RECVSHOOT:
+			if (socket.in().size() >= 10)
+			{
+				RFC::Shoot shoot;
+				char	buff[10];
+				socket.in().get(buff, sizeof(buff));
+				shoot.idMuni = *(short int*)(buff);
+				shoot.coord.posX = *(short int*)(buff + 2);
+				shoot.coord.posY = *(short int*)(buff + 4);
+				shoot.dir.dirX = *(short int*)(buff + 6);
+				shoot.dir.dirY = *(short int*)(buff + 8);
+				if (_onShootEvent)
+					_onShootEvent(*this, shoot);
+			}
+			else
+				return;
+			break;
+		case RFC::RECVCOLLISION:
+			if (socket.in().size() >= 8)
+			{
+				RFC::Colision colision;
+				char	buff[8];
+				socket.in().get(buff, sizeof(buff));
+				colision.idOnColision1 = *(short int*)(buff);
+				colision.idOnColision2 = *(short int*)(buff + 2);
+				colision.coord.posX = *(short int*)(buff + 4);
+				colision.coord.posY = *(short int*)(buff + 6);
+				if (_onColisionEvent)
+					_onColisionEvent(*this, colision);
+			}
+			else
+				return;
+			break;
+		case RFC::RECVHITMONSTER:
+			if (socket.in().size() >= 6)
+			{
+				RFC::HitMonster hitMonster;
+				char	buff[6];
+				socket.in().get(buff, sizeof(buff));
+				hitMonster.idMonster = *(short int*)(buff);
+				hitMonster.coord.posX = *(short int*)(buff + 2);
+				hitMonster.coord.posY = *(short int*)(buff + 4);
+				if (_onHitEvent)
+					_onHitEvent(*this, hitMonster);
+			}
+			else
+				return;
+			break;
+		case RFC::RECVKILLMONSTER:
+			if (socket.in().size() >= 6)
+			{
+				RFC::HitMonster killMonster;
+				char	buff[6];
+				socket.in().get(buff, sizeof(buff));
+				killMonster.idMonster = *(short int*)(buff);
+				killMonster.coord.posX = *(short int*)(buff + 2);
+				killMonster.coord.posY = *(short int*)(buff + 4);
+				socket.in().get(buff, 6);
+				if (_onKillEvent)
+					_onKillEvent(*this, killMonster);
+			}
+			else
+				return;
+			break;
+		default:
+			break;
+		}
 	}
 }
 

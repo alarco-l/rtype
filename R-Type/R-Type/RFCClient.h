@@ -87,18 +87,18 @@ public:
 	void	sendKillMonster(unsigned int idMonster, const sf::Vector2f &posMonster); // 7btytes
 
 	void	recvCmd(Network::Socket &socket);
-	void	recvHandshake(); 
-	void	recvMove();
-	void	recvMunitions();
-	void	recvShoot();
-	void	recvCollision();  
-	void	recvHitMonster();  
-	void	recvKillMonster();
-	void	recvMonsterSpawn();
-	void	recvMonsterMove();
-	void	recvMonsterDestroy();
-	void	recvMonsterKillPlayer();
-	void	recvMonsterFire();
-	void	recvStartGame();
-	void	recvClientCrash();
+	void	recvHandshake(const char *); 
+	void	recvMove(const char *);
+	void	recvMunitions(const char *);
+	void	recvShoot(const char *);
+	void	recvCollision(const char *);
+	void	recvHitMonster(const char *);
+	void	recvKillMonster(const char *);
+	void	recvMonsterSpawn(const char *);
+	void	recvMonsterMove(const char *);
+	void	recvMonsterDestroy(const char *);
+	void	recvMonsterKillPlayer(const char *);
+	void	recvMonsterFire(const char *);
+	void	recvStartGame(const char *);
+	void	recvClientCrash(const char *);
 };
