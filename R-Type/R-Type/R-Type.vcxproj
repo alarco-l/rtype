@@ -86,8 +86,7 @@ copy /Y $(SolutionDIr)SFML-2.1\lib\sfml-window-d-2.dll $(OutDir)
 copy /Y $(SolutionDIr)SFML-2.1\lib\sfml-graphics-2.dll $(OutDir)
 copy /Y $(SolutionDIr)SFML-2.1\lib\sfml-network-2.dll $(OutDir)
 copy /Y $(SolutionDIr)SFML-2.1\lib\sfml-system-2.dll $(OutDir)
-copy /Y $(SolutionDIr)SFML-2.1\lib\sfml-window-2.dll $(OutDir)
-</Command>
+copy /Y $(SolutionDIr)SFML-2.1\lib\sfml-window-2.dll $(OutDir)</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>
