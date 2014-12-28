@@ -48,7 +48,6 @@ void				Game::deleteMonster(int id)
 void				Game::run()
 {
 	uint			id;
-	::hpl::Clock	clock;
 
 	update();
 	for (unsigned i = 0; i < _monster.size(); ++i)
@@ -88,8 +87,6 @@ void				Game::run()
 			}
 		}
 	}
-	::hpl::Time time = ::hpl::Time::Millisecond(166) - clock.getElapsedTime();
-	::hpl::Process::sleep(time);
 }
 
 void				Game::spawnMonster(std::string const &name)

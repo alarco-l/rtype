@@ -10,13 +10,13 @@ namespace hpl
 		struct Content
 		{
 			Content(void);
-			Content(ullint second, ullint milisecond);
+			Content(llint second, llint milisecond);
 			Content(Content const &copy);
 			
 			Content	&operator=(Content const &copy);
 
-			ullint	sec;
-			ullint	mili;
+			llint	sec;
+			llint	mili;
 		};
 
 		Time(Content const &content);
@@ -25,12 +25,12 @@ namespace hpl
 		Time(void);
 		Time(Time const &copy);
 
-		static Time	Millisecond(ullint time);
-		static Time	Second(ullint time);
+		static Time	Millisecond(llint time);
+		static Time	Second(llint time);
 		static Time Curent(void);
 
-		ullint	millisecond(void) const;
-		ullint	second(void) const;
+		llint	millisecond(void) const;
+		llint	second(void) const;
 
 		Time	&operator=(Time const &time);
 

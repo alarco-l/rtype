@@ -69,8 +69,9 @@ void										Game::run()
 		}
 
 		_window->display();
-		::hpl::Time time = ::hpl::Time::Millisecond(166) - clock.getElapsedTime();
-		::hpl::Process::sleep(time);
+		::hpl::Time time = ::hpl::Time::Millisecond(20) - clock.getElapsedTime();
+		if (time.millisecond() > 0)
+			::hpl::Process::sleep(time);
 	}
 }
 
